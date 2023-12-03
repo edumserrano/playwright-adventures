@@ -1,5 +1,5 @@
 {
-  "name": "playwright-code-coverage-with-monocart",
+  "name": "playwright-code-coverage-with-monocart-reporter",
   "version": "0.0.0",
   "scripts": {
     "start": "npx ng serve",
@@ -25,6 +25,8 @@
     "@angular-devkit/build-angular": "^17.0.5",
     "@angular/cli": "^17.0.5",
     "@angular/compiler-cli": "^17.0.0",
+    "@playwright/test": "^1.40.1",
+    "monocart-reporter": "^1.7.13",
     "typescript": "~5.2.2"
   }
 }
