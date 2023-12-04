@@ -64,7 +64,11 @@
               "buildTarget": "playwright-code-coverage-with-monocart-reporter:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4200,
+            "host": "127.0.0.1"
+          }
         }
       }
     }
