@@ -11,7 +11,6 @@ function createIstanbulReportConfig<T extends keyof ReportOptions>(
 }
 
 const isRunningOnCI = process.env.CI;
-
 const _webServerPort = 4200;
 const _webServerHost = '127.0.0.1';
 const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
@@ -30,9 +29,8 @@ const instanbulReporters: IstanbulReportConfig[] = [
     // subdir: "code-coverage-html-spa-report",
   }),
 ];
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
+
+// See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
   testDir: _testsDir,
   outputDir: _testsOutputBaseDir,
@@ -47,8 +45,8 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['list'],
-    /* See https://github.com/cenfun/monocart-reporter */
     [
+      // See https://github.com/cenfun/monocart-reporter
       'monocart-reporter',
       {
         name: 'playwright code coverage with monocart reporter',
