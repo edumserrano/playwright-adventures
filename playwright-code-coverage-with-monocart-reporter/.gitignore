@@ -40,6 +40,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/tests/test-results/
 /test-results/
 /playwright-report/
 /blob-report/

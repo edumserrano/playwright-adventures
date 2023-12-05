@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from 'tests/_shared/app-fixtures';
 
 test('screenshot', async ({ page }) => {
   await page.goto('/');
@@ -32,5 +32,4 @@ test('press me with ctrl modifier', async ({ page }) => {
 
   expect(dialogMessage).toBe("button pressed with ctrl key modifier");
 });
-
 
