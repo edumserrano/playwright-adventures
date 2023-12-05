@@ -32,4 +32,3 @@ test('press me with ctrl modifier', async ({ page }) => {
 
   expect(dialogMessage).toBe("button pressed with ctrl key modifier");
 });
-
