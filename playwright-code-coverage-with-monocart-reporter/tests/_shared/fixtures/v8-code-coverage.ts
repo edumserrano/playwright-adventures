@@ -1,10 +1,18 @@
-import { Browser, Page, test } from '@playwright/test';
+import { BrowserType, Page, test } from '@playwright/test';
 import { addCoverageReport } from 'monocart-reporter';
 
+export type collectV8CodeCoverageOptions = {
+  browserType: BrowserType;
+  page: Page;
+  use: () => Promise<void>;
+  enableJsCoverage: boolean;
+  enableCssCoverage: boolean;
+};
+
 function browserSupportsV8CodeCoverage(
-  browserType: string | undefined
+  browserType: BrowserType
 ): boolean {
-  return browserType === 'chromium';
+  return browserType.name() === 'chromium';
 }
 
 // see https://playwright.dev/docs/api/class-coverage
@@ -12,27 +20,46 @@ function browserSupportsV8CodeCoverage(
 // to the monocart-reporter. For an example on how to also gather CSS coverage
 // see https://github.com/cenfun/monocart-reporter/blob/647fb6bec6204af43fc70e79bf7baef771517329/README.md?plain=1#L678C1-L701C60
 export async function collectV8CodeCoverageAsync(
-  browser: Browser,
-  page: Page,
-  use: () => Promise<void>
+  options: collectV8CodeCoverageOptions
 ): Promise<void> {
-  const browserType = browser.browserType().name();
-  const v8CodeCoverageSupported = browserSupportsV8CodeCoverage(browserType);
-  if (v8CodeCoverageSupported) {
-    await Promise.all([
-      page.coverage.startJSCoverage({ resetOnNavigation: false }),
-      page.coverage.startCSSCoverage({ resetOnNavigation: false }),
-    ]);
+  const v8CodeCoverageSupported = browserSupportsV8CodeCoverage(options.browserType);
+  const codeCoverageEnabled = options.enableJsCoverage || options.enableCssCoverage;
+  if (!v8CodeCoverageSupported || !codeCoverageEnabled) {
+    await options.use();
+    return;
   }
 
-  await use();
-
-  if (v8CodeCoverageSupported) {
-    const [jsCoverage, cssCoverage] = await Promise.all([
-      page.coverage.stopJSCoverage(),
-      page.coverage.stopCSSCoverage(),
-    ]);
-    const coverageList = [... jsCoverage, ... cssCoverage];
-    await addCoverageReport(coverageList, test.info());
+  const page = options.page;
+  let startCoveragePromises: Promise<void>[] = [];
+  // When collecting code coverage make sure the 'resetOnNavigation' is set to false.
+  // Otherwise, if the test contains page navigations then only the coverage for the
+  // last page navigation is recorded.
+  if (options.enableJsCoverage) {
+    const startJsCoveragePromise = page.coverage.startJSCoverage({
+      resetOnNavigation: false,
+    });
+    startCoveragePromises.push(startJsCoveragePromise);
   }
+  if (options.enableCssCoverage) {
+    const startCssCoveragePromise = page.coverage.startCSSCoverage({
+      resetOnNavigation: false,
+    });
+    startCoveragePromises.push(startCssCoveragePromise);
+  }
+
+  await Promise.all(startCoveragePromises);
+  await options.use();
+
+  let stopCoveragePromises: Promise<any>[] = [];
+  if (options.enableJsCoverage) {
+    const stopJsCoveragePromise = page.coverage.stopJSCoverage();
+    stopCoveragePromises.push(stopJsCoveragePromise);
+  }
+  if (options.enableCssCoverage) {
+    const stopCssCoveragePromise = page.coverage.stopCSSCoverage();
+    stopCoveragePromises.push(stopCssCoveragePromise);
+  }
+
+  const coverageReports = await Promise.all(stopCoveragePromises);
+  await addCoverageReport(coverageReports.flat(), test.info());
 }

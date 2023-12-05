@@ -1,5 +1,8 @@
 import { test as baseTest } from '@playwright/test';
-import { collectV8CodeCoverageAsync } from 'tests/_shared/fixtures/v8-code-coverage';
+import {
+  collectV8CodeCoverageAsync,
+  collectV8CodeCoverageOptions,
+} from 'tests/_shared/fixtures/v8-code-coverage';
 
 export { expect } from '@playwright/test';
 
@@ -12,7 +15,14 @@ interface AppFixtures {
 export const test = baseTest.extend<AppFixtures>({
   codeCoverageAutoTestFixture: [
     async ({ browser, page }, use): Promise<void> => {
-      await collectV8CodeCoverageAsync(browser, page, use);
+      const options: collectV8CodeCoverageOptions = {
+        browserType: browser.browserType(),
+        page: page,
+        use: use,
+        enableJsCoverage: true,
+        enableCssCoverage: true,
+      };
+      await collectV8CodeCoverageAsync(options);
     },
     {
       auto: true,
