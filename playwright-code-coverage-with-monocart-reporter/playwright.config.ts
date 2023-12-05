@@ -50,7 +50,7 @@ export default defineConfig({
       'monocart-reporter',
       {
         name: 'playwright code coverage with monocart reporter',
-        _monocartReporterOutputFile,
+        outputFile: _monocartReporterOutputFile,
         coverage: {
           // toIstanbul: instanbulReporters,
           entryFilter: (entry: any) => {
