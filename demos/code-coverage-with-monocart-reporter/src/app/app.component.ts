@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'playwright-code-coverage-with-monocart-reporter';
+  title = 'code-coverage-with-monocart-reporter';
 
   onPressMeClick(event: Event) {
     const pointerEvent = event as PointerEvent;

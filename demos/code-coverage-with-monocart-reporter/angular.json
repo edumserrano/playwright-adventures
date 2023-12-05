@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "playwright-code-coverage-with-monocart-reporter": {
+    "code-coverage-with-monocart-reporter": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/playwright-code-coverage-with-monocart-reporter",
+            "outputPath": "dist/code-coverage-with-monocart-reporter",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -58,10 +58,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "playwright-code-coverage-with-monocart-reporter:build:production"
+              "buildTarget": "code-coverage-with-monocart-reporter:build:production"
             },
             "development": {
-              "buildTarget": "playwright-code-coverage-with-monocart-reporter:build:development"
+              "buildTarget": "code-coverage-with-monocart-reporter:build:development"
             }
           },
           "defaultConfiguration": "development",

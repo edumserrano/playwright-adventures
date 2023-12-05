@@ -1,1 +1,1 @@
-# playwright-code-coverage
+# Playwright adventures

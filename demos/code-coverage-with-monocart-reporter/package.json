@@ -1,5 +1,5 @@
 {
-  "name": "playwright-code-coverage-with-monocart-reporter",
+  "name": "code-coverage-with-monocart-reporter",
   "version": "0.0.0",
   "scripts": {
     "start": "npx ng serve",
