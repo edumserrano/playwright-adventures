@@ -16,7 +16,7 @@ const _webServerHost = '127.0.0.1';
 const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
 const _testsDir = path.resolve('./tests');
 const _testsOutputBaseDir = path.resolve(_testsDir, 'test-results');
-const _monocartReporterOutputFile = path.resolve(_testsOutputBaseDir,'index.html');
+const _monocartReporterOutputFile = path.resolve(_testsOutputBaseDir,'monocart-report.html');
 
 const instanbulReporters: IstanbulReportConfig[] = [
   createIstanbulReportConfig('cobertura', {
