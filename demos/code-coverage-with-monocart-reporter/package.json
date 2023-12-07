@@ -26,8 +26,8 @@
     "@angular/cli": "^17.0.5",
     "@angular/compiler-cli": "^17.0.0",
     "@playwright/test": "^1.40.1",
-    "@types/istanbul-reports": "^3.0.4",
     "@types/node": "^20.10.3",
+    "monocart-coverage-reports": "^1.0.6",
     "monocart-reporter": "^2.0.0",
     "typescript": "~5.2.2"
   }

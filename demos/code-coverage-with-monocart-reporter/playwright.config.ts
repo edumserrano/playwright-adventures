@@ -1,39 +1,31 @@
 import { defineConfig, devices } from '@playwright/test';
-import { ReportOptions } from 'istanbul-reports';
-// import { IstanbulReportConfig } from 'monocart-reporter';
+import { ReportDescription } from 'monocart-coverage-reports';
 import * as path from 'path';
-
-// function createIstanbulReportConfig<T extends keyof ReportOptions>(
-//   name: T,
-//   options?: Partial<ReportOptions[T]>
-// ): IstanbulReportConfig {
-//   return { name, options };
-// }
 
 const isRunningOnCI = process.env.CI;
 const _webServerPort = 4200;
 const _webServerHost = '127.0.0.1';
 const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
-const _testsDir = path.resolve('./tests');
-const _testsOutputBaseDir = path.resolve(_testsDir, 'test-results');
-const _monocartReportOutputFile = path.resolve(_testsOutputBaseDir,'monocart-report.html');
-const _monocartCodeCoverageBaseDir = path.resolve(_testsOutputBaseDir,'code-coverage');
+const _testsDir = path.resolve('./tests'); // set to ./tests
+const _testsOutputBaseDir = path.resolve(_testsDir, 'test-results'); // set to ./tests/test-results
+const _monocartCodeCoverageBaseDir = path.resolve(_testsOutputBaseDir,'code-coverage'); // set to ./tests/test-results/code-coverage
 const _v8RelativeFilePath = 'v8/index.html';
 
-
-// const b: ReportDescription;
-
-// const instanbulReporters: IstanbulReportConfig[] = [
-//   createIstanbulReportConfig('cobertura', {
-//     file: 'code-coverage.cobertura.xml',
-//   }),
-//   createIstanbulReportConfig('lcovonly', {
-//     file: 'code-coverage.lcov.info',
-//   }),
-//   createIstanbulReportConfig('html-spa', {
-//     // subdir: "code-coverage-html-spa-report",
-//   }),
-// ];
+// The paths in the codeCoverageReports variable are all
+// relative to monocart-reporter coverage.outputDir which is
+// set to ./tests/test-results/code-coverage
+const codeCoverageReports: ReportDescription[] = [
+  ['v8'],
+  ['cobertura', {
+    file: 'cobertura/code-coverage.cobertura.xml', // it will be generated at ./tests/test-results/code-coverage/cobertura/code-coverage.cobertura.xml
+  }],
+  ['lcovonly', {
+    file: 'lcov/code-coverage.lcov.info', // it will be generated at ./tests/test-results/code-coverage/lcov/code-coverage.lcov.info
+  }],
+  ['html-spa', {
+    subdir: 'html-spa-report', // it will be generated at ./tests/test-results/code-coverage/html-spa-report
+  }],
+];
 
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
@@ -55,23 +47,12 @@ export default defineConfig({
       'monocart-reporter',
       {
         name: 'playwright code coverage with monocart reporter',
-        outputFile: _monocartReportOutputFile,
+        outputFile: path.resolve(_testsOutputBaseDir,'monocart-report.html'), // set to ./tests/test-results/monocart-report.html
         coverage: {
-          outputDir: _monocartCodeCoverageBaseDir, // all reports in this dir
-          outputFile: _v8RelativeFilePath, // v8 sub dir and html file name, relative to coverage.outputDir
-          reportPath: path.resolve(_monocartCodeCoverageBaseDir, _v8RelativeFilePath),
-          reports: [
-            ['v8'],
-            ['cobertura', {
-              file: 'cobertura/code-coverage.cobertura.xml', // path relative to coverage.outputDir
-            }],
-            ['lcovonly', {
-              file: 'lcov/code-coverage.lcov.info', // path relative to coverage.outputDir
-            }],
-            ['html-spa', {
-              subdir: 'html-spa-report', // path relative to coverage.outputDir
-            }],
-          ],
+          outputDir: _monocartCodeCoverageBaseDir, // all reports in this dir. Set to ./tests/test-results/code-coverage
+          outputFile: _v8RelativeFilePath, // v8 sub dir and html file name, relative to coverage.outputDir. Set to ./tests/test-results/code-coverage/v8/index.html
+          reportPath: path.resolve(_monocartCodeCoverageBaseDir, _v8RelativeFilePath), // global code coverage html report filepath linked to the monocart test results. Set to ./tests/test-results/code-coverage/v8/index.html
+          reports: codeCoverageReports,
           entryFilter: (entry: any) => {
             // Exclude files that aren't part of the src folder.
             // There aren't excluded by sourceFilter because they are not included in the sourcemap
