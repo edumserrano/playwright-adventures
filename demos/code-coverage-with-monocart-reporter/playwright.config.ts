@@ -58,21 +58,24 @@ export default defineConfig({
         outputFile: _monocartReportOutputFile,
         coverage: {
           outputDir: _monocartCodeCoverageBaseDir, // all reports in this dir
-          outputFile: _v8RelativeFilePath,         // v8 sub dir and html file name
+          outputFile: _v8RelativeFilePath, // v8 sub dir and html file name, relative to coverage.outputDir
           reportPath: path.resolve(_monocartCodeCoverageBaseDir, _v8RelativeFilePath),
           reports: [
             ['v8'],
             ['cobertura', {
-              file: 'cobertura/code-coverage.cobertura.xml', //test subfolder in filepath
+              file: 'cobertura/code-coverage.cobertura.xml', // path relative to coverage.outputDir
             }],
             ['lcovonly', {
-              file: 'lcov/code-coverage.lcov.info', //test subfolder in filepath
+              file: 'lcov/code-coverage.lcov.info', // path relative to coverage.outputDir
             }],
             ['html-spa', {
-              subdir: 'code-coverage-html-spa-report',
+              subdir: 'html-spa-report', // path relative to coverage.outputDir
             }],
           ],
           entryFilter: (entry: any) => {
+            // Exclude files that aren't part of the src folder.
+            // There aren't excluded by sourceFilter because they are not included in the sourcemap
+            // See https://github.com/cenfun/monocart-reporter/issues/60
             const url = entry.url as string;
             return !url.includes('@vite')
               && !url.includes('@fs')
@@ -81,7 +84,7 @@ export default defineConfig({
               ;
           },
           sourceFilter: (sourcePath: string) => {
-            return sourcePath.search(/src\//u) !== -1;
+            return sourcePath.search(/src\//u) !== -1; // only include files under src folder
           },
         },
       },
