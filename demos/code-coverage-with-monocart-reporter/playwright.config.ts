@@ -1,14 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
 import { ReportOptions } from 'istanbul-reports';
-import { IstanbulReportConfig } from 'monocart-reporter';
+// import { IstanbulReportConfig } from 'monocart-reporter';
 import * as path from 'path';
 
-function createIstanbulReportConfig<T extends keyof ReportOptions>(
-  name: T,
-  options?: Partial<ReportOptions[T]>
-): IstanbulReportConfig {
-  return { name, options };
-}
+// function createIstanbulReportConfig<T extends keyof ReportOptions>(
+//   name: T,
+//   options?: Partial<ReportOptions[T]>
+// ): IstanbulReportConfig {
+//   return { name, options };
+// }
 
 const isRunningOnCI = process.env.CI;
 const _webServerPort = 4200;
@@ -16,19 +16,24 @@ const _webServerHost = '127.0.0.1';
 const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
 const _testsDir = path.resolve('./tests');
 const _testsOutputBaseDir = path.resolve(_testsDir, 'test-results');
-const _monocartReporterOutputFile = path.resolve(_testsOutputBaseDir,'monocart-report.html');
+const _monocartReportOutputFile = path.resolve(_testsOutputBaseDir,'monocart-report.html');
+const _monocartCodeCoverageBaseDir = path.resolve(_testsOutputBaseDir,'code-coverage');
+const _v8RelativeFilePath = 'v8/index.html';
 
-const instanbulReporters: IstanbulReportConfig[] = [
-  createIstanbulReportConfig('cobertura', {
-    file: 'code-coverage.cobertura.xml',
-  }),
-  createIstanbulReportConfig('lcovonly', {
-    file: 'code-coverage.lcov.info',
-  }),
-  createIstanbulReportConfig('html-spa', {
-    // subdir: "code-coverage-html-spa-report",
-  }),
-];
+
+// const b: ReportDescription;
+
+// const instanbulReporters: IstanbulReportConfig[] = [
+//   createIstanbulReportConfig('cobertura', {
+//     file: 'code-coverage.cobertura.xml',
+//   }),
+//   createIstanbulReportConfig('lcovonly', {
+//     file: 'code-coverage.lcov.info',
+//   }),
+//   createIstanbulReportConfig('html-spa', {
+//     // subdir: "code-coverage-html-spa-report",
+//   }),
+// ];
 
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
@@ -50,9 +55,23 @@ export default defineConfig({
       'monocart-reporter',
       {
         name: 'playwright code coverage with monocart reporter',
-        outputFile: _monocartReporterOutputFile,
+        outputFile: _monocartReportOutputFile,
         coverage: {
-          // toIstanbul: instanbulReporters,
+          outputDir: _monocartCodeCoverageBaseDir, // all reports in this dir
+          outputFile: _v8RelativeFilePath,         // v8 sub dir and html file name
+          reportPath: path.resolve(_monocartCodeCoverageBaseDir, _v8RelativeFilePath),
+          reports: [
+            ['v8'],
+            ['cobertura', {
+              file: 'cobertura/code-coverage.cobertura.xml', //test subfolder in filepath
+            }],
+            ['lcovonly', {
+              file: 'lcov/code-coverage.lcov.info', //test subfolder in filepath
+            }],
+            ['html-spa', {
+              subdir: 'code-coverage-html-spa-report',
+            }],
+          ],
           entryFilter: (entry: any) => {
             const url = entry.url as string;
             return !url.includes('@vite')
