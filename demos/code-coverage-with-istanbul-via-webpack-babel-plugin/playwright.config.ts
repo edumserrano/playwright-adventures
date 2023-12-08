@@ -1,7 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
-import { TestsDir, TestsResultsDir } from 'test-results-vars';
+import { testsDir, testsResultsDir } from 'test-results-vars';
 import { env } from 'tests/_shared/process-env';
-// import testResultsVars from 'test-results-vars.json';
 
 const _isRunningOnCI = env.CI;
 const _webServerPort = 4200;
@@ -10,8 +9,8 @@ const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
 
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
-  testDir: TestsDir,
-  outputDir: TestsResultsDir,
+  testDir: testsDir,
+  outputDir: testsResultsDir,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
