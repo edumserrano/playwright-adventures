@@ -1,10 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
-import {
-  CoverageReportOptions,
-  MonocartReporterOptions,
-  ReportDescription,
-} from 'monocart-reporter';
 import path from 'path';
+import { getMonocartReporterOptions } from 'playwright.monocart-reporter';
 import { env } from 'tests/_shared/process-env';
 
 const _isRunningOnCI = env.CI;
@@ -14,62 +10,6 @@ const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
 const _testsDir = path.resolve('./tests'); // set to ./tests
 const _testResultsDir = path.resolve(_testsDir, 'test-results'); // set to ./tests/test-results
 const _codeCoverageDir = path.resolve(_testResultsDir, 'code-coverage'); // set to ./tests/test-results/code-coverage
-const _v8RelativeFilePath = 'v8/index.html';
-
-// The paths in the codeCoverageReports variable are all
-// relative to monocart-reporter coverage.outputDir which is
-// set to ./tests/test-results/code-coverage
-const _codeCoverageReports: ReportDescription[] = [
-  ['v8'],
-  [
-    'cobertura',
-    {
-      file: 'cobertura/code-coverage.cobertura.xml', // it will be generated at ./tests/test-results/code-coverage/cobertura/code-coverage.cobertura.xml
-    },
-  ],
-  [
-    'lcovonly',
-    {
-      file: 'lcov/code-coverage.lcov.info', // it will be generated at ./tests/test-results/code-coverage/lcov/code-coverage.lcov.info
-    },
-  ],
-  [
-    'html-spa',
-    {
-      subdir: 'html-spa-report', // it will be generated at ./tests/test-results/code-coverage/html-spa-report
-    },
-  ],
-];
-
-const coverageOptions: CoverageReportOptions = {
-  // for documentation on the monocart code coverage options see https://github.com/cenfun/monocart-reporter#code-coverage-report, https://github.com/cenfun/monocart-coverage-reports and https://github.com/cenfun/monocart-coverage-reports/blob/main/lib/index.d.ts
-  outputDir: _codeCoverageDir, // all reports in this dir. Set to ./tests/test-results/code-coverage
-  outputFile: _v8RelativeFilePath, // v8 sub dir and html file name, relative to coverage.outputDir. Set to ./tests/test-results/code-coverage/v8/index.html
-  reportPath: path.resolve(_codeCoverageDir, _v8RelativeFilePath), // global code coverage html report filepath linked to the monocart test results. Set to ./tests/test-results/code-coverage/v8/index.html
-  reports: _codeCoverageReports,
-  inline: true, // inline all scripts required for the V8 html report into a single HTML file.
-  entryFilter: (entry: any) => {
-    // Exclude files that aren't part of the src folder.
-    // There aren't excluded by sourceFilter because they are not included in the sourcemap
-    // See https://github.com/cenfun/monocart-reporter/issues/60
-    const url = entry.url as string;
-    return (
-      !url.includes('@vite') &&
-      !url.includes('@fs') &&
-      !url.includes('fonts.googleapis.com')
-      // && url !== 'http://127.0.0.1:4200/styles.css'
-    );
-  },
-  sourceFilter: (sourcePath: string) => {
-    return sourcePath.search(/src\//u) !== -1; // only include files under src folder
-  },
-};
-
-const monocartOptions: MonocartReporterOptions = {
-  name: 'playwright code coverage demo with monocart reporter',
-  outputFile: path.resolve(_testResultsDir, 'monocart-report.html'), // set to ./tests/test-results/monocart-report.html
-  coverage: coverageOptions,
-};
 
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
@@ -89,7 +29,7 @@ export default defineConfig({
     [
       // See https://github.com/cenfun/monocart-reporter
       'monocart-reporter',
-      monocartOptions,
+      getMonocartReporterOptions(_testResultsDir, _codeCoverageDir),
     ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
