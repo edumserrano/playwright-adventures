@@ -2,7 +2,7 @@
   "name": "code-coverage-with-monocart-reporter",
   "version": "0.0.0",
   "scripts": {
-    "start": "npx ng serve",
+    "start": "npx ng serve -o",
     "test": "npx playwright test"
   },
   "private": true,

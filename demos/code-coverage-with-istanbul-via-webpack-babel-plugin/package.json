@@ -2,7 +2,7 @@
   "name": "code-coverage-with-istanbul-via-webpack-babel-plugin",
   "version": "0.0.0",
   "scripts": {
-    "start": "npx ng serve",
+    "start": "npx ng serve -o",
     "test": "npx playwright test",
     "coverage:report": "npx nyc report && echo view the html code coverage report: npm run coverage:show-report",
     "coverage:show-report": "open-cli ./tests/test-results/code-coverage/reports/index.html"
