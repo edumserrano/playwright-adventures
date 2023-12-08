@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'code-coverage-with-babel-istanbul';
+  title = 'code-coverage-with-istanbul-via-webpack-babel-plugin';
 
   onPressMeClick(event: Event) {
     const pointerEvent = event as PointerEvent;

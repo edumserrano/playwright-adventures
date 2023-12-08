@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "code-coverage-with-babel-istanbul": {
+    "code-coverage-with-istanbul-via-webpack-babel-plugin": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -11,19 +11,14 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": "dist/code-coverage-with-babel-istanbul",
+            "outputPath": "dist/code-coverage-with-istanbul-via-webpack-babel-plugin",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
@@ -47,6 +42,9 @@
               "outputHashing": "all"
             },
             "development": {
+              "customWebpackConfig": {
+                "path": "./tests/_shared/coverage.webpack.js"
+              },
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -58,13 +56,13 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "code-coverage-with-babel-istanbul:build:production"
+              "buildTarget": "code-coverage-with-istanbul-via-webpack-babel-plugin:build:production"
             },
             "development": {
-              "buildTarget": "code-coverage-with-babel-istanbul:build:development"
+              "buildTarget": "code-coverage-with-istanbul-via-webpack-babel-plugin:build:development",
             }
           },
           "defaultConfiguration": "development",
