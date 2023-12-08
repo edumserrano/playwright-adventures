@@ -4,7 +4,7 @@
   "scripts": {
     "start": "npx ng serve",
     "test": "npx playwright test",
-    "coverage:report": "npx nyc report",
+    "coverage:report": "npx nyc report && echo view the html code coverage report: npm run coverage:show-report",
     "coverage:show-report": "open-cli ./tests/test-results/code-coverage/reports/index.html"
   },
   "private": true,
