@@ -8,8 +8,8 @@ const _webServerPort = 4200;
 const _webServerHost = '127.0.0.1';
 const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
 const _testsDir = path.resolve('./tests'); // set to ./tests
-const _testsOutputBaseDir = path.resolve(_testsDir, 'test-results'); // set to ./tests/test-results
-const _monocartCodeCoverageBaseDir = path.resolve(_testsOutputBaseDir, 'code-coverage'); // set to ./tests/test-results/code-coverage
+const _testResultsDir = path.resolve(_testsDir, 'test-results'); // set to ./tests/test-results
+const _codeCoverageDir = path.resolve(_testResultsDir, 'code-coverage'); // set to ./tests/test-results/code-coverage
 const _v8RelativeFilePath = 'v8/index.html';
 
 // The paths in the codeCoverageReports variable are all
@@ -40,7 +40,7 @@ const _codeCoverageReports: ReportDescription[] = [
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
   testDir: _testsDir,
-  outputDir: _testsOutputBaseDir,
+  outputDir: _testResultsDir,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -57,12 +57,12 @@ export default defineConfig({
       'monocart-reporter',
       {
         name: 'playwright code coverage demo with monocart reporter',
-        outputFile: path.resolve(_testsOutputBaseDir, 'monocart-report.html'), // set to ./tests/test-results/monocart-report.html
+        outputFile: path.resolve(_testResultsDir, 'monocart-report.html'), // set to ./tests/test-results/monocart-report.html
         coverage: {
           // for documentation on the monocart code coverage options see https://github.com/cenfun/monocart-reporter#code-coverage-report, https://github.com/cenfun/monocart-coverage-reports and https://github.com/cenfun/monocart-coverage-reports/blob/main/lib/index.d.ts
-          outputDir: _monocartCodeCoverageBaseDir, // all reports in this dir. Set to ./tests/test-results/code-coverage
+          outputDir: _codeCoverageDir, // all reports in this dir. Set to ./tests/test-results/code-coverage
           outputFile: _v8RelativeFilePath, // v8 sub dir and html file name, relative to coverage.outputDir. Set to ./tests/test-results/code-coverage/v8/index.html
-          reportPath: path.resolve(_monocartCodeCoverageBaseDir, _v8RelativeFilePath), // global code coverage html report filepath linked to the monocart test results. Set to ./tests/test-results/code-coverage/v8/index.html
+          reportPath: path.resolve(_codeCoverageDir, _v8RelativeFilePath), // global code coverage html report filepath linked to the monocart test results. Set to ./tests/test-results/code-coverage/v8/index.html
           reports: _codeCoverageReports,
           inline: true, // inline all scripts required for the V8 html report into a single HTML file.
           entryFilter: (entry: any) => {
