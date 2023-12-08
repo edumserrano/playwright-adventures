@@ -1,5 +1,5 @@
 import { test as baseTest } from '@playwright/test';
-import testResultsVars from 'test-results-vars.json';
+import { istanbulCodeCoverageInstrumentationDir } from 'test-results-vars';
 import { collectIstanbulCodeCoverageAsync } from 'tests/_shared/fixtures/istanbul-code-coverage';
 
 // re-exporting the default expect as well so that on the tests we can have
@@ -9,6 +9,10 @@ export { expect } from '@playwright/test';
 // See https://playwright.dev/docs/test-fixtures and https://playwright.dev/docs/test-parameterize
 export const test = baseTest.extend({
   context: async ({ context }, use) => {
-    await collectIstanbulCodeCoverageAsync(context, use, testResultsVars['istanbul-code-coverage-instrumentation-dir']);
+    await collectIstanbulCodeCoverageAsync(
+      context,
+      use,
+      istanbulCodeCoverageInstrumentationDir
+    );
   },
 });

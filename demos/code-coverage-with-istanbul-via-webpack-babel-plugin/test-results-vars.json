@@ -1,6 +1,0 @@
-{
-  "tests-dir": "./tests",
-  "test-results-dir": "./tests/test-results",
-  "code-coverage-dir": "./tests/test-results/code-coverage",
-  "istanbul-code-coverage-instrumentation-dir": "./tests/test-results/code-coverage/istanbul-instrumentation"
-}

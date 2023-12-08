@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import { ReportDescription } from 'monocart-coverage-reports';
-import * as path from 'path';
+import path from 'path';
 import { env } from 'tests/_shared/process-env';
 
 const _isRunningOnCI = env.CI;

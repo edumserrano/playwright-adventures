@@ -1,5 +1,3 @@
-'use strict';
-
 // This file is used to add code coverage instrumentation via istanbul
 // when running the app in development configuration.
 //
@@ -8,12 +6,13 @@
 // by the customWebpackConfig property. Fore more info see:
 // - https://www.npmjs.com/package/@angular-builders/custom-webpack
 //
+const path = require("path");
 
 // __dirname is the current directory for this file which is at
 // demos\code-coverage-with-istanbul-via-webpack-babel-plugin\tests\_shared\coverage.webpack.js
 // and we want to get code coverage for the files under
 // demos\code-coverage-with-istanbul-via-webpack-babel-plugin\src
-var sourceFolderPath = require("path").join(__dirname, "..", "..", "src");
+var sourceFolderPath = path.join(__dirname, "..", "..", "src");
 module.exports = {
   module: {
     rules: [
