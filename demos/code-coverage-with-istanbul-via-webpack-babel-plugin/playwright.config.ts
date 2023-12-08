@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-import { testsDir, testsResultsDir } from 'test-results-vars';
+import { testsDir, testsResultsDir } from 'playwright.shared-vars';
 import { env } from 'tests/_shared/process-env';
 
 const _isRunningOnCI = env.CI;

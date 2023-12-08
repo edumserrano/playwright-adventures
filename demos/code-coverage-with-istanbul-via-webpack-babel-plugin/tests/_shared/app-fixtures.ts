@@ -1,5 +1,5 @@
 import { test as baseTest } from '@playwright/test';
-import { istanbulCodeCoverageInstrumentationDir } from 'test-results-vars';
+import { istanbulCodeCoverageInstrumentationDir } from 'playwright.shared-vars';
 import { collectIstanbulCodeCoverageAsync } from 'tests/_shared/fixtures/istanbul-code-coverage';
 
 // re-exporting the default expect as well so that on the tests we can have

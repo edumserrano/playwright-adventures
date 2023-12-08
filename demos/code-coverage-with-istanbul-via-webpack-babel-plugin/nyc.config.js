@@ -2,7 +2,7 @@ const path = require("path");
 const {
   codeCoverageDir,
   istanbulCodeCoverageInstrumentationDir,
-} = require("./test-results-vars");
+} = require("./playwright.shared-vars");
 
 module.exports = {
   extends: "@istanbuljs/nyc-config-typescript",
