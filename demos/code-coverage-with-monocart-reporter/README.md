@@ -111,7 +111,19 @@ To learn more about configuring the monocart-reporter and code coverage see:
 
 To collect the code coverage we use playwright's [code coverage API](https://playwright.dev/docs/api/class-coverage). You could add these code coverage API calls to all your tests or you can use [Playwright fixtures](https://playwright.dev/docs/test-fixtures) to code them once re-use them across tests.
 
-The approach taken in this demo was to create an [automatic fixture](https://playwright.dev/docs/test-fixtures#automatic-fixtures) so that the code coverage calls are automatically added to any test that is created without having to do anything extra as long as the `test` import comes from the `export` done on the fixture.
+The approach taken in this demo was to create an [automatic fixture](https://playwright.dev/docs/test-fixtures#automatic-fixtures) so that the code coverage calls are automatically added to any test that is created without having to do anything extra as long as the `test` import comes from the `export` done on the fixture. See the [example.spec.ts](/demos/code-coverage-with-monocart-reporter/tests//example.spec.ts) and note the import statment at the top:
+
+```ts
+import { test, expect } from 'tests/_shared/app-fixtures';
+```
+
+To use the automatic fixture all your tests should import the `test` from the fixture instead of doing the usual:
+
+```ts
+import { test, expect } from '@playwright/test';
+```
+
+To learn more about why this is done study how [fixtures work on Playwright](https://playwright.dev/docs/test-fixtures).
 
 You can see the `codeCoverageAutoTestFixture` automatic fixture code at [app-fixtures.ts](/demos/code-coverage-with-monocart-reporter/tests/_shared/app-fixtures.ts). Note that the code coverage logic that the fixture uses is encapsulated in the [v8-code-coverage.ts](/demos/code-coverage-with-monocart-reporter/tests/_shared/fixtures/v8-code-coverage.ts) file.
 
