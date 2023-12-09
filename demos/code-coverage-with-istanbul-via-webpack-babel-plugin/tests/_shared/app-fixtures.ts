@@ -7,6 +7,10 @@ import { collectIstanbulCodeCoverageAsync } from 'tests/_shared/fixtures/istanbu
 export { expect } from '@playwright/test';
 
 // See https://playwright.dev/docs/test-fixtures and https://playwright.dev/docs/test-parameterize
+
+// export the extended test type.
+// all tests that use this test type will have the automatic fixture
+// applied to them.
 export const test = baseTest.extend({
   context: async ({ context }, use) => {
     await collectIstanbulCodeCoverageAsync(

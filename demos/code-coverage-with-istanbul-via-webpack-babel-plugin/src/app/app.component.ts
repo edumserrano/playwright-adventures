@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class AppComponent {
   title = 'code-coverage-with-istanbul-via-webpack-babel-plugin';
 
+  // demo code to help show off code coverage
   onPressMeClick(event: Event) {
     const pointerEvent = event as PointerEvent;
     if (pointerEvent.ctrlKey) {

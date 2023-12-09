@@ -4,6 +4,8 @@ const {
   istanbulCodeCoverageInstrumentationDir,
 } = require("./playwright.shared-vars");
 
+console.log("temp-dir", istanbulCodeCoverageInstrumentationDir);
+console.log("report-dir", path.resolve(codeCoverageDir, "reports"))
 module.exports = {
   extends: "@istanbuljs/nyc-config-typescript",
   "temp-dir": istanbulCodeCoverageInstrumentationDir, // set to ./tests/test-results/code-coverage/istanbul-instrumentation
