@@ -107,7 +107,7 @@ To learn more about configuring the monocart-reporter and code coverage see:
 > Playwright's Coverage APIs are only supported on Chromium-based browsers.
 >
 
-To collect the code coverage we use playwright's [code coverage API](https://playwright.dev/docs/api/class-coverage). You could add these code coverage API calls to all your tests or you can use [Playwright fixtures](https://playwright.dev/docs/test-fixtures) to code them once re-use them across tests.
+To collect the code coverage we use playwright's [code coverage API](https://playwright.dev/docs/api/class-coverage). You could add these code coverage API calls to all your tests or you can use [Playwright fixtures](https://playwright.dev/docs/test-fixtures) to code them once and reuse across tests.
 
 The approach taken in this demo was to create an [automatic fixture](https://playwright.dev/docs/test-fixtures#automatic-fixtures) so that the code coverage calls are automatically added to any test that is created without having to do anything extra as long as the `test` import comes from the `export` done on the fixture. See the [example.spec.ts](/demos/code-coverage-with-monocart-reporter/tests//example.spec.ts) and note the import statment at the top:
 
