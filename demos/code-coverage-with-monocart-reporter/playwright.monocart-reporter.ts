@@ -59,8 +59,8 @@ function getCodeCoverageOptions(
       return (
         !url.includes('@vite') &&
         !url.includes('@fs') &&
-        !url.includes('fonts.googleapis.com')
-        // && url !== 'http://127.0.0.1:4200/styles.css'
+        !url.includes('fonts.googleapis.com') &&
+        url !== 'http://127.0.0.1:4200/styles.css'
       );
     },
     sourceFilter: (sourcePath: string) => {

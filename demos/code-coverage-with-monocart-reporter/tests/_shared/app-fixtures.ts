@@ -13,6 +13,9 @@ interface AppFixtures {
   codeCoverageAutoTestFixture: void;
 }
 
+// export the extended test type.
+// all tests that use this test type will have the automatic fixture
+// applied to them.
 export const test = baseTest.extend<AppFixtures>({
   codeCoverageAutoTestFixture: [
     async ({ browser, page }, use): Promise<void> => {
