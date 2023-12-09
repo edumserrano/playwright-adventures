@@ -7,7 +7,6 @@
   - [Playwright configuration](#playwright-configuration)
   - [monocart-reporter configuration](#monocart-reporter-configuration)
   - [Collect code coverage](#collect-code-coverage)
-- [More info](#more-info)
 
 ## Description
 
@@ -105,6 +104,21 @@ To learn more about configuring the monocart-reporter and code coverage see:
 
 ### Collect code coverage
 
+> [!IMPORTANT]  
+>
+> Playwright's Coverage APIs are only supported on Chromium-based browsers.
+>
 
-## More info
+To collect the code coverage we use playwright's [code coverage API](https://playwright.dev/docs/api/class-coverage). You could add these code coverage API calls to all your tests or you can use [Playwright fixtures](https://playwright.dev/docs/test-fixtures) to code them once re-use them across tests.
 
+The approach taken in this demo was to create an [automatic fixture](https://playwright.dev/docs/test-fixtures#automatic-fixtures) so that the code coverage calls are automatically added to any test that is created without having to do anything extra as long as the `test` import comes from the `export` done on the fixture.
+
+You can see the `codeCoverageAutoTestFixture` automatic fixture code at [app-fixtures.ts](/demos/code-coverage-with-monocart-reporter/tests/_shared/app-fixtures.ts). Note that the code coverage logic that the fixture uses is encapsulated in the [v8-code-coverage.ts](/demos/code-coverage-with-monocart-reporter/tests/_shared/fixtures/v8-code-coverage.ts) file.
+
+The fixture is capturing both `JS` and `CSS` code coverage but what to cover is your choice by setting the values of `enableJsCoverage` and `enableCssCoverage`.
+
+Once the code coverage is collected, it's being added to the `monocart-reporter` by invoking the `addCoverageReport` function. 
+
+> [!NOTE]
+>
+> If you didn't want to use the `monocart-reporter` to generate the code coverage reports from the collected [v8 code coverage](https://medium.com/@kuldeepkeshwar/code-coverage-directly-from-v8-3a4e86c2cdba), you could use other libraries to process the data or save it to files for later processing.

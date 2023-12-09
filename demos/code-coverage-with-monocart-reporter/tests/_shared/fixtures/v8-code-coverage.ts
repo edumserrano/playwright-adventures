@@ -15,10 +15,9 @@ function browserSupportsV8CodeCoverage(
   return browserType.name() === 'chromium';
 }
 
-// see https://playwright.dev/docs/api/class-coverage
-// this instruments code using v8 and then attaches the code coverage data
-// to the monocart-reporter. For an example on how to also gather CSS coverage
-// see https://github.com/cenfun/monocart-reporter/blob/647fb6bec6204af43fc70e79bf7baef771517329/README.md?plain=1#L678C1-L701C60
+// See https://playwright.dev/docs/api/class-coverage.
+// This instruments code using v8 and then attaches the code coverage data
+// to the monocart-reporter.
 export async function collectV8CodeCoverageAsync(
   options: collectV8CodeCoverageOptions
 ): Promise<void> {
