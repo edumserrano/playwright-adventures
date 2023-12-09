@@ -20,9 +20,9 @@ Then this demo saves the code coverage data into files so that after we can gene
 
 > [!NOTE]
 > 
-> This solution was implemented based on the work done by @mxschmitt who, at the moment of writing this, is part of the Playwright dev team. See his work at https://github.com/mxschmitt/playwright-test-coverage
+> This solution was implemented based on the work done by [@mxschmitt](https://github.com/mxschmitt) who, at the moment of writing this, is part of the Playwright dev team. See his work at https://github.com/mxschmitt/playwright-test-coverage
 >
-> Thank you @mxschmitt !
+> Thank you [@mxschmitt](https://github.com/mxschmitt) !
 > 
 
 ## How to build, run the app and run tests
