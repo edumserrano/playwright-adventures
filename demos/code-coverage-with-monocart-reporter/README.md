@@ -7,6 +7,7 @@
   - [Playwright configuration](#playwright-configuration)
   - [monocart-reporter configuration](#monocart-reporter-configuration)
   - [Collect code coverage](#collect-code-coverage)
+- [JS, CSS and HTML code coverage](#js-css-and-html-code-coverage)
 
 ## Description
 
@@ -130,3 +131,9 @@ Once the code coverage is collected, it's being added to the `monocart-reporter`
 > [!NOTE]
 >
 > If you don't want to use the `monocart-reporter` to generate the code coverage reports from the collected [v8 code coverage](https://medium.com/@kuldeepkeshwar/code-coverage-directly-from-v8-3a4e86c2cdba), you could use other libraries to process the data or save it to files for later processing instead of invoking the `addCoverageReport` function.
+
+## JS, CSS and HTML code coverage
+
+The V8 code coverage is capable of collecting code coverage not only fo JS but also for CSS and HTML. In the code coverage report for this demo you can see coverage shown for the the `TS` and `HTML` files. 
+
+You should also see code coverage for the [src/app/app.component.css](/demos/code-coverage-with-monocart-reporter/src/app/app.component.css) file but it isn't showing up for this Angular app due to this GitHub issue [microsoft/playwright [BUG] Missing CSS code coverage #28510](https://github.com/microsoft/playwright/issues/28510). 
