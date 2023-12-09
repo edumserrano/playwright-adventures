@@ -59,7 +59,7 @@ The main changes are:
 
 1) Declared a few variables at the start that are reused throught the playwright configuration.
 2) Updated the `reporter` array. Instead of using the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), use the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter) and the [third-party monocart-reporter](https://playwright.dev/docs/test-reporters#third-party-reporter-showcase). 
-3) Configured the `webServer` block so that it runs the angular app locally so that the tests can be executed against it.
+3) Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
 
 ### monocart-reporter configuration
 
