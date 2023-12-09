@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "start": "npx ng serve -o",
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "coverage:show-report": "open-cli ./tests/test-results/code-coverage/v8/index.html"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +29,7 @@
     "@playwright/test": "^1.40.1",
     "@types/node": "^20.10.3",
     "monocart-reporter": "^2.0.1",
+    "open-cli": "^7.2.0",
     "typescript": "~5.2.2",
     "zod": "^3.22.4"
   }

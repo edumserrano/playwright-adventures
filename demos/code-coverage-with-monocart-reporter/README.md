@@ -2,6 +2,7 @@
 
 - [Description](#description)
 - [How to build, run the app and run tests](#how-to-build-run-the-app-and-run-tests)
+- [How to view the test results and code coverage](#how-to-view-the-test-results-and-code-coverage)
 - [The app](#the-app)
 - [Tests and code coverage](#tests-and-code-coverage)
   - [Playwright configuration](#playwright-configuration)
@@ -35,6 +36,23 @@ The demo at [/demos/code-coverage-with-monocart-reporter](/demos/code-coverage-w
     npm start
     ```
     Once the command finishes the app should open in your default browser at [http://127.0.0.1:4200/](http://127.0.0.1:4200/).
+
+## How to view the test results and code coverage
+
+After running the tests with `npm test` you can view test results with:
+```
+npx monocart show-report tests/test-results/monocart-report.html
+```
+
+After opening the test results report you can view the code coverage by opening the menu on the top right and then find the `Coverage Report - playwright code coverage demo with monocart reporter` option under `artifacts`.
+
+![Alt text](../../docs/assets/monocart-reporter-code-coverage.png)
+
+
+Alternatively, you can view the code coverage report with:
+```
+npm run coverage:show-report
+```
 
 ## The app
 
