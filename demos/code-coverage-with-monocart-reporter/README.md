@@ -8,6 +8,7 @@
   - [Playwright configuration](#playwright-configuration)
   - [monocart-reporter configuration](#monocart-reporter-configuration)
   - [Collect code coverage](#collect-code-coverage)
+  - [Learn more](#learn-more)
 - [JS, CSS and HTML code coverage](#js-css-and-html-code-coverage)
 
 ## Description
@@ -46,7 +47,7 @@ npx monocart show-report tests/test-results/monocart-report.html
 
 After opening the test results report you can view the code coverage by opening the menu on the top right and then find the `Coverage Report - playwright code coverage demo with monocart reporter` option under `artifacts`.
 
-![Alt text](../../docs/assets/monocart-reporter-code-coverage.png)
+![how to access the code coverage report in the monocart test results report](../../docs/assets/monocart-reporter-code-coverage.gif)
 
 
 Alternatively, you can view the code coverage report with:
@@ -139,6 +140,8 @@ To use the `codeCoverageAutoTestFixture` automatic fixture all your tests should
 ```ts
 import { test, expect } from '@playwright/test';
 ```
+
+### Learn more
 
 To learn more about why this is done study how [fixtures work on Playwright](https://playwright.dev/docs/test-fixtures).
 
