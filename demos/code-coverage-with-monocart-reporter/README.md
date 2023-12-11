@@ -112,14 +112,6 @@ tests/
             └── index.html
 ```
 
-To learn more about configuring the monocart-reporter and code coverage see:
-
-- [monocart-reporter README](https://github.com/cenfun/monocart-reporter)
-- [Code Coverage Report section of the monocart-reporter README](https://github.com/cenfun/monocart-reporter#code-coverage-report)
-- [monocart-reporter typings](https://github.com/cenfun/monocart-reporter/blob/main/lib/index.d.ts)
-- [monocart-coverage-reports README](https://github.com/cenfun/monocart-coverage-reports): this repo is what provides the code coverage for the `monocart-reporter`.
-- [monocart-coverage-reports typings](https://github.com/cenfun/monocart-coverage-reports/blob/main/lib/index.d.ts)
-
 ### Collect code coverage
 
 > [!IMPORTANT]  
@@ -141,8 +133,6 @@ To use the `codeCoverageAutoTestFixture` automatic fixture all your tests should
 import { test, expect } from '@playwright/test';
 ```
 
-### Learn more
-
 To learn more about why this is done study how [fixtures work on Playwright](https://playwright.dev/docs/test-fixtures).
 
 Note that the code coverage logic that the `codeCoverageAutoTestFixture` fixture uses is encapsulated in the [v8-code-coverage.ts](/demos/code-coverage-with-monocart-reporter/tests/_shared/fixtures/v8-code-coverage.ts) file. The fixture is capturing both `JS` and `CSS` code coverage but what to cover is your choice by setting the values of `enableJsCoverage` and `enableCssCoverage`.
@@ -152,6 +142,16 @@ Once the code coverage is collected, it's being added to the `monocart-reporter`
 > [!NOTE]
 >
 > If you don't want to use the `monocart-reporter` to generate the code coverage reports from the collected [v8 code coverage](https://medium.com/@kuldeepkeshwar/code-coverage-directly-from-v8-3a4e86c2cdba), you could use other libraries to process the data or save it to files for later processing instead of invoking the `addCoverageReport` function.
+
+### Learn more
+
+To learn more about configuring the monocart-reporter and code coverage see:
+
+- [monocart-reporter README](https://github.com/cenfun/monocart-reporter)
+- [Code Coverage Report section of the monocart-reporter README](https://github.com/cenfun/monocart-reporter#code-coverage-report)
+- [monocart-reporter typings](https://github.com/cenfun/monocart-reporter/blob/main/lib/index.d.ts)
+- [monocart-coverage-reports README](https://github.com/cenfun/monocart-coverage-reports): this repo is what provides the code coverage for the `monocart-reporter`.
+- [monocart-coverage-reports typings](https://github.com/cenfun/monocart-coverage-reports/blob/main/lib/index.d.ts)
 
 ## JS, CSS and HTML code coverage
 
