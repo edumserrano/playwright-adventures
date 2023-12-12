@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
+import { env } from 'playwright.env-vars';
 import { testsDir, testsResultsDir } from 'playwright.shared-vars';
-import { env } from 'tests/_shared/process-env';
 
 const _isRunningOnCI = env.CI;
 const _webServerPort = 4200;
@@ -17,8 +17,12 @@ export default defineConfig({
   forbidOnly: !_isRunningOnCI,
   /* Retry on CI only */
   retries: _isRunningOnCI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: _isRunningOnCI ? 1 : undefined,
+  /*
+   * The default config opts out of parallel tests on CI by doing 'workers: _isRunningOnCI ? 1 : undefined'
+   * I don't know why we wouldn't run tests in parallel on CI so I'm setting 'workers: undefined' to always
+   * run tests in parallel.
+   */
+  workers: undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['list'], ['html']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
