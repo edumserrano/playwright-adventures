@@ -1,0 +1,183 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "install packages",
+      "detail": "Installs npm packages.",
+      "type": "npm",
+      "script": "install",
+      "path": ".",
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "run app",
+      "detail": "Builds and runs the app.",
+      "type": "npm",
+      "script": "start",
+      "path": ".",
+      "isBackground": true,
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "problemMatcher": {
+        "owner": "typescript",
+        "source": "ts",
+        "applyTo": "closedDocuments",
+        "fileLocation": ["relative", "${cwd}"],
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "Compiled |Failed to compile."
+          }
+        }
+      }
+    },
+    {
+      "label": "run tests",
+      "detail": "Runs the tests.",
+      "type": "npm",
+      "script": "test '--' -updateSnapshots ${input:updateSnapshots} -useDockerHostWebServer ${input:useDockerHostWebServer} -grep '${input:grep}'",
+      "path": ".",
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "open tests ui",
+      "detail": "Opens Playwright tests UI.",
+      "type": "npm",
+      "script": "test:ui '--' -useDockerHostWebServer ${input:useDockerHostWebServer}",
+      "path": ".",
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "remove obsolete snapshots",
+      "detail": "Removes obsolete Playwright snapshots.",
+      "type": "npm",
+      "script": "test:clean-snapshots '--' -dryRun ${input:dryRun}",
+      "path": ".",
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "show tests report",
+      "detail": "Opens test results report.",
+      "type": "npm",
+      "script": "test:show-report",
+      "path": ".",
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "edge launch config pre launch task",
+      "detail": "Builds and runs the app for debug via VSCode.",
+      "type": "npm",
+      "script": "start:vscode",
+      "path": ".",
+      "isBackground": true,
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "problemMatcher": {
+        "owner": "typescript",
+        "source": "ts",
+        "applyTo": "closedDocuments",
+        "fileLocation": ["relative", "${cwd}"],
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "^Application bundle generation \\.*|http://127\\.0\\.0\\.1:\\d+/"
+          }
+        }
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "buildConfiguration",
+      "description": "Which Angular configuration to use?",
+      "type": "pickString",
+      "options": ["dev", "prod"],
+      "default": "dev"
+    },
+    {
+      "id": "dryRun",
+      "description": "Dry run? If true, it will only report on obsolete snapshots, nothing will be deleted.",
+      "type": "pickString",
+      "options": ["yes", "no"],
+      "default": "no"
+    },
+    {
+      "id": "updateSnapshots",
+      "description": "Do you want to update Playwright snapshots?",
+      "type": "pickString",
+      "options": ["yes", "no"],
+      "default": "no"
+    },
+    {
+      "id": "useDockerHostWebServer",
+      "description": "Do you want to use localhost's ng serve?",
+      "type": "pickString",
+      "options": ["yes", "no"],
+      "default": "no"
+    },
+    {
+      "id": "grep",
+      "description": "Only run tests matching this regular expression. By default all tests are executed.",
+      "type": "promptString",
+      "default": "*"
+    },
+    {
+      "id": "lintMode",
+      "description": "Check only or try to auto-fix ESLint errors.",
+      "type": "pickString",
+      "options": ["check", "fix"],
+      "default": "no"
+    },
+    {
+      "id": "packagesMode",
+      "description": "Check only or update npm packages.",
+      "type": "pickString",
+      "options": ["check", "update"],
+      "default": "check"
+    },
+    {
+      "id": "prettierMode",
+      "description": "Check only or update code formatting violations.",
+      "type": "pickString",
+      "options": ["check", "update"],
+      "default": "check"
+    }
+  ]
+}

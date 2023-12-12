@@ -1,0 +1,14 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "run via Edge",
+      "type": "msedge",
+      "request": "launch",
+      "preLaunchTask": "edge launch config pre launch task",
+      "url": "http://localhost:4200/",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}
