@@ -1,4 +1,4 @@
-import { test, expect } from 'tests/_shared/app-fixtures';
+import { expect, test } from "@playwright/test";
 
 test('screenshot', async ({ page }) => {
   // this relative navigation is possible because of the baseURL

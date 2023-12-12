@@ -18,6 +18,8 @@ This repo aims to consolidate and share some of the experiences I've been faced 
 - [Playwright code coverage with monocart-reporter](/demos/code-coverage-with-monocart-reporter/README.md)
 - [Playwright code coverage Istanbul via Webpack Babel plugin](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/README.md)
 - [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](/docs/v8-vs-istanbul.md)
+- [Run Playwright tests in Docker](/demos/docker/README.md): especially helpful if you develop in Windows machines but your CI severs are Linux machines.
+
 ### Required & recommended dependencies
 
 If you face issues running any of the demos then check if you're missing one of the dependencies listed below.
