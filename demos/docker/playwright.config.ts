@@ -8,6 +8,7 @@ const _webServerHost = env.USE_DOCKER_HOST_WEBSERVER ? `host.docker.internal` : 
 const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
 const _testsDir = path.resolve('./tests'); // set to ./tests
 const _testResultsDir = path.resolve(_testsDir, 'test-results'); // set to ./tests/test-results
+const _htmlReportDir = path.resolve(_testsDir, 'html-report'); // set to ./tests/html-report
 
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
@@ -29,12 +30,12 @@ export default defineConfig({
   reporter: [
     ['list'],
     [
-      // See https://github.com/cenfun/monocart-reporter
-      'monocart-reporter',
+      /* See https://playwright.dev/docs/test-reporters#html-reporter */
+      'html',
       {
-        name: 'playwright test results',
-        outputFile: path.resolve(_testResultsDir, 'monocart-report.html'),
-      },
+        open: 'never',
+        outputFolder: _htmlReportDir,
+      }
     ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

@@ -6,8 +6,7 @@
     "start:vscode": "npx ng serve",
     "test": "pwsh -NoProfile -File ./npm-pwsh-scripts/playwright.ps1",
     "test:ui": "pwsh -NoProfile -File ./npm-pwsh-scripts/playwright-ui.ps1",
-    "test:clean-snapshots": "pwsh -NoProfile -File ./npm-pwsh-scripts/playwright-clean-unused-snapshots.ps1",
-    "test:show-report": "npx monocart show-report tests/test-results/monocart-report.html"
+    "test:show-report": "npx playwright show-report ./tests/html-report"
   },
   "private": true,
   "dependencies": {
@@ -31,7 +30,6 @@
     "@angular/compiler-cli": "^17.0.0",
     "@playwright/test": "^1.40.1",
     "@types/node": "^20.10.3",
-    "monocart-reporter": "^2.0.1",
     "open-cli": "^7.2.0",
     "typescript": "~5.2.2",
     "zod": "^3.22.4"
