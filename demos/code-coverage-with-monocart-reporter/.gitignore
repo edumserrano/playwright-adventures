@@ -40,6 +40,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Playwright
 /tests/test-results/
 /test-results/
 /playwright-report/
