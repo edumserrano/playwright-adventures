@@ -54,7 +54,7 @@ Then this demo saves the code coverage data into files so that after we can gene
 **After running the tests** with `npm test` you can view the test results with:
 
 ```
-npx playwright show-report
+npm run test:show-report
 ```
 
 You can generate the code coverage reports with:

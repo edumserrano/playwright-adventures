@@ -42,7 +42,7 @@ The demo at [/demos/code-coverage-with-monocart-reporter](/demos/code-coverage-w
 
 After running the tests with `npm test` you can view test results with:
 ```
-npx monocart show-report tests/test-results/monocart-report.html
+npm run test:show-report
 ```
 
 After opening the test results report you can view the code coverage by opening the menu on the top right and then find the `Coverage Report - playwright code coverage demo with monocart reporter` option under `artifacts`.

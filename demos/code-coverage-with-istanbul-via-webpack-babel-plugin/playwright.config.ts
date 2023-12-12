@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
 import { env } from 'playwright.env-vars';
 import { testsDir, testsResultsDir } from 'playwright.shared-vars';
 
@@ -24,7 +25,17 @@ export default defineConfig({
    */
   workers: undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['list'], ['html']],
+  reporter: [
+    ['list'],
+    /* See https://playwright.dev/docs/test-reporters#html-reporter */
+    [
+      'html',
+      {
+        open: _isRunningOnCI ? 'never' : 'on-failure',
+        outputFolder: path.resolve(testsDir, 'html-report'),
+      }
+    ]
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
