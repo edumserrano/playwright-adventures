@@ -1,11 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
 import path from 'path';
+import { playwrightCliOptions } from 'playwright.cli-options';
 import { env } from 'playwright.env-vars';
 
 const _isRunningOnCI = env.CI;
 const _webServerPort = 4200;
 const _webServerHost = env.USE_DOCKER_HOST_WEBSERVER ? `host.docker.internal` : `127.0.0.1`;
 const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
+const _webServerCommand = playwrightCliOptions.UIMode
+  ? `npx ng serve --host ${_webServerHost} --port ${_webServerPort}`
+  : `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`;
+
 const _testsDir = path.resolve('./tests'); // set to ./tests
 const _testResultsDir = path.resolve(_testsDir, 'test-results'); // set to ./tests/test-results
 const _htmlReportDir = path.resolve(_testsDir, 'html-report'); // set to ./tests/html-report
@@ -72,7 +77,7 @@ export default defineConfig({
   ],
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: `npx ng serve --host ${_webServerHost} --port ${_webServerPort}`,
+    command: _webServerCommand,
     url: _webServerUrl,
     reuseExistingServer: !_isRunningOnCI,
     stdout: 'pipe',
