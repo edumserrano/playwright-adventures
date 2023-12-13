@@ -110,7 +110,7 @@ Let's analyse the docker command:
 
 - the `-it`: instructs Docker to allocate a pseudo-TTY connected to the container's stdin; creating an interactive bash shell in the container. The main reason this flag is used is to be able to abort the docker command by using `CTRL+C`.
 - the `--rm`: automatically removes the container when it exits.
-- the `--ipc=host`: is recommended when using Chrome [Docker docs](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc). Chrome can run out of memory without this flag.
+- the `--ipc=host`: is recommended when using Chrome ([Docker docs](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc)). Chrome can run out of memory without this flag.
 - the `--env CI=False`: is setting an environment variable that will then be used by the [playwright.config.ts](/demos/docker/playwright.config.ts) to set the `_isRunningOnCI` variable.
 - the `--workdir=/app`: sets the working directory inside the container. It's set to be the directory where the app code will be mounted.
 - the `-v '<path-to-cloned-repo>\demos\docker:/app'`: mounts the contents of the folder `<path-to-cloned-repo>\demos\docker` into the docker container at `/app`.
@@ -150,7 +150,7 @@ Let's analyse the docker command:
 
 - the `-it`: instructs Docker to allocate a pseudo-TTY connected to the container's stdin; creating an interactive bash shell in the container. The main reason this flag is used is to be able to abort the docker command by using `CTRL+C`.
 - the `--rm`: automatically removes the container when it exits.
-- the `--ipc=host`: is recommended when using Chrome [Docker docs](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc). Chrome can run out of memory without this flag.
+- the `--ipc=host`: is recommended when using Chrome ([Docker docs](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc)). Chrome can run out of memory without this flag.
 - the `--workdir=/app`: sets the working directory inside the container. It's set to be the directory where the app code will be mounted.
 - the `-v '<path-to-cloned-repo>\demos\docker:/app'`: mounts the contents of the folder `<path-to-cloned-repo>\demos\docker` into the docker container at `/app`.
 - the `-v '/app/node_modules'`: is a way to exclude the `node_modules` folder from the mounted folder above. See [How to Mount a Docker Volume While Excluding a Subdirectory](https://www.howtogeek.com/devops/how-to-mount-a-docker-volume-while-excluding-a-subdirectory/).
