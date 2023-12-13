@@ -4,8 +4,12 @@
 - [How to build, run the app, run tests and view the test results](#how-to-build-run-the-app-run-tests-and-view-the-test-results)
 - [The app](#the-app)
 - [Run tests](#run-tests)
+  - [What to expect](#what-to-expect)
+  - [The docker command to run Playwright tests](#the-docker-command-to-run-playwright-tests)
   - [playwright.ps1 Powershell script details](#playwrightps1-powershell-script-details)
 - [Run tests with UI mode](#run-tests-with-ui-mode)
+  - [What to expect](#what-to-expect-1)
+  - [The docker command to run Playwright tests with UI mode](#the-docker-command-to-run-playwright-tests-with-ui-mode)
   - [playwright-ui.ps1 Powershell script details](#playwright-uips1-powershell-script-details)
 - [You don't always need to install node modules on the docker container](#you-dont-always-need-to-install-node-modules-on-the-docker-container)
 - [Playwright configuration](#playwright-configuration)
@@ -84,6 +88,14 @@ The app being tested is an Angular 17 app. It has very little changes from the t
 
 ## Run tests
 
+### What to expect
+
+When you run `npm test` this is what you should expect:
+
+![npm test output](/docs/assets/npm-test.gif)
+
+### The docker command to run Playwright tests
+
 The docker setup to run the Playwright tests is based on the [Playwright Docker docs](https://playwright.dev/docs/docker). When running `npm test`, the [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script is executed and builds the following docker command run the Playwright tests:
 ```
 docker run -it --rm --ipc=host --env CI=False --workdir=/app -v '<path-to-cloned-repo>\demos\docker:/app' -v '/app/node_modules' mcr.microsoft.com/playwright:v1.40.1-jammy /bin/bash -c 'npm ci && npx playwright test'
@@ -115,6 +127,14 @@ npm test '--' -updateSnapshots yes -useDockerHostWebServer no -grep "press me"
 ```
 
 ## Run tests with UI mode
+
+### What to expect
+
+When you run `npm run test:ui` this is what you should expect:
+
+![npm run test:ui output](/docs/assets/npm-test-ui.gif)
+
+### The docker command to run Playwright tests with UI mode
 
 The docker setup to run the tests with the Playwright UI mode is based on the [Playwright Docker docs](https://playwright.dev/docs/docker) and the [Playwright Docker & GitHub Codespaces docs](https://playwright.dev/docs/test-ui-mode#docker--github-codespaces). When running `npm run test:ui`, the [playwright-ui.ps1](/demos/docker/npm-pwsh-scripts/playwright-ui.ps1) Powershell script is executed and builds the following docker command run the Playwright UI mode:
 ```
@@ -225,7 +245,7 @@ The current Powershell scripts at `/demos/docker/npm-pwsh-scripts` only allow yo
 
 The way this demo is coded, if you want to set the `_isRunningOnCI` variable to true when you're running on CI then set the environment variable `CI` to true before executing `npm test`.
 
-> [!TIP]
+> [!NOTE]
 > 
 > For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci). 
 > 
