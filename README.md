@@ -7,7 +7,7 @@
 
 ## Description
 
-This repo aims to consolidate and share some of the experiences I've been faced with and the solutions I've come up with whilst using Playwright to test Angular apps. 
+This repo aims to consolidate and share some of the experiences I've had and the solutions I've come up with whilst using Playwright to test Angular apps. 
 
 > [!NOTE]
 >
