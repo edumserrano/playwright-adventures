@@ -71,18 +71,6 @@
       "problemMatcher": []
     },
     {
-      "label": "remove obsolete snapshots",
-      "detail": "Removes obsolete Playwright snapshots.",
-      "type": "npm",
-      "script": "test:clean-snapshots '--' -dryRun ${input:dryRun}",
-      "path": ".",
-      "presentation": {
-        "focus": true,
-        "panel": "dedicated"
-      },
-      "problemMatcher": []
-    },
-    {
       "label": "show tests report",
       "detail": "Opens test results report.",
       "type": "npm",

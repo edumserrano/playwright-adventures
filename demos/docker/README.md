@@ -11,18 +11,23 @@
   - [What to expect](#what-to-expect-1)
   - [The docker command to run Playwright tests with UI mode](#the-docker-command-to-run-playwright-tests-with-ui-mode)
   - [playwright-ui.ps1 Powershell script details](#playwright-uips1-powershell-script-details)
-- [You don't always need to install node modules on the docker container](#you-dont-always-need-to-install-node-modules-on-the-docker-container)
 - [Playwright configuration](#playwright-configuration)
 - [Other notes on the docker integration](#other-notes-on-the-docker-integration)
-  - [Do I need Powershell to run Playwright in Docker?](#do-i-need-powershell-to-run-playwright-in-docker)
-  - [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
+  - [You don't always need to install node modules on the docker container](#you-dont-always-need-to-install-node-modules-on-the-docker-container)
   - [I want to use more of the Playwright test CLI options](#i-want-to-use-more-of-the-playwright-test-cli-options)
   - [The `_isRunningOnCI` variable on the `playwright.config.ts` is always false](#the-_isrunningonci-variable-on-the-playwrightconfigts-is-always-false)
-  - [Simplify the logic on the Powershell scripts if you don't need it](#simplify-the-logic-on-the-powershell-scripts-if-you-dont-need-it)
   - [How does the `useDockerHostWebServer` input parameter of the Powershell scripts work ?](#how-does-the-usedockerhostwebserver-input-parameter-of-the-powershell-scripts-work-)
   - [Why should I use the `useDockerHostWebServer` input parameter of the Powershell scripts ?](#why-should-i-use-the-usedockerhostwebserver-input-parameter-of-the-powershell-scripts-)
   - [Running Playwright in docker is slow](#running-playwright-in-docker-is-slow)
   - [Playwright's test execution stops midway when running on Docker](#playwrights-test-execution-stops-midway-when-running-on-docker)
+  - [Do I need Powershell to run Playwright in Docker?](#do-i-need-powershell-to-run-playwright-in-docker)
+  - [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
+  - [Simplify the logic on the Powershell scripts if you don't need it](#simplify-the-logic-on-the-powershell-scripts-if-you-dont-need-it)
+- [Bonus: Visual Studio Code integration](#bonus-visual-studio-code-integration)
+  - [Example running the tests using the Visual Studio Code task](#example-running-the-tests-using-the-visual-studio-code-task)
+  - [Example running the tests using the Visual Studio task and setting `useDockerHostWebServer` to `yes`](#example-running-the-tests-using-the-visual-studio-task-and-setting-usedockerhostwebserver-to-yes)
+  - [Example running the tests in UI mode using the Visual Studio Code task](#example-running-the-tests-in-ui-mode-using-the-visual-studio-code-task)
+  - [Example debugging the app using Visual Studio Code](#example-debugging-the-app-using-visual-studio-code)
 
 ## Description
 
@@ -170,7 +175,19 @@ Listening on http://0.0.0.0:<port>
 
 Once you see this message you can access the Playwright UI by going to `http://localhost:<port>`.
 
-## You don't always need to install node modules on the docker container
+## Playwright configuration
+
+The majority of the content of the [playwright.config.ts](/demos/docker/playwright.config.ts) file is what you get by default after [adding Playwright to your project](https://playwright.dev/docs/intro#installing-playwright) with `npm init playwright@latest`.
+
+The main changes are:
+
+1) Declared a few variables at the start that are reused throught the playwright configuration.
+2) Updated the `reporter` array. In addition to using the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), we've added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter). 
+3) Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
+
+## Other notes on the docker integration
+
+### You don't always need to install node modules on the docker container
 
 The [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) and [playwright-ui.ps1](/demos/docker/npm-pwsh-scripts/playwright-ui.ps1) Powershell scripts have logic to determine whether the npm packages need to be installed or not. 
 
@@ -215,28 +232,6 @@ As the error message advises, the solution employed by the Powershell scripts wa
 > - [Using auth tokens in .npmrc](https://stackoverflow.com/questions/53099434/using-auth-tokens-in-npmrc)
 >
 
-## Playwright configuration
-
-The majority of the content of the [playwright.config.ts](/demos/docker/playwright.config.ts) file is what you get by default after [adding Playwright to your project](https://playwright.dev/docs/intro#installing-playwright) with `npm init playwright@latest`.
-
-The main changes are:
-
-1) Declared a few variables at the start that are reused throught the playwright configuration.
-2) Updated the `reporter` array. In addition to using the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), we've added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter). 
-3) Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
-
-## Other notes on the docker integration
-
-### Do I need Powershell to run Playwright in Docker?
-
-No, this demo used Powershell to create a script with the logic to build the docker commands but you don't need it. Hopefully this demo explained the required building blocks and you can use them as you wish to create your docker commands.
-
-### Powershell and passing command line arguments to npm commands
-
-You can use the `--` notation to [pass command line arguments to npm commands](https://dev.to/felipperegazio/handling-command-line-arguments-in-npm-scripts-2ean). However, if you're using Powershell and want to pass command line arguments then you should either use a double `-- --` notation or single quotes like `'--'`. 
-
-Fore more info see [PowerShell, NPM Scripts, and Silently Dropped Arguments](https://www.lloydatkinson.net/posts/2022/powershell-npm-scripts-and-silently-dropped-arguments/).
-
 ### I want to use more of the Playwright test CLI options
 
 The current Powershell scripts at `/demos/docker/npm-pwsh-scripts` only allow you to pass a few of the available [Playwright test CLI options](https://playwright.dev/docs/test-cli). If you want to use more options you have to extend the scripts.
@@ -249,12 +244,6 @@ The way this demo is coded, if you want to set the `_isRunningOnCI` variable to 
 > 
 > For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci). 
 > 
-
-### Simplify the logic on the Powershell scripts if you don't need it
-
-The Powershell scripts at `/demos/docker/npm-pwsh-scripts` accept some input parameters and by default deal with the possibility of having to install the node modules inside the container if you're running the demo on Windows.
-
-I'd suggest simplifying the Powershell scripts if you don't need the input parameters or if your app does not need to [install node modules inside the container](#you-dont-always-need-to-install-node-modules-on-the-docker-container), for instance, because you're developing on a mac or because you're not using any package that is OS specific.
 
 ### How does the `useDockerHostWebServer` input parameter of the Powershell scripts work ?
 
@@ -303,3 +292,64 @@ If the tests' execution fails midway when running on Docker, it might be due to 
 >
 > You should consider increasing the CPU and memory resources given to Docker to improve the Playwright's test execution speed. Especially the CPU resources because Playwright will try to [parallelize the test execution according to the number of available CPUs](https://playwright.dev/docs/test-parallel).
 >
+
+### Do I need Powershell to run Playwright in Docker?
+
+No, this demo used Powershell to create a script with the logic to build the docker commands but you don't need it. Hopefully this demo explained the required building blocks and you can use them as you wish to create your docker commands.
+
+### Powershell and passing command line arguments to npm commands
+
+You can use the `--` notation to [pass command line arguments to npm commands](https://dev.to/felipperegazio/handling-command-line-arguments-in-npm-scripts-2ean). However, if you're using Powershell and want to pass command line arguments then you should either use a double `-- --` notation or single quotes like `'--'`. 
+
+Fore more info see [PowerShell, NPM Scripts, and Silently Dropped Arguments](https://www.lloydatkinson.net/posts/2022/powershell-npm-scripts-and-silently-dropped-arguments/).
+
+### Simplify the logic on the Powershell scripts if you don't need it
+
+The Powershell scripts at `/demos/docker/npm-pwsh-scripts` accept some input parameters and by default deal with the possibility of having to install the node modules inside the container if you're running the demo on Windows.
+
+I'd suggest simplifying the Powershell scripts if you don't need the input parameters or if your app does not need to [install node modules inside the container](#you-dont-always-need-to-install-node-modules-on-the-docker-container), for instance, because you're developing on a mac or because you're not using any package that is OS specific.
+
+## Bonus: Visual Studio Code integration
+
+This code demo also shows how you can improve your Visual Studio Code integration by configuring custom [tasks](/demos/docker/.vscode/tasks.json) to help you build and run both the app and the tests.
+
+The available tasks are:
+
+- `install packages`: installs npm packages.
+- `run app`: builds and runs the app.
+- `run tests`: runs the Playwright tests in a docker container.
+- `open tests ui`: runs the Playwright tests in a docker container using UI mode.
+- `show tests report`: opens the test results report.
+
+**To get access to these tasks make sure you open the `/demos/docker/` folder in Visual Studio Code.**
+
+> [!TIP]
+>
+> You can run Visual Studio Code tasks through Quick Open (Ctrl+P) by typing 'task', Space and the command name. For more info see [Integrate with External Tools via Tasks](https://code.visualstudio.com/docs/editor/tasks).
+>
+
+### Example running the tests using the Visual Studio Code task
+
+When you run the `run tests` task you will be prompted for some input which is then passed on to the [playwright.ps1](#playwrightps1-powershell-script-details) Powershell script.
+
+![VSCode test task example](/docs/assets/vscode-test.gif)
+
+### Example running the tests using the Visual Studio task and setting `useDockerHostWebServer` to `yes`
+
+When you run the `run tests` task and choose `yes` to the `Do you want to use localhost's ng serve?` prompt, notice that the docker container won't have to install packages nor build and run the app. It immediatly starts to run the tests against the version of the app that is running on the host.
+
+You have to run the app locally outside of docker before you choose this option.
+
+![VSCode test with localhost serve task example](/docs/assets/vscode-test-with-localhost-serve.gif)
+
+### Example running the tests in UI mode using the Visual Studio Code task
+
+When you run the `open tests ui` task you will be prompted for some input which is then passed on to the [playwright-ui.ps1](#playwright-uips1-powershell-script-details) Powershell script.
+
+![VSCode test with UI mode](/docs/assets/vscode-test-ui.gif)
+
+### Example debugging the app using Visual Studio Code
+
+Although this is not related with running Playwright in docker, this demo also shows how you can configure a [launch task](/demos/docker/.vscode/launch.json) for Visual Studio Code that let's you debug the app in Visual Studio Code.
+
+![VSCode debug](/docs/assets/vscode-debug.gif)
