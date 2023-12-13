@@ -81,6 +81,11 @@ The main changes are:
 2) Updated the `reporter` array. Instead of using the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), use the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter) and the [third-party monocart-reporter](https://playwright.dev/docs/test-reporters#third-party-reporter-showcase). 
 3) Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
 
+> [!NOTE]
+> 
+> The `_isRunningOnCI` variable used on the `playwright.config.ts` changes the value of some options when tests running on CI. To set the `_isRunningOnCI` variable to `true` you must set the environment variable `CI` to `true` before running the tests. For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci). 
+>
+
 ### monocart-reporter configuration
 
 The `monocart-reporter` configuration is done at [playwright.monocart-reporter.ts](/demos/code-coverage-with-monocart-reporter/playwright.monocart-reporter.ts). This separation is not necessary though, you can have everything declared in the `playwright.config.ts`. Code structure is up to you.

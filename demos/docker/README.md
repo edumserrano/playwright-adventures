@@ -15,7 +15,6 @@
 - [Other notes on the docker integration](#other-notes-on-the-docker-integration)
   - [You don't always need to install node modules on the docker container](#you-dont-always-need-to-install-node-modules-on-the-docker-container)
   - [I want to use more of the Playwright test CLI options](#i-want-to-use-more-of-the-playwright-test-cli-options)
-  - [The `_isRunningOnCI` variable on the `playwright.config.ts` is always false](#the-_isrunningonci-variable-on-the-playwrightconfigts-is-always-false)
   - [How does the `useDockerHostWebServer` input parameter of the Powershell scripts work ?](#how-does-the-usedockerhostwebserver-input-parameter-of-the-powershell-scripts-work-)
   - [Why should I use the `useDockerHostWebServer` input parameter of the Powershell scripts ?](#why-should-i-use-the-usedockerhostwebserver-input-parameter-of-the-powershell-scripts-)
   - [Running Playwright in docker is slow](#running-playwright-in-docker-is-slow)
@@ -185,6 +184,13 @@ The main changes are:
 2) Updated the `reporter` array. In addition to using the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), we've added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter). 
 3) Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
 
+The way this demo is coded, if you want to set the `_isRunningOnCI` variable to true when you're running on CI then set the environment variable `CI` to true before executing `npm test`.
+
+> [!NOTE]
+> 
+> The `_isRunningOnCI` variable used on the `playwright.config.ts` changes the value of some options when running tests on CI. To set the `_isRunningOnCI` variable to `true` you must set the environment variable `CI` to `true` before running the tests. For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci). 
+>
+
 ## Other notes on the docker integration
 
 ### You don't always need to install node modules on the docker container
@@ -235,15 +241,6 @@ As the error message advises, the solution employed by the Powershell scripts wa
 ### I want to use more of the Playwright test CLI options
 
 The current Powershell scripts at `/demos/docker/npm-pwsh-scripts` only allow you to pass a few of the available [Playwright test CLI options](https://playwright.dev/docs/test-cli). If you want to use more options you have to extend the scripts.
-
-### The `_isRunningOnCI` variable on the `playwright.config.ts` is always false
-
-The way this demo is coded, if you want to set the `_isRunningOnCI` variable to true when you're running on CI then set the environment variable `CI` to true before executing `npm test`.
-
-> [!NOTE]
-> 
-> For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci). 
-> 
 
 ### How does the `useDockerHostWebServer` input parameter of the Powershell scripts work ?
 

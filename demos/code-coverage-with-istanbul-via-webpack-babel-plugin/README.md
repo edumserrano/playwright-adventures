@@ -93,7 +93,12 @@ The main changes are:
 2) Updated the `reporter` array. Added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter) to the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), .
 3) Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
 
-Also note that we have create the [playwright.shared-vars.js](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/playwright.shared-vars.js) file because some of the test filepaths are shared between the playwright configuration, [code to save the Istanbul code coverage instrumentation](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/tests/_shared/coverage.webpack.js) and the [configuration for creating the code coverage reports](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/nyc.config.js) with `nyc`. 
+> [!NOTE]
+> 
+> The `_isRunningOnCI` variable used on the `playwright.config.ts` changes the value of some options when running tests on CI. To set the `_isRunningOnCI` variable to `true` you must set the environment variable `CI` to `true` before running the tests. For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci). 
+>
+
+Furthermore, we have created the [playwright.shared-vars.js](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/playwright.shared-vars.js) file because some of the test filepaths are shared between the playwright configuration, [code to save the Istanbul code coverage instrumentation](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/tests/_shared/coverage.webpack.js) and the [configuration for creating the code coverage reports](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/nyc.config.js) with `nyc`. 
 
 > [!NOTE]
 >
