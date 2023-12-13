@@ -2,7 +2,7 @@
 
 - [Description](#description)
 - [Playwright demos](#playwright-demos)
-  - [Required \& recommended dependencies](#required--recommended-dependencies)
+- [Required \& recommended dependencies](#required--recommended-dependencies)
 - [Learn more about Playwright](#learn-more-about-playwright)
 
 ## Description
@@ -20,7 +20,7 @@ This repo aims to consolidate and share some of the experiences I've had and the
 - [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](/docs/v8-vs-istanbul.md)
 - [Run Playwright tests in Docker](/demos/docker/README.md): especially helpful if you develop in Windows machines but your CI severs are Linux machines.
 
-### Required & recommended dependencies
+## Required & recommended dependencies
 
 If you face issues running any of the demos then check if you're missing one of the dependencies listed below.
 
