@@ -68,7 +68,7 @@ export default defineConfig({
   ],
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`,
+    command: `npx ng serve --host ${_webServerHost} --port ${_webServerPort}`,
     url: _webServerUrl,
     reuseExistingServer: !_isRunningOnCI,
     stdout: 'pipe',
