@@ -105,6 +105,10 @@ Furthermore, we have created the [playwright.shared-vars.js](/demos/code-coverag
 > You don't have to create a `playwright.shared-vars.js` file. I did it so I didn't have to repeat these variables in several places.
 >
 
+> [!NOTE]
+> 
+> Depending on your `playwright.config.ts`, make sure you update your `.gitignore` to exclude any directory used by test results, report results, etc. Scroll to the end of this demo's [.gitignore](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/.gitignore) to see an example.
+> 
 ### Collect code coverage data
 
 To instrument the code whilst the tests are running we used the `babel-plugin-istanbul` Webpack plugin. To use this plugin we have to extend Angular's Webpack configuration and this demo uses the [@angular-builders/custom-webpack](https://www.npmjs.com/package/@angular-builders/custom-webpack) npm package to do that.

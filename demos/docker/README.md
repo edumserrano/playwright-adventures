@@ -183,13 +183,17 @@ The main changes are:
 1) Declared a few variables at the start that are reused throught the playwright configuration.
 2) Updated the `reporter` array. In addition to using the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), we've added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter). 
 3) Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
-
-The way this demo is coded, if you want to set the `_isRunningOnCI` variable to true when you're running on CI then set the environment variable `CI` to true before executing `npm test`.
+4) Defined the `snapshotPathTemplate` option to group snapshots by Operating System. This is a choice for this demo, it's not mandatory. This options is configured so that all snapshots generated on Unix will be stored at `/tests/_snapshots/linux` and all snapshots generated on Windows will be storted at `/tests/_snapshots/win32`. One of the reasons this is done is so that we can add the windows directory to the [.gitignore](/demos/docker/.gitignore) to avoid committing windows snapshots in case someone runs the tests outside of Docker for any reason. Remember that the whole point of running in Docker is to generate Unix like snapshots to get consistent behavior between running locally and on CI, so you should never want to commit windows generated snapshots. 
 
 > [!NOTE]
 > 
 > The `_isRunningOnCI` variable used on the `playwright.config.ts` changes the value of some options when running tests on CI. To set the `_isRunningOnCI` variable to `true` you must set the environment variable `CI` to `true` before running the tests. For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci). 
 >
+
+> [!NOTE]
+> 
+> Depending on your `playwright.config.ts`, make sure you update your `.gitignore` to exclude any directory used by test results, report results, etc. Scroll to the end of this demo's [.gitignore](/demos/docker/.gitignore) to see an example.
+> 
 
 ## Other notes on the docker integration
 
