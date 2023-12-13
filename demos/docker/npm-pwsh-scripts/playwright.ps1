@@ -17,9 +17,14 @@ function ConvertTo-Bool($value)
 
 function Get-PlaywrightVersion()
 {
-    # the playwrightVersion version must be kept in sync with the version of @playwright/test in
-    # package.json. I'm reading the value from the package.json but if you prefer you can just hard code
-    # it here.
+    # As noted in https://hub.docker.com/_/microsoft-playwright?tab=description:
+    #
+    # It is recommended to use Docker image version that matches Playwright version.
+    # If the Playwright version in your Docker image does not match the version in your
+    # project/tests, Playwright will be unable to locate browser executables.
+    #
+    # This function is reading the version of the @playwright/test package from the
+    # package.json but if you prefer you can just hard code it.
     $packageJson = Get-Content -Raw ./package.json | ConvertFrom-Json
     $playwrightVersion = $packageJson.devDependencies.'@playwright/test'
     return $playwrightVersion -replace '[~^]', ''
@@ -48,7 +53,7 @@ function Start-PlaywrightTests
 
     if(![string]::IsNullOrEmpty($grep) -and $grep -ne "*")
     {
-        $grepOption = "--grep '$grep'"
+        $grepOption = "--grep ""$grep"""
     }
 
     $isCI = [System.Convert]::ToBoolean($env:CI)
@@ -62,7 +67,7 @@ function Start-PlaywrightTests
     if(!$useDockerHostWebServerAsBool -and $IsWindows)
     {
       $nodeModulesMount = "-v '/app/node_modules'"
-      $startCommand = "/bin/bash -c 'npm ci && $startCommand'"
+      $startCommand = "/bin/bash -c 'npm ci && $startCommand'" # see https://stackoverflow.com/questions/28490874/docker-run-image-multiple-commands
     }
 
     $playwrightVersion = Get-PlaywrightVersion
