@@ -42,7 +42,6 @@ testem.log
 Thumbs.db
 
 # Playwright
-/tests/test-results/
 /test-results/
 /playwright-report/
 /blob-report/

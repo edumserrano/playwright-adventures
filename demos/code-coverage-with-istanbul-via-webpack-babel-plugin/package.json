@@ -4,9 +4,9 @@
   "scripts": {
     "start": "npx ng serve -o",
     "test": "npx playwright test",
-    "test:show-report": "npx playwright show-report ./tests/html-report",
+    "test:show-report": "npx playwright show-report ./playwright-html-report",
     "coverage:report": "npx nyc report && echo view the html code coverage report: npm run coverage:show-report",
-    "coverage:show-report": "open-cli ./tests/test-results/code-coverage/reports/index.html"
+    "coverage:show-report": "open-cli ./test-results/code-coverage/reports/index.html"
   },
   "private": true,
   "dependencies": {

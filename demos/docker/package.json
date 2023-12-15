@@ -6,7 +6,7 @@
     "start:vscode": "npx ng serve",
     "test": "pwsh -NoProfile -File ./npm-pwsh-scripts/playwright.ps1",
     "test:ui": "pwsh -NoProfile -File ./npm-pwsh-scripts/playwright-ui.ps1",
-    "test:show-report": "npx playwright show-report ./tests/html-report"
+    "test:show-report": "npx playwright show-report ./playwright-html-report"
   },
   "private": true,
   "dependencies": {

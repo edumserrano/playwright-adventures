@@ -4,8 +4,8 @@
   "scripts": {
     "start": "npx ng serve -o",
     "test": "npx playwright test",
-    "test:show-report": "npx monocart show-report tests/test-results/monocart-report.html",
-    "coverage:show-report": "open-cli ./tests/test-results/code-coverage/v8/index.html"
+    "test:show-report": "npx monocart show-report ./test-results/monocart-report.html",
+    "coverage:show-report": "open-cli ./test-results/code-coverage/v8/index.html"
   },
   "private": true,
   "dependencies": {

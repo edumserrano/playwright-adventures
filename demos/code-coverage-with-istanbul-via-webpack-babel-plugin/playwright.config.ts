@@ -44,7 +44,7 @@ export default defineConfig({
       'html',
       {
         open: _isRunningOnCI ? 'never' : 'on-failure',
-        outputFolder: path.resolve(testsDir, 'html-report'),
+        outputFolder: path.resolve('playwright-html-report'),
       }
     ]
   ],

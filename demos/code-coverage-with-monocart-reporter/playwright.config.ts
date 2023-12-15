@@ -13,8 +13,8 @@ const _webServerCommand = playwrightCliOptions.UIMode
   : `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`;
 
 const _testsDir = path.resolve('./tests'); // set to ./tests
-const _testResultsDir = path.resolve(_testsDir, 'test-results'); // set to ./tests/test-results
-const _codeCoverageDir = path.resolve(_testResultsDir, 'code-coverage'); // set to ./tests/test-results/code-coverage
+const _testResultsDir = path.resolve('test-results'); // set to ./test-results
+const _codeCoverageDir = path.resolve(_testResultsDir, 'code-coverage'); // set to ./test-results/code-coverage
 
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
