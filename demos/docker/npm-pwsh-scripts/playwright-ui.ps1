@@ -42,6 +42,8 @@ function Start-PlaywrightUI()
   # Must use a random port or else there will be issues with the UI app where sometimes the tests don't load/refresh properly.
   # I believe it has something to do with some websockets that the UI app uses. When the same port is used and the UI app is
   # restarted, the tests don't load properly until the websockets timeout and then a new connection is established.
+  # Update: it's better to leave the $playwrightUiPort set to a random port until https://github.com/microsoft/playwright/issues/28680
+  # is fixed. It does seem like a websocket related issue as I suspected.
   $playwrightUiPort = Get-Random -Minimum 40000 -Maximum 50000
   $playwrightVersion = Get-PlaywrightVersion
   $startCommand = "npx playwright test --ui-port=$playwrightUiPort --ui-host=0.0.0.0"
