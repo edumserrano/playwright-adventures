@@ -4,8 +4,8 @@
   "scripts": {
     "start": "npx ng serve -o",
     "test": "npx playwright test",
-    "test:show-report": "npx monocart show-report tests/test-results/monocart-report.html",
-    "coverage:show-report": "open-cli ./tests/test-results/code-coverage/v8/index.html"
+    "test:show-report": "npx monocart show-report ./test-results/monocart-report.html",
+    "coverage:show-report": "open-cli ./test-results/code-coverage/v8/index.html"
   },
   "private": true,
   "dependencies": {
@@ -24,8 +24,8 @@
     "zone.js": "~0.14.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.0.5",
-    "@angular/cli": "^17.0.5",
+    "@angular-devkit/build-angular": "^17.0.7",
+    "@angular/cli": "^17.0.7",
     "@angular/compiler-cli": "^17.0.0",
     "@playwright/test": "^1.40.1",
     "@types/node": "^20.10.3",
