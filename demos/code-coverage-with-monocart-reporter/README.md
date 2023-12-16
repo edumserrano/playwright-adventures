@@ -147,11 +147,7 @@ To learn more about why this is done study how [fixtures work on Playwright](htt
 
 Note that the code coverage logic that the `codeCoverageAutoTestFixture` fixture uses is encapsulated in the [v8-code-coverage.ts](/demos/code-coverage-with-monocart-reporter/tests/_shared/fixtures/v8-code-coverage.ts) file. The fixture is capturing both `JS` and `CSS` code coverage but what to cover is your choice by setting the values of `enableJsCoverage` and `enableCssCoverage`.
 
-Once the code coverage is collected, it's being added to the `monocart-reporter` by invoking the `addCoverageReport` function. 
-
-> [!NOTE]
->
-> If you don't want to use the `monocart-reporter` to generate the code coverage reports from the collected [v8 code coverage](https://medium.com/@kuldeepkeshwar/code-coverage-directly-from-v8-3a4e86c2cdba), you could use other libraries to process the data or save it to files for later processing instead of invoking the `addCoverageReport` function.
+Once the code coverage is collected, it's being added to the `monocart-reporter` by invoking the `addCoverageReport` function.
 
 ### Learn more
 
