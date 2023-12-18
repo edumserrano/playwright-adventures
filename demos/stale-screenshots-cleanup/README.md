@@ -6,6 +6,9 @@
 - [Playwright configuration](#playwright-configuration)
 - [Delete stale Playwright screenshots](#delete-stale-playwright-screenshots)
   - [The clean-stale-screenshots.ps1 script](#the-clean-stale-screenshotsps1-script)
+  - [How to control the directory where screenshots are created](#how-to-control-the-directory-where-screenshots-are-created)
+  - [clean-stale-screenshots.ps1 script parameters](#clean-stale-screenshotsps1-script-parameters)
+  - [Last notes on the clean-stale-screenshots.ps1 script](#last-notes-on-the-clean-stale-screenshotsps1-script)
 
 ## Description
 
@@ -120,25 +123,52 @@ The logic to detect and delete stale snapshots is implemented by the [clean-stal
 - Once the screenshots are generated in the temp directory, compare them with the screenshots from the actual screenshots directory.
 - Any screenshots found in the actual directory that aren't in the temp directory are the stale screenshots.
 
-To accomplish this, we need to control where Playwright generates the screenshots. This is done by setting the `SNAPSHOT_DIR` environment variable which is used to define the [snapshotDir](https://playwright.dev/docs/api/class-testproject#test-project-snapshot-dir) in the [playwright.config.ts](/demos/stale-screenshots-cleanup/playwright.config.ts).
+Let's quickly run through this logic using the code in this demo. When you clone this repo, the screenshot directory for the tests contains the following files:
+```
+tests
+  __screenshots__
+    example.spec.ts-snapshots
+      test-one-1-chromium-win32.png
+      test-one-1-firefox-win32.png
+      test-one-1-webkit-win32.png
+      test-two-1-chromium-win32.png
+      test-two-1-firefox-win32.png
+      test-two-1-webkit-win32.png
+```
+
+To create stale screenshots you can go to the [example.spec.ts](/demos/stale-screenshots-cleanup/tests/example.spec.ts) file and comment the second test named `test-two`. Now, the `test-two-1-<...>.png` files are stale screenshots. To detect them what we do is run the `playwright test` command but specify a temp directory to store the screenshots. This demo uses the `./tests/__temp-screenshots__` directory which means that when the tests run we get the following screenshots:  
+```
+tests
+  __temp-screenshots__
+    example.spec.ts-snapshots
+      test-one-1-chromium-win32.png
+      test-one-1-firefox-win32.png
+      test-one-1-webkit-win32.png
+```
+
+The last step is to compare these two directories and find the screenshots that exist on the actual screenshots directory but not on the temp directory. In the end we delete the temp screenshots directory.
+
+### How to control the directory where screenshots are created
+
+To control where Playwright generates the screenshots, the `clean-stale-screenshots.ps1` script sets the `SNAPSHOT_DIR` environment variable which is used to define the [snapshotDir](https://playwright.dev/docs/api/class-testproject#test-project-snapshot-dir) in the [playwright.config.ts](/demos/stale-screenshots-cleanup/playwright.config.ts).
 
 > [!CAUTION]
 >
 > Setting the [snapshotDir](https://playwright.dev/docs/api/class-testproject#test-project-snapshot-dir) is enough to control where the screenshots are generated because [by default](https://github.com/microsoft/playwright/blob/main/packages/playwright/src/common/config.ts#L167C4-L167C4) the [snapshotPathTemplate](https://playwright.dev/docs/api/class-testproject#test-project-snapshot-path-template) uses the `snapshotDir` as the root directory for the screenshots. If you set the `snapshotPathTemplate` in your `playwright.config.ts` to something different than the default, then you might have to revisit it or adjust this script.
 >
 
+### clean-stale-screenshots.ps1 script parameters
+
 Once you can control where the screenshots are generated then you just have to pass that to the `clean-stale-screenshots.ps1` as well as the current directory for the screenshots.
 
-The other parameters in the `clean-stale-screenshots.ps1` are:
+The parameters in the `clean-stale-screenshots.ps1` are:
 
+- `snapshotDir`: the current directory for the screenshots.
+- `tempSnapshotDir`: the temp directory where screenshots will be generated and then used to do the comparison for stale screenshots.
 - `dryRun`: switch that if set will only report on stale snapshots, it won't delete them. Defaults to `$false`.
 - `maxAttempts`: we need to run `npx playwright test` to generate the snapshots in a temp directory. Usually all will go well at the first run but sometimes it doesn't and this parameters let's you set a number of attempts to generate the screenhots. Defaults to 5.
 
-To generate the screenshots in a temp directory, the `clean-stale-screenshots.ps1` Powershell script runs the following command: `npx playwright test --update-snapshots`. The `--update-snapshots` options is used so that the tests that generate screenshots don't fail when generating the screenshots in the temp directory.
+### Last notes on the clean-stale-screenshots.ps1 script
 
-Lastly, this script is running all the tests but you could extend it to use the [--grep](https://playwright.dev/docs/test-cli#reference) command line option of the `playwright test` command to only run a subset of your tests where you wish to delete stale screenshots.
-
-> [!CAUTION]
->
-> To generate the screenshots in a temp directory the `clean-stale-screenshots.ps1` Powershell script runs the following command: `npx playwright test --update-snapshots`. If you require other [command line options](https://playwright.dev/docs/test-cli#reference) when running your Playwright tests then you should adjust the command in the `clean-stale-screenshots.ps1` script accordingly.
->
+- to generate the screenshots in a temp directory, the `clean-stale-screenshots.ps1` Powershell script runs the following command: `npx playwright test --update-snapshots`. The `--update-snapshots` options is used so that the tests that generate screenshots don't fail when generating the screenshots in the temp directory. Furthermore, **if you require other [command line options](https://playwright.dev/docs/test-cli#reference) when running your Playwright tests then you should adjust the command in the `clean-stale-screenshots.ps1` script accordingly**.
+- this script is running all the tests but you could extend it to use the [--grep](https://playwright.dev/docs/test-cli#reference) command line option of the `playwright test` command to only run a subset of your tests where you wish to delete stale screenshots.
