@@ -4,7 +4,7 @@
   "scripts": {
     "start": "npx ng serve -o",
     "test": "npx playwright test",
-    "test:clean-snapshots": "pwsh -NoProfile -File ./npm-pwsh-scripts/clean-stale-screenshots.ps1 -snapshotDir ./tests/__screenshots__ -tempSnapshotDir ./tests/__temp-screenshots__"
+    "test:clean-screenshots": "pwsh -NoProfile -File ./npm-pwsh-scripts/clean-stale-screenshots.ps1 -snapshotDir ./tests/__screenshots__ -tempSnapshotDir ./tests/__temp-screenshots__"
   },
   "private": true,
   "dependencies": {

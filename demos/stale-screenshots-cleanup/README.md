@@ -1,1 +1,144 @@
 # Cleanup Playwright stale screenshots
+
+- [Description](#description)
+- [How to build, run the app and run tests](#how-to-build-run-the-app-and-run-tests)
+- [The app](#the-app)
+- [Playwright configuration](#playwright-configuration)
+- [Delete stale Playwright screenshots](#delete-stale-playwright-screenshots)
+  - [The clean-stale-screenshots.ps1 script](#the-clean-stale-screenshotsps1-script)
+
+## Description
+
+The demo at [/demos/stale-screenshots-cleanup](/demos/stale-screenshots-cleanup/) shows a custom made script that is able to delete stale Playwright screenshots. As of writing this, there's an open issue asking for built-in Playwright support for this type of functionality. See [microsoft/playwright [Question] Does testConfig.updateSnapshots have the ability to remove stale snapshots? #16582](https://github.com/microsoft/playwright/issues/16582). 
+
+> [!NOTE]
+> 
+> The script implemented in this demo is based on the work done by [@brodie124](https://github.com/brodie124). The version he created, which you can see on this [gist](https://gist.github.com/edumserrano/5e878002c7dfb40d3126e28dbb29dd42) had a limitation in the fact that it required Playwright to be configured in a very specific way for it to work (see the notes on the top of the linked gist).
+>
+> The script in this demo is more versatile and doesn't have that limitation.
+>
+> Thank you [@brodie124](https://github.com/brodie124)!
+> 
+
+## How to build, run the app and run tests
+
+1) Clone the repo.
+2) Using your favorite shell go to `/demos/stale-screenshots-cleanup`.
+3) Install the required npm packages with:
+    ```
+    npm install
+    ```
+4) Install the [playwright browsers](https://playwright.dev/docs/browsers) with:
+    ```
+    npx playwright install
+    ```
+5) Run the tests with:
+    ```
+    npm test
+    ```
+    This will start the app and run the [playwright tests](/demos/stale-screenshots-cleanup/tests/example.spec.ts) against it.
+6) If you just want to run the app execute the command:
+    ```
+    npm start
+    ```
+    Once the command finishes the app should open in your default browser at [http://127.0.0.1:4200/](http://127.0.0.1:4200/).
+
+## The app
+
+The app used for this demo is an Angular 17 app. It has no changes from the template you get from doing `ng new`.
+
+> [!NOTE]
+>
+> Although the app being tested is an Angular app, the Playwright concepts that are demoed are frontend framework agnostic which means they and can be applied to any frontend framework.
+>
+
+## Playwright configuration 
+
+The majority of the content of the [playwright.config.ts](/demos/stale-screenshots-cleanup/playwright.config.ts) file is what you get by default after [adding Playwright to your project](https://playwright.dev/docs/intro#installing-playwright) with `npm init playwright@latest`.
+
+The main changes are:
+
+1) Declared a few variables at the start that are reused throught the playwright configuration.
+2) Updated the `reporter` array. Added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter) to the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter).
+3) Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
+
+> [!NOTE]
+> 
+> The `_isRunningOnCI` variable used on the `playwright.config.ts` changes the value of some options when running tests on CI. To set the `_isRunningOnCI` variable to `true` you must set the environment variable `CI` to `true` before running the tests. For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci). 
+>
+
+Furthermore, we have created:
+- a [playwright.shared-vars.ts](/demos/stale-screenshots-cleanup/playwright.shared-vars.ts) file: to share some variables across the Playwright configuration. 
+- a [playwright.cli-options.ts](/demos/stale-screenshots-cleanup/playwright.cli-options.ts) file: to represent Playwright CLI options we care about.
+- a [playwright.env-vars.ts](/demos/stale-screenshots-cleanup/playwright.env-vars.ts) file: to represent environment variables we care about.
+
+> [!NOTE]
+>
+> You don't have to create the `playwright.shared-vars.ts`, the `playwright.cli-options.ts` or the `playwright.env-vars.ts` file. You can have all of this on the `playwright.config.ts`. Code structure is up to you.
+>
+
+> [!NOTE]
+> 
+> Depending on your `playwright.config.ts`, make sure you update your `.gitignore` to exclude any directory used by test results, report results, etc. Scroll to the end of this demo's [.gitignore](/demos/stale-screenshots-cleanup/.gitignore) to see an example.
+>
+
+## Delete stale Playwright screenshots
+
+> [!IMPORTANT]
+>
+> Make sure you have installed the required npm packages and Playwright browsers before proceeding. See the [How to build, run the app and run tests](#how-to-build-run-the-app-and-run-tests) section.
+>
+
+When you clone the repo there won't be any stale screenshots to delete. To generate some stale screenshots go to the [example.spec.ts](/demos/stale-screenshots-cleanup/tests/example.spec.ts) file and comment the second test named `test-two`. This will mean that now you have 3 stale screenshots:
+
+- [test-two-1-chromium-win32.png](tests/__screenshots__/example.spec.ts-snapshots/test-two-1-chromium-win32.png)
+- [test-two-1-firefox-win32.png](tests/__screenshots__/example.spec.ts-snapshots/test-two-1-firefox-win32.png)
+- [test-two-1-webkit-win32.png](tests/__screenshots__/example.spec.ts-snapshots/test-two-1-webkit-win32.png)
+
+To get a report on the stale screenshots run the `test:clean-screenshots` command with the `-dryRun` switch:
+```
+npm test:clean-screenshots '--' -dryRun
+```
+
+To delete the stale screenshots run without the `-dryRun` switch:
+```
+npm test:clean-screenshots
+```
+
+To get back to the initial state, undo all local changes you have on this repo or uncomment `test-two` and run `npm test` to generate the deleted screenshots.
+
+### The clean-stale-screenshots.ps1 script
+
+> [!NOTE]
+>
+> This demo used Powershell to create the script that deletes stale snapshots but you can implement this logic in whatever language of your choice. Hopefully this demo provides you with the required building blocks.
+>
+
+The logic to detect and delete stale snapshots is implemented by the [clean-stale-screenshots.ps1](/demos/stale-screenshots-cleanup/npm-pwsh-scripts/clean-stale-screenshots.ps1) Powershell script. The idea behind it is pretty simple:
+
+- Run the Playwright tests but set a different directory to save the screenshots, a temp directory.
+- Once the screenshots are generated in the temp directory, compare them with the screenshots from the actual screenshots directory.
+- Any screenshots found in the actual directory that aren't in the temp directory are the stale screenshots.
+
+To accomplish this, we need to control where Playwright generates the screenshots. This is done by setting the `SNAPSHOT_DIR` environment variable which is used to define the [snapshotDir](https://playwright.dev/docs/api/class-testproject#test-project-snapshot-dir) in the [playwright.config.ts](/demos/stale-screenshots-cleanup/playwright.config.ts).
+
+> [!CAUTION]
+>
+> Setting the [snapshotDir](https://playwright.dev/docs/api/class-testproject#test-project-snapshot-dir) is enough to control where the screenshots are generated because [by default](https://github.com/microsoft/playwright/blob/main/packages/playwright/src/common/config.ts#L167C4-L167C4) the [snapshotPathTemplate](https://playwright.dev/docs/api/class-testproject#test-project-snapshot-path-template) uses the `snapshotDir` as the root directory for the screenshots. If you set the `snapshotPathTemplate` in your `playwright.config.ts` to something different than the default, then you might have to revisit it or adjust this script.
+>
+
+Once you can control where the screenshots are generated then you just have to pass that to the `clean-stale-screenshots.ps1` as well as the current directory for the screenshots.
+
+The other parameters in the `clean-stale-screenshots.ps1` are:
+
+- `dryRun`: switch that if set will only report on stale snapshots, it won't delete them. Defaults to `$false`.
+- `maxAttempts`: we need to run `npx playwright test` to generate the snapshots in a temp directory. Usually all will go well at the first run but sometimes it doesn't and this parameters let's you set a number of attempts to generate the screenhots. Defaults to 5.
+
+To generate the screenshots in a temp directory, the `clean-stale-screenshots.ps1` Powershell script runs the following command: `npx playwright test --update-snapshots`. The `--update-snapshots` options is used so that the tests that generate screenshots don't fail when generating the screenshots in the temp directory.
+
+Lastly, this script is running all the tests but you could extend it to use the [--grep](https://playwright.dev/docs/test-cli#reference) command line option of the `playwright test` command to only run a subset of your tests where you wish to delete stale screenshots.
+
+> [!CAUTION]
+>
+> To generate the screenshots in a temp directory the `clean-stale-screenshots.ps1` Powershell script runs the following command: `npx playwright test --update-snapshots`. If you require other [command line options](https://playwright.dev/docs/test-cli#reference) when running your Playwright tests then you should adjust the command in the `clean-stale-screenshots.ps1` script accordingly.
+>
