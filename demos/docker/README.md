@@ -83,7 +83,7 @@ The demo at [/demos/docker](/demos/docker/) shows how to run Playwright tests in
 
 ## The app
 
-The app being tested is an Angular 17 app. It has very little changes from the template you get from doing `ng new`. The only addition is a button which has some conditional logic to better show the code coverage.
+The app being tested is an Angular 17 app. It has no changes from the template you get from doing `ng new`.
 
 > [!NOTE]
 >
