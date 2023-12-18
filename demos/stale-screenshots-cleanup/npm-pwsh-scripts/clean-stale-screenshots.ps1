@@ -108,7 +108,7 @@ function Remove-TempSnapshotsDirectory(
 
 function StartStaleScreenshotsCleanup {
   $ErrorActionPreference = 'Stop';
-  $env:SNAPSHOT_DIR = $tempSnapshotDir;
+  $env:SNAPSHOT_DIR = $tempSnapshotDir; # This environment variable is picked up by the playwright.config.ts so that the screenshots are generated on a temp dir.
 
   Remove-TempSnapshotsDirectory -tempSnapshotDir $tempSnapshotDir;
   CreateTempSnapshots -maxAttempts $maxAttempts;
