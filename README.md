@@ -1,8 +1,9 @@
 # Playwright adventures
 
 - [Description](#description)
-- [Playwright demos](#playwright-demos)
 - [Required \& recommended dependencies](#required--recommended-dependencies)
+- [Playwright demos](#playwright-demos)
+- [Tips](#tips)
 - [Learn more about Playwright](#learn-more-about-playwright)
 
 ## Description
@@ -12,13 +13,6 @@ This repo aims to consolidate and share some of the experiences I've had and the
 > [!NOTE]
 >
 > Although the code demos presented here use Angular, the Playwright concepts that are demoed are frontend framework agnostic which means they and can be applied to any frontend framework.
-
-## Playwright demos
-
-- [Playwright code coverage with monocart-reporter](/demos/code-coverage-with-monocart-reporter/README.md)
-- [Playwright code coverage Istanbul via Webpack Babel plugin](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/README.md)
-- [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](/docs/v8-vs-istanbul.md)
-- [Run Playwright tests in Docker](/demos/docker/README.md): especially helpful if you develop in Windows machines but your CI severs are Linux machines.
 
 ## Required & recommended dependencies
 
@@ -30,6 +24,19 @@ If you face issues running any of the demos then check if you're missing one of 
 - [Git LFS](https://git-lfs.com/). The demos use Playwright to take screenshots and those images are uploaded to the repo using Git LFS. Without Git LFS you won't get any images when cloning the repo. Tested working with `3.3.0`.
 - [Docker](https://www.docker.com/products/docker-desktop/): required for the demo that runs Playwright tests via docker.
 - [VS Code](https://code.visualstudio.com/download) is recommended as a code editor but you can use whatever you prefer.
+
+## Playwright demos
+
+| Demo                                                                                                                          | Description                                                                                                                                                                                                                |
+| :---------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [code-coverage-with-monocart-reporter](/demos/code-coverage-with-monocart-reporter/README.md)                                 | Playwright code coverage using [monocart-reporter](https://github.com/cenfun/monocart-reporter)                                                                                                                            |
+| [code-coverage-with-istanbul-via-webpack-babel-plugin](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/README.md) | Playwright code coverage Istanbul via Webpack Babel plugin                                                                                                                                                                 |
+| [docker](/demos/docker/README.md)                                                                                             | Run Playwright tests in Docker. Also shows how to use Playwright tests UI mode in Docker. Especially helpful to eliminate screenshot differences if you develop in Windows machines but your CI severs are Linux machines. |
+| [stale-screenshots-cleanup](/demos/stale-screenshots-cleanup/README.md)                                                       | Delete stale Playwright test screenshots.                                                                                                                                                                                  |
+
+## Tips
+
+- [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](/docs/v8-vs-istanbul.md)
 
 ## Learn more about Playwright
 

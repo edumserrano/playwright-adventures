@@ -1,0 +1,1 @@
+# Cleanup Playwright stale screenshots
