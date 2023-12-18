@@ -21,7 +21,7 @@ Then this demo saves the code coverage data into files so that after we can gene
 
 > [!NOTE]
 > 
-> This solution was implemented based on the work done by [@mxschmitt](https://github.com/mxschmitt) who, at the moment of writing this, is part of the Playwright dev team. See his work at https://github.com/mxschmitt/playwright-test-coverage
+> This solution was implemented based on the work done by [@mxschmitt](https://github.com/mxschmitt). See his work at https://github.com/mxschmitt/playwright-test-coverage. As of writing this, there's an [open GitHub issue](https://github.com/microsoft/playwright/issues/7030) about improving the built-in code coverage support for Playwright. Also check out [this comment](https://github.com/microsoft/playwright/issues/7030#issuecomment-1575606073) on that issue.
 >
 > Thank you [@mxschmitt](https://github.com/mxschmitt) !
 > 

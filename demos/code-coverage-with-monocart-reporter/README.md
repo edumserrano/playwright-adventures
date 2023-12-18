@@ -15,6 +15,13 @@
 
 The demo at [/demos/code-coverage-with-monocart-reporter](/demos/code-coverage-with-monocart-reporter/) shows how to get code coverage with Playwright by using the [monocart-reporter](https://www.npmjs.com/package/monocart-reporter) npm package.
 
+> [!NOTE]
+> 
+> As of writing this, there's an [open GitHub issue](https://github.com/microsoft/playwright/issues/7030) about improving the built-in code coverage support for Playwright. Also check out [this comment](https://github.com/microsoft/playwright/issues/7030#issuecomment-1575606073) on that issue.
+>
+> Thank you [@mxschmitt](https://github.com/mxschmitt) !
+>
+
 ## How to build, run the app and run tests
 
 1) Clone the repo.
