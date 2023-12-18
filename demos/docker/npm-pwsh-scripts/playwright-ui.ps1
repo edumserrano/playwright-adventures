@@ -5,12 +5,12 @@
 
 param ([string] $useDockerHostWebServer="no")
 
-function ConvertTo-Bool($value)
+function ConvertToBool($value)
 {
     return ($("False","0","","N","No",'$False',"Off") -notcontains [string]$value)
 }
 
-function Get-PlaywrightVersion()
+function GetPlaywrightVersion()
 {
     # As noted in https://hub.docker.com/_/microsoft-playwright?tab=description:
     #
@@ -25,7 +25,7 @@ function Get-PlaywrightVersion()
     return $playwrightVersion -replace '[~^]', ''
 }
 
-function Start-PlaywrightUI()
+function StartPlaywrightUI()
 {
   $ErrorActionPreference = 'Stop'
 
@@ -33,7 +33,7 @@ function Start-PlaywrightUI()
   Write-Host "options:" -ForegroundColor Cyan
   Write-Host "useDockerHostWebServer=$useDockerHostWebServer`n" -ForegroundColor Cyan
 
-  $useDockerHostWebServerAsBool = ConvertTo-Bool -value $useDockerHostWebServer
+  $useDockerHostWebServerAsBool = ConvertToBool -value $useDockerHostWebServer
   if($useDockerHostWebServerAsBool)
   {
       $useDockerHostWebServerOptions = "--add-host=host.docker.internal:host-gateway --env USE_DOCKER_HOST_WEBSERVER=true"
@@ -45,7 +45,7 @@ function Start-PlaywrightUI()
   # Update: it's better to leave the $playwrightUiPort set to a random port until https://github.com/microsoft/playwright/issues/28680
   # is fixed. It does seem like a websocket related issue as I suspected.
   $playwrightUiPort = Get-Random -Minimum 40000 -Maximum 50000
-  $playwrightVersion = Get-PlaywrightVersion
+  $playwrightVersion = GetPlaywrightVersion
   $startCommand = "npx playwright test --ui-port=$playwrightUiPort --ui-host=0.0.0.0"
   if(!$useDockerHostWebServerAsBool -and $IsWindows)
   {
@@ -62,4 +62,4 @@ function Start-PlaywrightUI()
   Exit $LASTEXITCODE # see https://stackoverflow.com/questions/32348794/how-to-get-status-of-invoke-expression-successful-or-failed
 }
 
-Start-PlaywrightUI
+StartPlaywrightUI

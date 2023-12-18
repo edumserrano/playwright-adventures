@@ -10,12 +10,12 @@ param (
     [string] $grep=""
 )
 
-function ConvertTo-Bool($value)
+function ConvertToBool($value)
 {
     return ($("False","0","","N","No",'$False',"Off") -notcontains [string]$value)
 }
 
-function Get-PlaywrightVersion()
+function GetPlaywrightVersion()
 {
     # As noted in https://hub.docker.com/_/microsoft-playwright?tab=description:
     #
@@ -30,7 +30,7 @@ function Get-PlaywrightVersion()
     return $playwrightVersion -replace '[~^]', ''
 }
 
-function Start-PlaywrightTests
+function StartPlaywrightTests
 {
     $ErrorActionPreference = 'Stop'
     Write-Host "Starting playwright tests run in docker container...`n"
@@ -39,13 +39,13 @@ function Start-PlaywrightTests
     Write-Host "useDockerHostWebServer=$useDockerHostWebServer"  -ForegroundColor Cyan
     Write-Host "grep=$grep`n"  -ForegroundColor Cyan
 
-    $updateSnapshotsAsBool = ConvertTo-Bool -value $updateSnapshots
+    $updateSnapshotsAsBool = ConvertToBool -value $updateSnapshots
     if($updateSnapshotsAsBool)
     {
         $updateSnapshotsOption = "--update-snapshots"
     }
 
-    $useDockerHostWebServerAsBool = ConvertTo-Bool -value $useDockerHostWebServer
+    $useDockerHostWebServerAsBool = ConvertToBool -value $useDockerHostWebServer
     if($useDockerHostWebServerAsBool)
     {
         $useDockerHostWebServerOptions = "--add-host=host.docker.internal:host-gateway --env USE_DOCKER_HOST_WEBSERVER=true"
@@ -70,7 +70,7 @@ function Start-PlaywrightTests
       $startCommand = "/bin/bash -c 'npm ci && $startCommand'" # see https://stackoverflow.com/questions/28490874/docker-run-image-multiple-commands
     }
 
-    $playwrightVersion = Get-PlaywrightVersion
+    $playwrightVersion = GetPlaywrightVersion
     $dockerRunCommand = "docker run $interactive --rm --ipc=host $useDockerHostWebServerOptions $ciEnv --workdir=/app -v '${PWD}:/app' $nodeModulesMount mcr.microsoft.com/playwright:v$playwrightVersion-jammy $startCommand"
     Write-Host "Starting docker container...`n"
     Write-Host "$dockerRunCommand`n" -ForegroundColor Cyan
@@ -78,4 +78,4 @@ function Start-PlaywrightTests
     Exit $LASTEXITCODE # see https://stackoverflow.com/questions/32348794/how-to-get-status-of-invoke-expression-successful-or-failed
 }
 
-Start-PlaywrightTests
+StartPlaywrightTests
