@@ -98,11 +98,14 @@ The main changes are:
 > The `_isRunningOnCI` variable used on the `playwright.config.ts` changes the value of some options when running tests on CI. To set the `_isRunningOnCI` variable to `true` you must set the environment variable `CI` to `true` before running the tests. For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci). 
 >
 
-Furthermore, we have created the [playwright.shared-vars.js](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/playwright.shared-vars.js) file because some of the test filepaths are shared between the [playwright configuration](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/playwright.config.ts), [code to save the Istanbul code coverage instrumentation](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/tests/_shared/coverage.webpack.js) and the [configuration for creating the code coverage reports](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/nyc.config.js) with `nyc`. 
+Furthermore, we have created:
+- a [playwright.shared-vars.js](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/playwright.shared-vars.js) file: to share some variables across the Playwright configuration. Some of the test filepaths are shared between the [playwright configuration](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/playwright.config.ts), [code to save the Istanbul code coverage instrumentation](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/tests/_shared/coverage.webpack.js) and the [configuration for creating the code coverage reports](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/nyc.config.js) with `nyc`.
+- a [playwright.cli-options.ts](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/playwright.cli-options.ts) file: to represent Playwright CLI options we care about.
+- a [playwright.env-vars.ts](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/playwright.env-vars.ts) file: to represent environment variables we care about. 
 
 > [!NOTE]
 >
-> You don't have to create a `playwright.shared-vars.js` file. I did it so I didn't have to repeat these variables in several places.
+> You don't have to create the `playwright.shared-vars.js`, the `playwright.cli-options.ts` or the `playwright.env-vars.ts` file. You can have all of this on the `playwright.config.ts`. Code structure is up to you.
 >
 
 > [!NOTE]

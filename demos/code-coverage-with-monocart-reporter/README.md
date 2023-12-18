@@ -93,6 +93,16 @@ The main changes are:
 > The `_isRunningOnCI` variable used on the `playwright.config.ts` changes the value of some options when tests running on CI. To set the `_isRunningOnCI` variable to `true` you must set the environment variable `CI` to `true` before running the tests. For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci). 
 >
 
+Furthermore, we have created:
+- a [playwright.monocart-reporter.ts](/demos/code-coverage-with-monocart-reporter/playwright.monocart-reporter.ts) file: where we define the `monocart-reporter` configuration.
+- a [playwright.cli-options.ts](/demos/code-coverage-with-monocart-reporter/playwright.cli-options.ts) file: to represent Playwright CLI options we care about.
+- a [playwright.env-vars.ts](/demos/code-coverage-with-monocart-reporter/playwright.env-vars.ts) file: to represent environment variables we care about. 
+
+> [!NOTE]
+>
+> You don't have to create the `playwright.monocart-reporter.ts`, the `playwright.cli-options.ts` or the `playwright.env-vars.ts` file. You can have all of this on the `playwright.config.ts`. Code structure is up to you.
+>
+
 > [!NOTE]
 > 
 > Depending on your `playwright.config.ts`, make sure you update your `.gitignore` to exclude any directory used by test results, report results, etc. Scroll to the end of this demo's [.gitignore](/demos/code-coverage-with-monocart-reporter/.gitignore) to see an example.
@@ -100,11 +110,8 @@ The main changes are:
 
 ### monocart-reporter configuration
 
-The `monocart-reporter` configuration is done at [playwright.monocart-reporter.ts](/demos/code-coverage-with-monocart-reporter/playwright.monocart-reporter.ts). This separation is not necessary though, you can have everything declared in the `playwright.config.ts`. Code structure is up to you.
+The `monocart-reporter` configuration is done at [playwright.monocart-reporter.ts](/demos/code-coverage-with-monocart-reporter/playwright.monocart-reporter.ts). The `monocart-reporter` has a `coverage` option which let's you configure the options for the code coverage reports. The configuration at [playwright.monocart-reporter.ts](/demos/code-coverage-with-monocart-reporter/playwright.monocart-reporter.ts) will create:
 
-The `monocart-reporter` has a `coverage` option which let's you configure the options for the code coverage reports.
-
-The configuration at [playwright.monocart-reporter.ts](/demos/code-coverage-with-monocart-reporter/playwright.monocart-reporter.ts) will create:
 - an **html report** with monocart style: this is my prefered html report. 
 - an **lcov report**: which is useful to upload to some tools like [SonarQube](https://www.sonarsource.com/products/sonarqube/), etc.
 - a **covertura report**: which is useful to upload to some tools like [Azure DevOps](https://azure.microsoft.com/en-us/products/devops), [CodeCov](https://about.codecov.io/), etc.
