@@ -113,7 +113,8 @@ function StartStaleScreenshotsCleanup {
   Remove-TempSnapshotsDirectory -tempSnapshotDir $tempSnapshotDir;
   CreateTempSnapshots -maxAttempts $maxAttempts;
   $staleScreenshots = GetStaleScreenshots -snapshotDir $snapshotDir -tempSnapshotDir $tempSnapshotDir;
-  if ($staleScreenshots.StaleScreenshotsCount -eq 0) {
+  $hasStaleScreenshots = $staleScreenshots.StaleScreenshotsCount -ne 0;
+  if (!$hasStaleScreenshots) {
     Write-Host "✅ Didn't find any stale screenshot in a total of $($staleScreenshots.TotalScreenshotsCount) screenshots." -ForegroundColor Green;
   }
   else {
@@ -129,6 +130,12 @@ function StartStaleScreenshotsCleanup {
 
   Remove-TempSnapshotsDirectory -tempSnapshotDir $tempSnapshotDir;
   Write-Host "✅ Finished cleaning Playwright stale screenshots." -ForegroundColor Green;
+
+  if($hasStaleScreenshots) {
+    Exit 2;
+  }
+
+  Exit 0;
 }
 
 StartStaleScreenshotsCleanup;
