@@ -45,9 +45,8 @@
     {
       "label": "run tests",
       "detail": "Runs the tests.",
-      "type": "npm",
-      "script": "test '--' -updateSnapshots ${input:updateSnapshots} -useDockerHostWebServer ${input:useDockerHostWebServer} -grep '${input:grep}'",
-      "path": ".",
+      "type": "shell",
+      "command": "./npm-pwsh-scripts/playwright-vscode-task.ps1 -updateSnapshots ${input:updateSnapshots} -useHostWebServer ${input:useHostWebServer} -grep '${input:grep}'",
       "presentation": {
         "focus": true,
         "panel": "dedicated"
@@ -61,9 +60,8 @@
     {
       "label": "open tests ui",
       "detail": "Opens Playwright tests UI.",
-      "type": "npm",
-      "script": "test:ui '--' -useDockerHostWebServer ${input:useDockerHostWebServer}",
-      "path": ".",
+      "type": "shell",
+      "command": "./npm-pwsh-scripts/playwright-ui-vscode-task.ps1 -useHostWebServer ${input:useHostWebServer}",
       "presentation": {
         "focus": true,
         "panel": "dedicated"
@@ -134,8 +132,8 @@
       "default": "no"
     },
     {
-      "id": "useDockerHostWebServer",
-      "description": "Do you want to use localhost's ng serve?",
+      "id": "useHostWebServer",
+      "description": "Do you want to use the host's web server?",
       "type": "pickString",
       "options": ["yes", "no"],
       "default": "no"

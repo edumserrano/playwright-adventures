@@ -15,8 +15,8 @@
 - [Other notes on the docker integration](#other-notes-on-the-docker-integration)
   - [You don't always need to install node modules on the docker container](#you-dont-always-need-to-install-node-modules-on-the-docker-container)
   - [I want to use more of the Playwright test CLI options](#i-want-to-use-more-of-the-playwright-test-cli-options)
-  - [How does the `useDockerHostWebServer` input parameter of the Powershell scripts work ?](#how-does-the-usedockerhostwebserver-input-parameter-of-the-powershell-scripts-work-)
-  - [Why should I use the `useDockerHostWebServer` input parameter of the Powershell scripts ?](#why-should-i-use-the-usedockerhostwebserver-input-parameter-of-the-powershell-scripts-)
+  - [How does the `useHostWebServer` input parameter of the Powershell scripts work ?](#how-does-the-usehostwebserver-input-parameter-of-the-powershell-scripts-work-)
+  - [Why should I use the `useHostWebServer` input parameter of the Powershell scripts ?](#why-should-i-use-the-usehostwebserver-input-parameter-of-the-powershell-scripts-)
   - [Running Playwright in docker is slow](#running-playwright-in-docker-is-slow)
   - [Playwright's test execution stops midway when running on Docker](#playwrights-test-execution-stops-midway-when-running-on-docker)
   - [Do I need Powershell to run Playwright in Docker?](#do-i-need-powershell-to-run-playwright-in-docker)
@@ -24,7 +24,7 @@
   - [Simplify the logic on the Powershell scripts if you don't need it](#simplify-the-logic-on-the-powershell-scripts-if-you-dont-need-it)
 - [Bonus: Visual Studio Code integration](#bonus-visual-studio-code-integration)
   - [Example running the tests using the Visual Studio Code task](#example-running-the-tests-using-the-visual-studio-code-task)
-  - [Example running the tests using the Visual Studio task and setting `useDockerHostWebServer` to `yes`](#example-running-the-tests-using-the-visual-studio-task-and-setting-usedockerhostwebserver-to-yes)
+  - [Example running the tests using the Visual Studio task and setting `useHostWebServer` to `yes`](#example-running-the-tests-using-the-visual-studio-task-and-setting-usehostwebserver-to-yes)
   - [Example running the tests in UI mode using the Visual Studio Code task](#example-running-the-tests-in-ui-mode-using-the-visual-studio-code-task)
   - [Example debugging the app using Visual Studio Code](#example-debugging-the-app-using-visual-studio-code)
 
@@ -121,13 +121,13 @@ Let's analyse the docker command:
 
 The [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script accepts the following input parameters:
 
-- `updateSnapshots`: defaults to `no`. If set to `yes` it will pass the `--update-snapshots` option to the `npx playwright test` command. The [--update-snapshots](https://playwright.dev/docs/test-cli) determines whether to update snapshots with actual results instead of comparing them. If you're using Powershell you can set this option by doing: `npm test '--' -updateSnapshots yes`.
-- `useDockerHostWebServer`: defaults to `no`. If set to `yes`, allows the tests running in the container to run against an instance of the app running on your machine, not in the docker container. To use this option, first start the app with `npm start` and once the app is running run `npm test` and pass this option. If you're using Powershell you can do it like so: `npm test '--' -useDockerHostWebServer yes`
+- `updateSnapshots`: defaults to `$false`. If this switch is set then the `--update-snapshots` option is passed to the `npx playwright test` command. The [--update-snapshots](https://playwright.dev/docs/test-cli) determines whether to update snapshots with actual results instead of comparing them. If you're using Powershell you can set this option by doing: `npm test '--' -updateSnapshots`.
+- `useHostWebServer`: defaults to `$false`. If this switch is set it allows the tests running in the container to run against an instance of the app running on your machine instead of in the docker container. To use this option, first start the app with `npm start` and once the app is running run `npm test` and pass this option. If you're using Powershell you can do it like so: `npm test '--' -useHostWebServer`
 - `grep`: defaults to an empty string. By default it runs all tests but, if set it adds the `--grep <grep>` option to the `npx playwright test` command. The [`--grep`](https://playwright.dev/docs/test-cli) option only runs tests matching the provided regular expression. If you're using Powershell you can pass this option to `npm test` by doing `npm test '--' -grep "<regex>"`.
 
 You can combine any of the above options. For instance, if you're using Powershell, you can pass multiple options like so:
 ```
-npm test '--' -updateSnapshots yes -useDockerHostWebServer no -grep "press me"
+npm test '--' -updateSnapshots -useHostWebServer -grep "screenshot"
 ```
 
 ## Run tests with UI mode
@@ -165,7 +165,7 @@ Let's analyse the docker command:
 
 The [playwright-ui.ps1](/demos/docker/npm-pwsh-scripts/playwright-ui.ps1) Powershell script accepts the following input parameters:
 
-- `useDockerHostWebServer`: defaults to `no`. If set to `yes`, allows the tests running in the container to run against an instance of the app running on your machine, not in the docker container. To use this option, first start the app with `npm start` and once the app is running run `npm run test:ui` and pass this option. If you're using Powershell you can do it like so: `npm run test:ui '--' -useDockerHostWebServer yes`.
+- `useHostWebServer`: defaults to `$false`. If this switch is set it allows the tests running in the container to run against an instance of the app running on your machine instead of in the docker container. To use this option, first start the app with `npm start` and once the app is running run `npm test` and pass this option. If you're using Powershell you can do it like so: `npm run test:ui '--' -useHostWebServer`
 
 When the docker command to start the Playwright UI completes it will display the following message:
 ```
@@ -183,7 +183,7 @@ The main changes are:
 1) Declared a few variables at the start that are reused throught the playwright configuration.
 2) Updated the `reporter` array. In addition to using the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), we've added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter). To keep this demo focused on its goal, this Playwright configuration isn't using the [monocart-reporter](https://github.com/cenfun/monocart-reporter) but I strongly advise you to try it out. For an usage example see the `playwright.config.ts` for the [Playwright code coverage with monocart-reporter demo](/demos/code-coverage-with-monocart-reporter/README.md).
 3) Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
-4) Defined the `snapshotPathTemplate` option to group snapshots by Operating System. This is a choice for this demo, it's not mandatory. This options is configured so that all snapshots generated on Unix will be stored at `/tests/_snapshots/linux` and all snapshots generated on Windows will be storted at `/tests/_snapshots/win32`. One of the reasons this is done is so that we can add the windows directory to the [.gitignore](/demos/docker/.gitignore) to avoid committing windows snapshots in case someone runs the tests outside of Docker for any reason. Remember that the whole point of running in Docker is to generate Unix like snapshots to get consistent behavior between running locally and on CI, so you should never want to commit windows generated snapshots. 
+4) Defined the `snapshotPathTemplate` option to group snapshots by Operating System. This is a choice for this demo, it's not mandatory. This options is configured so that all snapshots generated on Unix will be stored at `/tests/__screenshots__/linux` and all snapshots generated on Windows will be storted at `/tests/__screenshots__/win32`. One of the reasons this is done is so that we can add the windows directory to the [.gitignore](/demos/docker/.gitignore) to avoid committing windows snapshots in case someone runs the tests outside of Docker for any reason. Remember that the whole point of running in Docker is to generate Unix like snapshots to get consistent behavior between running locally and on CI, so you should never want to commit windows generated snapshots. 
 
 > [!NOTE]
 > 
@@ -230,7 +230,7 @@ the same way on all platforms. But it comes with a heavy performance cost and
 can sometimes be 10x slower than the "esbuild" package, so you may also not
 want to do that.
 
-As the error message advises, the solution employed by the Powershell scripts was to **NOT** copy the `node_modules` folder into the docker container if the host Operating System is Windows or if you've set the `useDockerHostWebServer` to `yes` (which means the demo app will **NOT** have to be built and run inside the docker container).
+As the error message advises, the solution employed by the Powershell scripts was to **NOT** copy the `node_modules` folder into the docker container if the host Operating System is Windows or if you've set the `useHostWebServer` switch (which means the demo app will **NOT** have to be built and run inside the docker container).
 
 > [!WARNING]
 >
@@ -246,13 +246,13 @@ As the error message advises, the solution employed by the Powershell scripts wa
 
 The current Powershell scripts at `/demos/docker/npm-pwsh-scripts` only allow you to pass a few of the available [Playwright test CLI options](https://playwright.dev/docs/test-cli). If you want to use more options you have to extend the scripts.
 
-### How does the `useDockerHostWebServer` input parameter of the Powershell scripts work ?
+### How does the `useHostWebServer` input parameter of the Powershell scripts work ?
 
-If you set `useDockerHostWebServer` with `npm test '--' -useDockerHostWebServer yes` or with `npm run test:ui '--' -useDockerHostWebServer yes` then the docker container won't have to build and run your app and instead will try to connect to the app running on the host machine. 
+If you set `useHostWebServer` switch with `npm test '--' -useHostWebServer` or with `npm run test:ui '--' -useHostWebServer` then the docker container won't have to build and run your app and instead will try to connect to the app running on the host machine. 
 
 This is due to the `webServer.reuseExistingServer` option of the [playwright.config.ts](/demos/docker/playwright.config.ts). When this is set to `true` then Playwright will check if the app is running on the `webServer.url` address and if it is then it just uses that as the target of the tests.
 
-The trick to make this work though is that the `webServer.url` must be set to an address that is reachable from the docker container. And since what we want to do is to reach the app that is running on the host then what the `playwright.config.ts` does is set the host of the `webServer.url` to `host.docker.internal`. Furthermore, the docker command must contain `--add-host=host.docker.internal:host-gateway`, which the Powershell scripts add if `useDockerHostWebServer` is set to `yes`.
+The trick to make this work though is that the `webServer.url` must be set to an address that is reachable from the docker container. And since what we want to do is to reach the app that is running on the host then what the `playwright.config.ts` does is set the host of the `webServer.url` to `host.docker.internal`. Furthermore, the docker command must contain `--add-host=host.docker.internal:host-gateway`, which the Powershell scripts add if `useHostWebServer` is set to `yes`.
 
 For more info see:
 
@@ -260,9 +260,9 @@ For more info see:
 - [How to connect to the Docker host from inside a Docker container?](https://medium.com/@TimvanBaarsen/how-to-connect-to-the-docker-host-from-inside-a-docker-container-112b4c71bc66)
 
 
-### Why should I use the `useDockerHostWebServer` input parameter of the Powershell scripts ?
+### Why should I use the `useHostWebServer` input parameter of the Powershell scripts ?
 
-If you set `useDockerHostWebServer` with `npm test '--' -useDockerHostWebServer yes` or with `npm run test:ui '--' -useDockerHostWebServer yes` then the docker container won't have to build and run your app and instead will try to connect to the app running on the host machine.
+If you set the `useHostWebServer` switch with `npm test '--' -useHostWebServer` or with `npm run test:ui '--' -useHostWebServer` then the docker container won't have to build and run your app and instead will try to connect to the app running on the host machine.
 
 This means that you can start the app once with `npm start` and then run the tests against it multiple times with `npm test`. Depending on your app, skipping the building and running of the app as well as the node modules install if needed as well, might result in a non-trivial time saving for your dev loop.
 
@@ -335,9 +335,9 @@ When you run the `run tests` task you will be prompted for some input which is t
 
 ![VSCode test task example](/docs/assets/vscode-test.gif)
 
-### Example running the tests using the Visual Studio task and setting `useDockerHostWebServer` to `yes`
+### Example running the tests using the Visual Studio task and setting `useHostWebServer` to `yes`
 
-When you run the `run tests` task and choose `yes` to the `Do you want to use localhost's ng serve?` prompt, notice that the docker container won't have to install packages nor build and run the app. It immediatly starts to run the tests against the version of the app that is running on the host.
+When you run the `run tests` task and choose `yes` to the `Do you want to use the host's web server?` prompt, notice that the docker container won't have to install packages nor build and run the app. It immediatly starts to run the tests against the version of the app that is running on the host.
 
 You have to run the app locally outside of docker before you choose this option.
 
