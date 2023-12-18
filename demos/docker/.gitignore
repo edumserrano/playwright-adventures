@@ -47,4 +47,4 @@ Thumbs.db
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/tests/_snapshots/win32
+/tests/__screenshots__/win32

@@ -58,8 +58,11 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
-  /* For snapshotPathTemplate configuration options see https://playwright.dev/docs/api/class-testproject#test-project-snapshot-path-template */
-  snapshotPathTemplate: "{testDir}/_snapshots/{platform}/{projectName}/{testFilePath}/{arg}{ext}",
+  /*
+   * For snapshotPathTemplate configuration options see https://playwright.dev/docs/api/class-testproject#test-project-snapshot-path-template
+   * By default {snapshotDir} is the same as {testDir}
+   */
+  snapshotPathTemplate: "{snapshotDir}/__screenshots__/{platform}/{projectName}/{testFilePath}/{arg}{ext}",
   /* Configure projects for major browsers */
   projects: [
     {
