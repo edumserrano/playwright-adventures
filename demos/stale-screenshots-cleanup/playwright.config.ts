@@ -15,7 +15,7 @@ const _webServerCommand = playwrightCliOptions.UIMode
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
   testDir: testDir,
-  outputDir: path.resolve('test-results'),
+  outputDir: path.resolve('./test-results'),
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

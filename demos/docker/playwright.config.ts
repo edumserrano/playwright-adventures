@@ -12,7 +12,7 @@ const _webServerCommand = playwrightCliOptions.UIMode
   : `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`;
 
 const _testsDir = path.resolve('./tests'); // set to ./tests
-const _testResultsDir = path.resolve('test-results'); // set to ./test-results
+const _testResultsDir = path.resolve('./test-results'); // set to ./test-results
 const _htmlReportDir = path.resolve('playwright-html-report'); // set to ./playwright-html-report
 
 // See https://playwright.dev/docs/test-configuration.
