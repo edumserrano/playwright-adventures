@@ -1,6 +1,7 @@
 # Cleanup Playwright stale screenshots
 
 - [Description](#description)
+- [Do I really need a solution to clean stale screenshots?](#do-i-really-need-a-solution-to-clean-stale-screenshots)
 - [How to build, run the app and run tests](#how-to-build-run-the-app-and-run-tests)
 - [The app](#the-app)
 - [Playwright configuration](#playwright-configuration)
@@ -22,6 +23,26 @@ The demo at [/demos/stale-screenshots-cleanup](/demos/stale-screenshots-cleanup/
 >
 > Thank you [@brodie124](https://github.com/brodie124)!
 > 
+
+## Do I really need a solution to clean stale screenshots?
+
+You could argue that if you want to delete stale screenshots that you could just delete the screenshots folder and rerun the tests. Yes, I mean delete **ALL** screenshots and run the tests again to recreate them.
+
+This process relies of course on using some form of source control for your screenshots. After you recreate the screenshots your source control would let you know which ones are stale because they would show up as files to delete from source control. 
+
+> [!CAUTION]
+>
+> If you use this process and you end up with some changed screenshots then something isn't quite right. It might mean you have some flaky tests that don't always produce the expected screenshots.
+>
+
+If you feel that recreating all the screenshots is a viable process for you then there's no need to read any further. However, if you're looking for something slightly better then this demo provides an alternative solution. One that not only allows you do delete stale snapshots but that could be used as a check in your CI environment to fail a pipeline or warn the developer if stale screenshots are detected.
+
+> [!TIP]
+> 
+> If you want to recreate all the screenshots after deleting them, then add the [--update-snapshots](https://playwright.dev/docs/test-cli#reference) CLI option to the `playwright test` command: `npx playwright test --update-snapshots`.
+>
+> This will make it so that your tests don't fail when recreating the screenshots, which is especially useful if you have tests that generate more than one screenshot. Otherwise, you might have to run the `npx playwright test` command several times untill ass screenshots are recreated.
+>
 
 ## How to build, run the app and run tests
 

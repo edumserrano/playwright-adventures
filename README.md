@@ -10,7 +10,7 @@
 
 This repo aims to consolidate and share some of the experiences I've had and the solutions I've come up with whilst using Playwright to test Angular apps. 
 
-> [!NOTE]
+> [!IMPORTANT]
 >
 > Although the code demos presented here use Angular, the Playwright concepts that are demoed are frontend framework agnostic which means they and can be applied to any frontend framework.
 
