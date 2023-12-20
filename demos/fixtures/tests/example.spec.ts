@@ -19,3 +19,8 @@ test('test-two', async ({ page, projectName }) => {
   await page.goto('/');
   await expect(page).toHaveScreenshot();
 });
+
+test('test-three', async ({ page }) => {
+  // Navigate to a page with an exception.
+  await page.goto('data:text/html,<script>throw new Error("Test")</script>');
+});
