@@ -67,14 +67,6 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
-  /*
-   * For snapshotPathTemplate configuration options see https://playwright.dev/docs/api/class-testproject#test-project-snapshot-path-template
-   * The default snapshotPathTemplate is defined at https://github.com/microsoft/playwright/blob/aaf9cc5b49e31ce3bd54b9db7bb4cd2a9cdfacba/packages/playwright/src/common/config.ts#L167C4-L167C4
-   * We aren't changing the snapshotPathTemplate from its default, we're just making it explicit here so that it can be
-   * better understood how setting the snapshotDir affects where the screenshots are generated.
-   */
-  snapshotPathTemplate: '{snapshotDir}/{testFileDir}/{testFileName}-snapshots/{arg}{-projectName}{-snapshotSuffix}{ext}',
-  snapshotDir: env.SNAPSHOT_DIR,
   /* Configure projects for major browsers */
   projects: [
     {

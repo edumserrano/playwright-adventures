@@ -1,4 +1,4 @@
-//  // Extend Date constructor to default to fakeNow
+ // Extend Date constructor to default to fakeNow
 //  Date = class extends Date {
 //   constructor(...args) {
 //     if (args.length === 0) {
@@ -12,3 +12,16 @@
 // const __DateNowOffset = ${fakeNow} - Date.now();
 // const __DateNow = Date.now;
 // Date.now = () => __DateNow() + __DateNowOffset;
+
+
+// Date = class MyDate extends Date {
+//   constructor (...args) {
+//       super(...args)
+//   }
+// }
+
+console.log("why");
+
+// function SaySomething(arg) {
+//   console.log("wtf");
+// }

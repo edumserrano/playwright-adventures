@@ -12,22 +12,26 @@ export async function setDate(context: BrowserContext): Promise<void> {
   // We could do the same to control the date with a bit of refactoring on the app code. See:
   // - tests\_tests-shared\fixtures\load-institution-data.ts
   // - src\app\core\domain\institutions-data.service.ts
-  const fakeYear = 2023;
-  const fakeNow = new Date(`January 20 ${fakeYear} 09:00:00`).valueOf();
-  await context.addInitScript(`{
-        // Extend Date constructor to default to fakeNow
-        Date = class extends Date {
-          constructor(...args) {
-            if (args.length === 0) {
-              super(${fakeNow});
-            } else {
-              super(...args);
-            }
-          }
-        }
-        // Override Date.now() to start from fakeNow
-        const __DateNowOffset = ${fakeNow} - Date.now();
-        const __DateNow = Date.now;
-        Date.now = () => __DateNow() + __DateNowOffset;
-      }`);
+  // const fakeYear = 2023;
+  // const fakeNow = new Date(`January 20 ${fakeYear} 09:00:00`).valueOf();
+  // await context.addInitScript(`{
+  //       // Extend Date constructor to default to fakeNow
+  //       Date = class extends Date {
+  //         constructor(...args) {
+  //           if (args.length === 0) {
+  //             super(${fakeNow});
+  //           } else {
+  //             super(...args);
+  //           }
+  //         }
+  //       }
+  //       // Override Date.now() to start from fakeNow
+  //       const __DateNowOffset = ${fakeNow} - Date.now();
+  //       const __DateNow = Date.now;
+  //       Date.now = () => __DateNow() + __DateNowOffset;
+  //     }`);
+
+  // "January 20 2023 09:00:00"
+  // await context.addInitScript({path: "./tests/_shared/fixtures/date.js"}, "January 20 2023 09:00:00");
+  // await context.addInitScript({path: "./tests/_shared/fixtures/date.js"});
 }
