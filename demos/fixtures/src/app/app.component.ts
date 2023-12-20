@@ -11,4 +11,9 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'fixtures';
+  currentDate = new Date().toDateString();
+
+  constructor() {
+    console.warn("This is an expected console message.");
+  }
 }

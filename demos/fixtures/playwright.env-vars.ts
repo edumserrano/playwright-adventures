@@ -8,6 +8,5 @@ const _envSchema = z.object({
         .enum(["0", "1", "true", "false", "True", "False"])
         .catch("false")
         .transform(value => value === "true" || value === "1" || value === "True"),
-    SNAPSHOT_DIR: z.string().optional().default(defaultSnapshotDir),
 });
 export const env = _envSchema.parse(process.env);

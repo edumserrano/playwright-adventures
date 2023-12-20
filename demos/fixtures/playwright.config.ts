@@ -2,7 +2,11 @@ import { defineConfig, devices } from '@playwright/test';
 import path from 'path';
 import { playwrightCliOptions } from 'playwright.cli-options';
 import { env } from 'playwright.env-vars';
-import { testDir } from 'playwright.shared-vars';
+
+export type PlaywrightProjectName =
+  | 'desktop chromium 1280x720'
+  | 'desktop firefox 1280x720'
+  | 'desktop webkit 1280x720';
 
 const _isRunningOnCI = env.CI;
 const _webServerPort = 4200;
@@ -12,22 +16,10 @@ const _webServerCommand = playwrightCliOptions.UIMode
   ? `npx ng serve --host ${_webServerHost} --port ${_webServerPort}`
   : `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`;
 
-export enum PlaywrightProjectNames {
-  desktopChromiumOnly1920x1080 = 'desktop chromium only 1920x1080',
-  desktopChromium2560x1440 = 'desktop chromium 2560x1440',
-  desktopChromium1920x1080 = 'desktop chromium 1920x1080',
-  desktopFirefox1920x1080 = 'desktop firefox 1920x1080',
-  desktopSafari1920x1080 = 'desktop safari 1920x1080',
-  desktopChromium1366x1080 = 'desktop chromium 1366x1080',
-  iPadMiniLandscape = 'iPad Mini landscape',
-  iPadMini = 'iPad Mini',
-  iPhone11Pro = 'iPhone 11 Pro',
-}
-
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
-  testDir: testDir,
-  outputDir: path.resolve('test-results'),
+  testDir: path.resolve('./tests'),
+  outputDir: path.resolve('./test-results'),
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -57,8 +49,8 @@ export default defineConfig({
       {
         open: 'never',
         outputFolder: path.resolve('playwright-html-report'),
-      }
-    ]
+      },
+    ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -70,15 +62,15 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
+      name: 'desktop chromium 1280x720' as PlaywrightProjectName,
       use: { ...devices['Desktop Chrome'] },
     },
     {
-      name: 'firefox',
+      name: 'desktop firefox 1280x720' as PlaywrightProjectName,
       use: { ...devices['Desktop Firefox'] },
     },
     {
-      name: 'webkit',
+      name: 'desktop webkit 1280x720' as PlaywrightProjectName,
       use: { ...devices['Desktop Safari'] },
     },
   ],

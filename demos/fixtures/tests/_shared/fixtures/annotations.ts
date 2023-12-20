@@ -1,10 +1,9 @@
 import { Browser, Page, test } from '@playwright/test';
 
-export async function addTestAnnotationsAsync(
+export async function addAnnotationsAsync(
   browser: Browser,
   page: Page,
-  headless: boolean,
-  use: () => Promise<void>
+  headless: boolean
 ): Promise<void> {
   // See https://playwright.dev/docs/test-annotations#custom-annotations
   const viewportSize = page.viewportSize();
@@ -23,5 +22,4 @@ export async function addTestAnnotationsAsync(
       description: `${headless ? 'yes' : 'no'}`,
     }
   );
-  await use();
 }
