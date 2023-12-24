@@ -30,7 +30,7 @@
 
 ## Description
 
-The demo at [/demos/docker](/demos/docker/) shows how to run Playwright tests in Docker. This is especially useful if you use different Operations Systems between your developer machines and your CI machines. For instance, if you develop on a Windows machine and your CI runs on Linux.
+The demo at [/demos/docker](/demos/docker/) shows how to run Playwright tests in Docker. This is especially useful to eliminate screenshot differences when running the tests across different Operating Systems. For instance, if you develop in Windows but your CI runs on Linux.
 
 > [!IMPORTANT]
 >
