@@ -82,13 +82,13 @@ The [projectName fixture](https://github.com/edumserrano/playwright-adventures/b
 
 The [projectName test at example.spec.ts](/demos/fixtures/tests/example.spec.ts) shows an example usage of this fixture.
 
-This fixture is useful because it uses the [PlaywrightProjectName](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/playwright.config.ts#L6C21-L9) type to define a discriminated union for all the valid names for a Project. With this type you have a type safe way to filter on Project names. 
+This fixture is useful because it uses the [PlaywrightProjectName](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/playwright.config.ts#L6-L9) type to define a discriminated union for all the valid names for a Project. With this type you have a type safe way to filter on Project names. 
 
 ## Custom annotations
 
 Playwright supports [custom annotations](https://playwright.dev/docs/test-annotations#custom-annotations). Annotations are key/value pairs accessible via [test.info().annotations](https://playwright.dev/docs/api/class-testinfo#test-info-annotations). Many reporters support annotations.
 
-The [annotations fixture](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/tests/_shared/app-fixtures.ts#L64C1-L71) shows how you can add custom annotations to your tests, which are visible on the `html` test report:
+The [annotations fixture](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/tests/_shared/app-fixtures.ts#L64-L71) shows how you can add custom annotations to your tests, which are visible on the `html` test report:
 
 ![custom-annotations](/docs/assets/custom-annotations.png)
 
