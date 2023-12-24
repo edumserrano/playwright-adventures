@@ -53,7 +53,7 @@ This fixture is great to catch left over debug/temp Console Messages.
 
 The [failOnUnexpectedConsoleMessages test at example.spec.ts](/demos/fixtures/tests/example.spec.ts) shows how this fixture fails a test if an unexpect console message is produced.
 
-> ![NOTE]
+> [!NOTE]
 > 
 > This fixture makes use of the [composable property of fixtures](https://playwright.dev/docs/test-fixtures#with-fixtures) and builds upon the [consoleMessages fixture](#capture-console-messages). 
 >
@@ -71,7 +71,7 @@ The [failOnUncaughtExceptions fixture](https://github.com/edumserrano/playwright
 
 The [failOnUncaughtExceptions test at example.spec.ts](/demos/fixtures/tests/example.spec.ts) shows this fixture making a test fail because it produces an uncaught exception.
 
-> ![NOTE]
+> [!NOTE]
 > 
 > This fixture makes use of the [composable property of fixtures](https://playwright.dev/docs/test-fixtures#with-fixtures) and builds upon the [uncaughtExceptions fixture](#capture-page-errors). 
 >
