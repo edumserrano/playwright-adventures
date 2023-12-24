@@ -21,7 +21,7 @@ Playwright let's you [emulate a real device such as a mobile phone or tablet](ht
 
 Setting the value of Time/Date is very useful when you need to take a screenshot or assert on values that contain Time/Date information. It's also important if your app has time based actions such as "press a button and after X amount of time some action occurs". To be able to implement reliable tests on these scenarios you need to be able to control Time/Date.
 
-The `setDate` fixture is an [automatic fixture](https://playwright.dev/docs/test-fixtures#automatic-fixtures) that shows how you can use the [Page.addInitScript](https://playwright.dev/docs/api/class-page#page-add-init-script) function to control the values returned by  [JavaScript's Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) constructor and the `Date.now` function. See [set-date.ts](/demos/fixtures/tests/_shared/fixtures/set-date.ts) file.   
+The [setDate fixture](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/tests/_shared/app-fixtures.ts#L29-L37) is an [automatic fixture](https://playwright.dev/docs/test-fixtures#automatic-fixtures) that shows how you can use the [Page.addInitScript](https://playwright.dev/docs/api/class-page#page-add-init-script) function to control the values returned by  [JavaScript's Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) constructor and the `Date.now` function. See [set-date.ts](/demos/fixtures/tests/_shared/fixtures/set-date.ts) file.   
 
 The [setDate test at example.spec.ts](/demos/fixtures/tests/example.spec.ts) shows this fixture at work by allowing reliable asserts on a text field that is based on the current Date and on the screenshot.
 
@@ -39,7 +39,7 @@ The [setDate test at example.spec.ts](/demos/fixtures/tests/example.spec.ts) sho
 
 ## Capture Console Messages
 
-The `consoleMessages` fixture shows how you can use the [Page.on('console')](https://playwright.dev/docs/api/class-page#page-event-console) event to capture all Console Messages. See [console-messages.ts](/demos/fixtures/tests/_shared/fixtures/console-messages.ts).
+The [consoleMessages fixture](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/tests/_shared/app-fixtures.ts#L38-L40) shows how you can use the [Page.on('console')](https://playwright.dev/docs/api/class-page#page-event-console) event to capture all Console Messages. See [console-messages.ts](/demos/fixtures/tests/_shared/fixtures/console-messages.ts).
 
 The [console-messages.ts](/demos/fixtures/tests/_shared/fixtures/console-messages.ts) has a filter function named `isExcluded` so that you can filter out Console Messages you don't care about. For instance when running an Angular 17 app with Vite (which this demo is), the Vite dev server will produce some Console Messages we want to ignore.
 
@@ -47,7 +47,7 @@ The [consoleMessages and failOnUnexpectedConsoleMessages test at example.spec.ts
 
 ## Fail tests upon unexpected console messages
 
-The `failOnUnexpectedConsoleMessages` fixture adds an assert to all the tests to check for unexpected Console Messages. If your app produces some Console Messages then you should exclude them using the `isAllowed` function available on the fixture. See [fail-on-unexpected-console-messages.ts](/demos/fixtures/tests/_shared/fixtures/fail-on-unexpected-console-messages.ts).
+The [failOnUnexpectedConsoleMessages fixture](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/tests/_shared/app-fixtures.ts#L41-L48) adds an assert to all the tests to check for unexpected Console Messages. If your app produces some Console Messages then you should exclude them using the `isAllowed` function available on the fixture. See [fail-on-unexpected-console-messages.ts](/demos/fixtures/tests/_shared/fixtures/fail-on-unexpected-console-messages.ts).
 
 This fixture is great to catch left over debug/temp Console Messages. 
 
@@ -60,13 +60,13 @@ The [failOnUnexpectedConsoleMessages test at example.spec.ts](/demos/fixtures/te
 
 ## Capture page errors
 
-The `uncaughtExceptions` fixture shows how you can use the [Page.on('pageerror')](https://playwright.dev/docs/api/class-page#page-event-page-error) event to capture all uncaught exceptions that happen within the page. See [page-errors.ts](/demos/fixtures/tests/_shared/fixtures/page-errors.ts).
+The [uncaughtExceptions fixture](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/tests/_shared/app-fixtures.ts#L49-L51) shows how you can use the [Page.on('pageerror')](https://playwright.dev/docs/api/class-page#page-event-page-error) event to capture all uncaught exceptions that happen within the page. See [page-errors.ts](/demos/fixtures/tests/_shared/fixtures/page-errors.ts).
 
 The [uncaughtExceptions test at example.spec.ts](/demos/fixtures/tests/example.spec.ts) shows how this fixture fails a test if an unexpect exception occurs.
 
 ## Fail tests on page errors
 
-The `failOnUncaughtExceptions` fixture adds an assert to all tests to make sure they don't produce any uncaught exceptions. See 
+The [failOnUncaughtExceptions fixture](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/tests/_shared/app-fixtures.ts#L52-L59) adds an assert to all tests to make sure they don't produce any uncaught exceptions. See 
 [fail-on-page-errors.ts](/demos/fixtures/tests/_shared/fixtures/fail-on-page-errors.ts).
 
 The [failOnUncaughtExceptions test at example.spec.ts](/demos/fixtures/tests/example.spec.ts) shows this fixture making a test fail because it produces an uncaught exception.
@@ -78,17 +78,17 @@ The [failOnUncaughtExceptions test at example.spec.ts](/demos/fixtures/tests/exa
 
 ## Project name
 
-The `projectName` fixture allows you to control behaviour of your tests based on the [Playwright project](https://playwright.dev/docs/test-projects) name. For instance, you might want to skip a test or provide different values to a test depending on the project name.
+The [projectName fixture](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/tests/_shared/app-fixtures.ts#L60-L63) allows you to control behaviour of your tests based on the [Playwright project](https://playwright.dev/docs/test-projects) name. For instance, you might want to skip a test or provide different values to a test depending on the project name.
 
 The [projectName test at example.spec.ts](/demos/fixtures/tests/example.spec.ts) shows an example usage of this fixture.
 
-This fixture is useful because it uses the [PlaywrightProjectName]() type to define a discriminated union for all the valid names for a Project. With this type you have a type safe way to filter on Project names. 
+This fixture is useful because it uses the [PlaywrightProjectName](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/playwright.config.ts#L6C21-L9) type to define a discriminated union for all the valid names for a Project. With this type you have a type safe way to filter on Project names. 
 
 ## Custom annotations
 
 Playwright supports [custom annotations](https://playwright.dev/docs/test-annotations#custom-annotations). Annotations are key/value pairs accessible via [test.info().annotations](https://playwright.dev/docs/api/class-testinfo#test-info-annotations). Many reporters support annotations.
 
-The `annotations` fixture shows how you can add custom annotations to your tests, which are visible on the `html` test report:
+The [annotations fixture](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/tests/_shared/app-fixtures.ts#L64C1-L71) shows how you can add custom annotations to your tests, which are visible on the `html` test report:
 
 ![custom-annotations](/docs/assets/custom-annotations.png)
 
