@@ -1,16 +1,82 @@
+// Note that the 'test' and 'expect' imports are coming from the app-fixtures.ts instead of from
+// @playwright/test.
+//
+// This is why we can use the fixtures in these tests.
 import { test, expect } from 'tests/_shared/app-fixtures';
 
-test('test-one', async ({ page, consoleMessages }) => {
+// This test shows the `setDate` fixture.
+// See demos\fixtures\tests\_shared\fixtures\set-date.ts.
+//
+// The code at demos\fixtures\src\app\app.component.ts sets
+// the `currentDate` variable based on the current Date but
+// the `setDate` fixture will override the current Date with
+// a fake test date so that the asserts on the text field and
+// on the screenshot always works.
+test('setDate', async ({ page }) => {
+  // this relative navigation is possible because of the baseURL
+  // property that is configured int the playwright.config.ts
+  await page.goto('/');
+  const messageLocator = page.getByText('Congratulations! Your app is');
+  expect(messageLocator).toHaveText(
+    "Congratulations! Your app is running and it's Sat Jan 20 2024. 🎉"
+  );
+  await expect(page).toHaveScreenshot();
+});
+
+// This test shows the consoleMessages and failOnUnexpectedConsoleMessages fixtures.
+// See:
+// - demos\fixtures\tests\_shared\fixtures\console-messages.ts
+// - demos\fixtures\tests\_shared\fixtures\fail-on-unexpected-console-messages.ts
+//
+// It shows how you can assert on console messages.
+//
+// Also note, that this test is passing even though the demos\fixtures\src\app\app.component.ts
+// constructor is producing a Console Message. This is because the console message
+// is in the allowed list of the consoleMessages fixture.
+//
+// However, if you added another console log the tests would fail because of the
+// failOnUnexpectedConsoleMessages fixture.
+test('consoleMessages and failOnUnexpectedConsoleMessages', async ({ page, consoleMessages }) => {
   // this relative navigation is possible because of the baseURL
   // property that is configured int the playwright.config.ts
   await page.goto('/');
   await expect(page).toHaveScreenshot();
   expect(consoleMessages.length).toBe(1);
-  expect(consoleMessages[0].text()).toBe('This is an expected console message.');
+  expect(consoleMessages[0].text()).toBe(
+    'This is an expected console message.'
+  );
 });
 
-test('test-two', async ({ page, projectName }) => {
-  if(projectName === 'desktop webkit 1280x720') {
+// This test will always fail.
+// It shows the failOnUnexpectedConsoleMessages fixture.
+// See demos\fixtures\tests\_shared\fixtures\fail-on-unexpected-console-messages.ts
+test('failOnUnexpectedConsoleMessages', async ({ page }) => {
+  // Navigate to an html page declared inline that produces an unexpected console message.
+  await page.goto('data:text/html,<script>console.log("Hello!")</script>');
+});
+
+// This test will always fail.
+// It shows how you can assert on uncaught exceptions within the page using the
+// uncaughtExceptions fixture.
+// See demos\fixtures\tests\_shared\fixtures\page-errors.ts
+test('uncaughtExceptions', async ({ page, uncaughtExceptions }) => {
+  // Navigate to an html page declared inline that produces an uncaught exception.
+  await page.goto('data:text/html,<script>throw new Error("Test")</script>');
+  expect(uncaughtExceptions.length).toBe(0);
+});
+
+// This test will always fail.
+// It shows that the failOnUncaughtExceptions fixture will fail the test if
+// there are any uncaught page exceptions.
+// See demos\fixtures\tests\_shared\fixtures\fail-on-page-errors.ts.
+test('failOnUncaughtExceptions', async ({ page }) => {
+  // Navigate to an html page declared inline that produces an uncaught exception.
+  await page.goto('data:text/html,<script>throw new Error("Test")</script>');
+});
+
+// This test shows how you can use the projectName fixture.
+test('projectName', async ({ page, projectName }) => {
+  if (projectName === 'desktop webkit 1280x720') {
     test.skip();
   }
 
@@ -18,9 +84,4 @@ test('test-two', async ({ page, projectName }) => {
   // property that is configured int the playwright.config.ts
   await page.goto('/');
   await expect(page).toHaveScreenshot();
-});
-
-test('test-three', async ({ page }) => {
-  // Navigate to a page with an exception.
-  await page.goto('data:text/html,<script>throw new Error("Test")</script>');
 });

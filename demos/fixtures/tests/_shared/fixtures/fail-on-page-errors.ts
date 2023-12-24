@@ -1,23 +1,17 @@
-import { ConsoleMessage, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 
-function isAllowed(consoleMessage: ConsoleMessage): boolean {
-  const isAllowed = consoleMessage.text() === "This is an expected console message.";
-  return isAllowed;
-}
-
-export async function assertConsoleMessagesAsync(
-  consoleMessages: ReadonlyArray<ConsoleMessage>,
+export async function assertUncaughtExceptionsAsync(
+  uncaughtExceptions: ReadonlyArray<Error>,
   use: () => Promise<void>
 ): Promise<void> {
   await use();
-  const unexpectedConsoleMessages = consoleMessages
-    .filter((consoleMessage) => !isAllowed(consoleMessage))
-    .map((consoleMessage) => {
-      return {
-        type: consoleMessage.type(),
-        text: consoleMessage.text(),
-        location: consoleMessage.location(),
-      };
-    });
-  expect(unexpectedConsoleMessages).toEqual([]);
+  const uncaughtExceptionsDtos = uncaughtExceptions.map((error) => {
+    return {
+      message: error.message,
+      cause: error.cause,
+      name: error.name,
+      stack: error.stack,
+    };
+  });
+  expect(uncaughtExceptionsDtos).toEqual([]);
 }
