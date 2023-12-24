@@ -146,25 +146,25 @@ The logic to detect and delete stale snapshots is implemented by the [clean-stal
 
 Let's quickly run through this logic using the code in this demo. When you clone this repo, the screenshot directory for the tests contains the following files:
 ```
-tests
-  __screenshots__
-    example.spec.ts-snapshots
-      test-one-1-chromium-win32.png
-      test-one-1-firefox-win32.png
-      test-one-1-webkit-win32.png
-      test-two-1-chromium-win32.png
-      test-two-1-firefox-win32.png
-      test-two-1-webkit-win32.png
+tests/
+└── __screenshots__/
+    └── example.spec.ts-snapshots/
+        ├── test-one-1-chromium-win32.png
+        ├── test-one-1-firefox-win32.png
+        ├── test-one-1-webkit-win32.png
+        ├── test-two-1-chromium-win32.png
+        ├── test-two-1-firefox-win32.png
+        └── test-two-1-webkit-win32.png
 ```
 
 To create stale screenshots you can go to the [example.spec.ts](/demos/stale-screenshots-cleanup/tests/example.spec.ts) file and comment the second test named `test-two`. Now, the `test-two-1-<...>.png` files are stale screenshots. To detect them what we do is run the `playwright test` command but specify a temp directory to store the screenshots. This demo uses the `./tests/__temp-screenshots__` directory which means that when the tests run we get the following screenshots:  
 ```
-tests
-  __temp-screenshots__
-    example.spec.ts-snapshots
-      test-one-1-chromium-win32.png
-      test-one-1-firefox-win32.png
-      test-one-1-webkit-win32.png
+tests/
+└── __temp-screenshots__/
+    └── example.spec.ts-snapshots/
+        ├── test-one-1-chromium-win32.png
+        ├── test-one-1-firefox-win32.png
+        └── test-one-1-webkit-win32.png
 ```
 
 The last step is to compare these two directories and find the screenshots that exist on the actual screenshots directory but not on the temp directory. In the end we delete the temp screenshots directory.
