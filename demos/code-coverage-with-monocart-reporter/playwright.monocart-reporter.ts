@@ -2,40 +2,38 @@ import {
   CoverageReportOptions,
   MonocartReporterOptions,
   ReportDescription,
-} from 'monocart-reporter';
-import path from 'path';
+} from "monocart-reporter";
+import path from "path";
 
-function getCodeCoverageOptions(
-  codeCoverageDir: string
-): CoverageReportOptions {
-  const v8RelativeFilePath = 'v8/index.html';
+function getCodeCoverageOptions(codeCoverageDir: string): CoverageReportOptions {
+  const v8RelativeFilePath = "v8/index.html";
 
   // The paths in the codeCoverageReports variable are all
   // relative to monocart-reporter coverage.outputDir
   const _codeCoverageReports: ReportDescription[] = [
     [
-      'v8',
+      "v8",
       {
         outputFile: v8RelativeFilePath, // v8 sub dir and html file name, relative to coverage.outputDir.
         inline: true, // inline all scripts required for the V8 html report into a single HTML file.
       },
     ],
     [
-      'cobertura',
+      "cobertura",
       {
-        file: 'cobertura/code-coverage.cobertura.xml',
+        file: "cobertura/code-coverage.cobertura.xml",
       },
     ],
     [
-      'lcovonly',
+      "lcovonly",
       {
-        file: 'lcov/code-coverage.lcov.info',
+        file: "lcov/code-coverage.lcov.info",
       },
     ],
     [
-      'html-spa',
+      "html-spa",
       {
-        subdir: 'html-spa',
+        subdir: "html-spa",
       },
     ],
   ];
@@ -57,10 +55,10 @@ function getCodeCoverageOptions(
       // even need it if sourceFilter is enough.
       const url = entry.url as string;
       return (
-        !url.includes('@vite') &&
-        !url.includes('@fs') &&
-        !url.includes('fonts.googleapis.com') &&
-        url !== 'http://127.0.0.1:4200/styles.css'
+        !url.includes("@vite") &&
+        !url.includes("@fs") &&
+        !url.includes("fonts.googleapis.com") &&
+        url !== "http://127.0.0.1:4200/styles.css"
       );
     },
     sourceFilter: (sourcePath: string) => {
@@ -74,11 +72,11 @@ function getCodeCoverageOptions(
 
 export function getMonocartReporterOptions(
   testResultsDir: string,
-  codeCoverageDir: string
+  codeCoverageDir: string,
 ): MonocartReporterOptions {
   const monocartOptions: MonocartReporterOptions = {
-    name: 'playwright code coverage demo with monocart reporter',
-    outputFile: path.resolve(testResultsDir, 'monocart-report.html'),
+    name: "playwright code coverage demo with monocart reporter",
+    outputFile: path.resolve(testResultsDir, "monocart-report.html"),
     coverage: getCodeCoverageOptions(codeCoverageDir),
   };
   return monocartOptions;

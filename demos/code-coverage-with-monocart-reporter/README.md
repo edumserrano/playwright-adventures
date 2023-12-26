@@ -16,38 +16,38 @@
 The demo at [/demos/code-coverage-with-monocart-reporter](/demos/code-coverage-with-monocart-reporter/) shows how to get code coverage with Playwright by using the [monocart-reporter](https://www.npmjs.com/package/monocart-reporter) npm package.
 
 > [!NOTE]
-> 
+>
 > As of writing this, there's an [open GitHub issue](https://github.com/microsoft/playwright/issues/7030) about improving the built-in code coverage support for Playwright. Also check out [this comment](https://github.com/microsoft/playwright/issues/7030#issuecomment-1575606073) on that issue.
 >
 > Thank you [@mxschmitt](https://github.com/mxschmitt) !
->
 
 ## How to build, run the app and run tests
 
-1) Clone the repo.
-2) Using your favorite shell go to `/demos/code-coverage-with-monocart-reporter`.
-3) Install the required npm packages with:
-    ```
-    npm install
-    ```
-4) Install the [playwright browsers](https://playwright.dev/docs/browsers) with:
-    ```
-    npx playwright install
-    ```
-5) Run the tests with:
-    ```
-    npm test
-    ```
-    This will start the app and run the [playwright tests](/demos/code-coverage-with-monocart-reporter/tests/example.spec.ts) against it.
-6) If you just want to run the app execute the command:
-    ```
-    npm start
-    ```
-    Once the command finishes the app should open in your default browser at [http://127.0.0.1:4200/](http://127.0.0.1:4200/).
+1. Clone the repo.
+2. Using your favorite shell go to `/demos/code-coverage-with-monocart-reporter`.
+3. Install the required npm packages with:
+   ```
+   npm install
+   ```
+4. Install the [playwright browsers](https://playwright.dev/docs/browsers) with:
+   ```
+   npx playwright install
+   ```
+5. Run the tests with:
+   ```
+   npm test
+   ```
+   This will start the app and run the [playwright tests](/demos/code-coverage-with-monocart-reporter/tests/example.spec.ts) against it.
+6. If you just want to run the app execute the command:
+   ```
+   npm start
+   ```
+   Once the command finishes the app should open in your default browser at [http://127.0.0.1:4200/](http://127.0.0.1:4200/).
 
 ## How to view the test results and code coverage
 
 After running the tests with `npm test` you can view test results with:
+
 ```
 npm run test:show-report
 ```
@@ -56,8 +56,8 @@ After opening the test results report you can view the code coverage by opening 
 
 ![how to access the code coverage report in the monocart test results report](/docs/assets/monocart-reporter-code-coverage.gif)
 
-
 Alternatively, you can view the code coverage report with:
+
 ```
 npm run coverage:show-report
 ```
@@ -69,7 +69,6 @@ The app being tested is an Angular 17 app. It has very little changes from the t
 > [!NOTE]
 >
 > Although the app being tested is an Angular app, the Playwright concepts that are demoed are frontend framework agnostic which means they and can be applied to any frontend framework.
->
 
 ## Tests and code coverage
 
@@ -84,35 +83,33 @@ The majority of the content of the [playwright.config.ts](/demos/code-coverage-w
 
 The main changes are:
 
-1) Declared a few variables at the start that are reused throught the playwright configuration.
-2) Updated the `reporter` array. Instead of using the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), use the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter) and the [third-party monocart-reporter](https://playwright.dev/docs/test-reporters#third-party-reporter-showcase). 
-3) Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
+1. Declared a few variables at the start that are reused throught the playwright configuration.
+2. Updated the `reporter` array. Instead of using the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), use the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter) and the [third-party monocart-reporter](https://playwright.dev/docs/test-reporters#third-party-reporter-showcase).
+3. Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
 
 > [!NOTE]
-> 
-> The `_isRunningOnCI` variable used on the `playwright.config.ts` changes the value of some options when tests running on CI. To set the `_isRunningOnCI` variable to `true` you must set the environment variable `CI` to `true` before running the tests. For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci). 
 >
+> The `_isRunningOnCI` variable used on the `playwright.config.ts` changes the value of some options when tests running on CI. To set the `_isRunningOnCI` variable to `true` you must set the environment variable `CI` to `true` before running the tests. For more information regarding using Playwright on a CI environment see [Playwright docs on Continuous Integration](https://playwright.dev/docs/ci).
 
 Furthermore, we have created:
+
 - a [playwright.monocart-reporter.ts](/demos/code-coverage-with-monocart-reporter/playwright.monocart-reporter.ts) file: where we define the `monocart-reporter` configuration.
 - a [playwright.cli-options.ts](/demos/code-coverage-with-monocart-reporter/playwright.cli-options.ts) file: to represent Playwright CLI options we care about.
-- a [playwright.env-vars.ts](/demos/code-coverage-with-monocart-reporter/playwright.env-vars.ts) file: to represent environment variables we care about. 
+- a [playwright.env-vars.ts](/demos/code-coverage-with-monocart-reporter/playwright.env-vars.ts) file: to represent environment variables we care about.
 
 > [!NOTE]
 >
 > You don't have to create the `playwright.monocart-reporter.ts`, the `playwright.cli-options.ts` or the `playwright.env-vars.ts` file. You can have all of this on the `playwright.config.ts`. Code structure is up to you.
->
 
 > [!NOTE]
-> 
+>
 > Depending on your `playwright.config.ts`, make sure you update your `.gitignore` to exclude any directory used by test results, report results, etc. Scroll to the end of this demo's [.gitignore](/demos/code-coverage-with-monocart-reporter/.gitignore) to see an example.
-> 
 
 ### monocart-reporter configuration
 
 The `monocart-reporter` configuration is done at [playwright.monocart-reporter.ts](/demos/code-coverage-with-monocart-reporter/playwright.monocart-reporter.ts). The `monocart-reporter` has a `coverage` option which let's you configure the options for the code coverage reports. The configuration at [playwright.monocart-reporter.ts](/demos/code-coverage-with-monocart-reporter/playwright.monocart-reporter.ts) will create:
 
-- an **html report** with monocart style: this is my prefered html report. 
+- an **html report** with monocart style: this is my prefered html report.
 - an **lcov report**: which is useful to upload to some tools like [SonarQube](https://www.sonarsource.com/products/sonarqube/), etc.
 - a **covertura report**: which is useful to upload to some tools like [Azure DevOps](https://azure.microsoft.com/en-us/products/devops), [CodeCov](https://about.codecov.io/), etc.
 - an **html report** with the [istanbul](https://github.com/istanbuljs/nyc) `html-spa` style: this is not really necessary. We already have the monocart html report but it's here just to demo that you can have multiple html reports if you want.
@@ -138,23 +135,22 @@ tests/
 
 ### Collect code coverage
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 >
 > Playwright's Coverage APIs are only supported on Chromium-based browsers.
->
 
 To collect the code coverage we use playwright's [code coverage API](https://playwright.dev/docs/api/class-coverage). You could add these code coverage API calls to all your tests or you can use [Playwright fixtures](https://playwright.dev/docs/test-fixtures) to code them once and reuse across tests.
 
 The approach taken in this demo was to create an [automatic fixture](https://playwright.dev/docs/test-fixtures#automatic-fixtures), named [codeCoverageAutoTestFixture](/demos/code-coverage-with-monocart-reporter//tests/_shared/app-fixtures.ts), so that the code coverage calls are automatically added to any test that is created without having to do anything extra as long as the `test` import comes from this fixture. See the [example.spec.ts](/demos/code-coverage-with-monocart-reporter/tests//example.spec.ts) and note the import statment at the top:
 
 ```ts
-import { test, expect } from 'tests/_shared/app-fixtures';
+import { test, expect } from "tests/_shared/app-fixtures";
 ```
 
 To use the `codeCoverageAutoTestFixture` automatic fixture all your tests should import the `test` from the fixture instead of doing the usual:
 
 ```ts
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 ```
 
 To learn more about why this is done study how [fixtures work on Playwright](https://playwright.dev/docs/test-fixtures).
@@ -175,6 +171,6 @@ To learn more about configuring the monocart-reporter and code coverage see:
 
 ## JS, CSS and HTML code coverage
 
-The V8 code coverage is capable of collecting code coverage not only fo JS but also for CSS and HTML. In the code coverage report for this demo you can see coverage shown for the the `TS` and `HTML` files. 
+The V8 code coverage is capable of collecting code coverage not only fo JS but also for CSS and HTML. In the code coverage report for this demo you can see coverage shown for the the `TS` and `HTML` files.
 
-You should also see code coverage for the [src/app/app.component.css](/demos/code-coverage-with-monocart-reporter/src/app/app.component.css) file but it isn't showing up for this Angular app due to this GitHub issue [microsoft/playwright [BUG] Missing CSS code coverage #28510](https://github.com/microsoft/playwright/issues/28510). 
+You should also see code coverage for the [src/app/app.component.css](/demos/code-coverage-with-monocart-reporter/src/app/app.component.css) file but it isn't showing up for this Angular app due to this GitHub issue [microsoft/playwright [BUG] Missing CSS code coverage #28510](https://github.com/microsoft/playwright/issues/28510).

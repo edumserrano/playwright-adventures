@@ -1,12 +1,12 @@
-import { test as baseTest } from '@playwright/test';
+import { test as baseTest } from "@playwright/test";
 import {
   collectV8CodeCoverageAsync,
   collectV8CodeCoverageOptions,
-} from 'tests/_shared/fixtures/v8-code-coverage';
+} from "tests/_shared/fixtures/v8-code-coverage";
 
 // re-exporting the default expect as well so that on the tests we can have
 // a single import for expect and test, but the test will be the extended test below
-export { expect } from '@playwright/test';
+export { expect } from "@playwright/test";
 
 // See https://playwright.dev/docs/test-fixtures and https://playwright.dev/docs/test-parameterize
 interface AppFixtures {
