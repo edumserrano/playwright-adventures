@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterOutlet } from "@angular/router";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [CommonModule, MatButtonModule, RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.css",
 })
 export class AppComponent {
-  title = 'code-coverage-with-istanbul-via-webpack-babel-plugin';
+  title = "code-coverage-with-istanbul-via-webpack-babel-plugin";
 
   // demo code to help show off code coverage
   onPressMeClick(event: Event) {
