@@ -9,6 +9,10 @@
 - [Project name](#project-name)
 - [Custom annotations](#custom-annotations)
 
+> [!IMPORTANT]
+>
+> When you run the tests in this fixtures demo with `npm test` you will have 8 tests that pass, 1 test that is skipped and 9 that fail. This is intentional as the tests are meant to show the fixtures in action. For more information see the comments at [example.spec.ts](./tests/example.spec.ts).
+
 ## Description
 
 A proper description of what a Playwright fixture is can be found on the [official docs](https://playwright.dev/docs/test-fixtures#introduction). For the purpose of this code demo, you can think of fixtures as a way to provide, or even [automatically apply](https://playwright.dev/docs/test-fixtures#automatic-fixtures), behaviour to your tests.
