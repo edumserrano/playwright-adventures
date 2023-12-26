@@ -6,7 +6,9 @@
     "start:vscode": "npx ng serve",
     "test": "pwsh -NoProfile -File ./npm-pwsh-scripts/playwright.ps1",
     "test:ui": "pwsh -NoProfile -File ./npm-pwsh-scripts/playwright-ui.ps1",
-    "test:show-report": "npx playwright show-report ./playwright-html-report"
+    "test:show-report": "npx playwright show-report ./playwright-html-report",
+    "prettier:check": "npx prettier --check .",
+    "prettier:write": "npx prettier --write ."
   },
   "private": true,
   "dependencies": {
@@ -29,6 +31,7 @@
     "@playwright/test": "^1.40.1",
     "@types/node": "^20.10.3",
     "open-cli": "^7.2.0",
+    "prettier": "^3.1.1",
     "typescript": "~5.2.2",
     "zod": "^3.22.4"
   }

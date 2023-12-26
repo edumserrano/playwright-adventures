@@ -1,7 +1,7 @@
 type PlaywrightCliOptions = {
-  UIMode: boolean,
-}
+  UIMode: boolean;
+};
 
 export const playwrightCliOptions: PlaywrightCliOptions = {
   UIMode: process.argv.some(x => x.includes("--ui-host")),
-}
+};

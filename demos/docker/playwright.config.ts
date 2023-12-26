@@ -1,7 +1,7 @@
-import { defineConfig, devices } from '@playwright/test';
-import path from 'path';
-import { playwrightCliOptions } from 'playwright.cli-options';
-import { env } from 'playwright.env-vars';
+import { defineConfig, devices } from "@playwright/test";
+import path from "path";
+import { playwrightCliOptions } from "playwright.cli-options";
+import { env } from "playwright.env-vars";
 
 const _isRunningOnCI = env.CI;
 const _webServerPort = 4200;
@@ -11,9 +11,9 @@ const _webServerCommand = playwrightCliOptions.UIMode
   ? `npx ng serve --host ${_webServerHost} --port ${_webServerPort}`
   : `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`;
 
-const _testsDir = path.resolve('./tests'); // set to ./tests
-const _testResultsDir = path.resolve('./test-results'); // set to ./test-results
-const _htmlReportDir = path.resolve('playwright-html-report'); // set to ./playwright-html-report
+const _testsDir = path.resolve("./tests"); // set to ./tests
+const _testResultsDir = path.resolve("./test-results"); // set to ./test-results
+const _htmlReportDir = path.resolve("playwright-html-report"); // set to ./playwright-html-report
 
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
@@ -41,14 +41,14 @@ export default defineConfig({
   workers: undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['list'],
+    ["list"],
     [
       /* See https://playwright.dev/docs/test-reporters#html-reporter */
-      'html',
+      "html",
       {
-        open: 'never',
+        open: "never",
         outputFolder: _htmlReportDir,
-      }
+      },
     ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -56,26 +56,27 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: _webServerUrl,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: "on-first-retry",
   },
   /*
    * For snapshotPathTemplate configuration options see https://playwright.dev/docs/api/class-testproject#test-project-snapshot-path-template
    * By default {snapshotDir} is the same as {testDir}
    */
-  snapshotPathTemplate: "{snapshotDir}/__screenshots__/{platform}/{projectName}/{testFilePath}/{arg}{ext}",
+  snapshotPathTemplate:
+    "{snapshotDir}/__screenshots__/{platform}/{projectName}/{testFilePath}/{arg}{ext}",
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
     },
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
     },
   ],
   /* Run your local dev server before starting the tests */
@@ -83,7 +84,7 @@ export default defineConfig({
     command: _webServerCommand,
     url: _webServerUrl,
     reuseExistingServer: !_isRunningOnCI,
-    stdout: 'pipe',
+    stdout: "pipe",
     timeout: 1 * 60 * 1000, // 1 min
   },
 });
