@@ -74,11 +74,11 @@ The [failOnUncaughtExceptions test at example.spec.ts](/demos/fixtures/tests/exa
 
 ## Project name
 
-The [projectName fixture](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/tests/_shared/app-fixtures.ts#L60-L63) allows you to control behaviour of your tests based on the [Playwright project](https://playwright.dev/docs/test-projects) name. For instance, you might want to skip a test or provide different values to a test depending on the project name.
+The [projectName fixture](https://github.com/edumserrano/playwright-adventures/blob/cfa5205b60731102f2cf9bcc990417d602006644/demos/fixtures/tests/_shared/app-fixtures.ts#L60-L69) allows you to control behaviour of your tests based on the [Playwright project](https://playwright.dev/docs/test-projects) name. For instance, you might want to skip a test or provide different values to a test depending on the project name.
 
 The [projectName test at example.spec.ts](/demos/fixtures/tests/example.spec.ts) shows an example usage of this fixture.
 
-This fixture is useful because it uses the [PlaywrightProjectName](https://github.com/edumserrano/playwright-adventures/blob/25b412aae2a1719f1308368f3fd228b31456f0fb/demos/fixtures/playwright.config.ts#L6-L9) type to define a discriminated union for all the valid names for a Project. With this type you have a type safe way to filter on Project names.
+This fixture is useful because it uses the [PlaywrightProjectName](https://github.com/edumserrano/playwright-adventures/blob/cfa5205b60731102f2cf9bcc990417d602006644/demos/fixtures/playwright.config.ts#L6-L10) enum to define the valid names for a Project. **With this enum you have a type safe way to filter on Project names.**
 
 ## Custom annotations
 
