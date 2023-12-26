@@ -2,6 +2,7 @@
 // @playwright/test.
 //
 // This is why we can use the fixtures in these tests.
+import { PlaywrightProjectName } from "playwright.config";
 import { test, expect } from "tests/_shared/app-fixtures";
 
 // This test shows the `setDate` fixture.
@@ -74,7 +75,7 @@ test("failOnUncaughtExceptions", async ({ page }) => {
 
 // This test shows how you can use the projectName fixture.
 test("projectName", async ({ page, projectName }) => {
-  if (projectName === "desktop webkit 1280x720") {
+  if (projectName === PlaywrightProjectName.DesktopWebkit1280x720) {
     test.skip();
   }
 

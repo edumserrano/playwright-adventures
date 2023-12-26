@@ -58,8 +58,14 @@ export const test = baseTest.extend<AppFixtures>({
     },
   ],
   projectName: async ({}, use) => {
-    const projectName = test.info().project.name as PlaywrightProjectName;
-    await use(projectName);
+    const projectName = test.info().project.name;
+    const validProjectNames = Object.values(PlaywrightProjectName) as string[];
+    if(!validProjectNames.includes(projectName)) {
+      throw new Error(`Error in projectName fixture. Invalid project name: ${projectName}. Expected one of: ${validProjectNames}.`);
+    }
+
+    const validProjectName = projectName as PlaywrightProjectName;
+    await use(validProjectName);
   },
   annotations: [
     async ({ browser, page, headless }, use): Promise<void> => {
