@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "start": "npx ng serve -o",
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "prettier:check": "npx prettier --check .",
+    "prettier:write": "npx prettier --write ."
   },
   "private": true,
   "dependencies": {
@@ -34,6 +36,7 @@
     "npm": "^10.2.5",
     "nyc": "^15.1.0",
     "open-cli": "^7.2.0",
+    "prettier": "^3.1.1",
     "typescript": "~5.2.2",
     "zod": "^3.22.4"
   }

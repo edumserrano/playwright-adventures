@@ -10,7 +10,7 @@ Date = class extends Date {
       super(...args);
     }
   }
-}
+};
 
 // Override Date.now() to start from fakeNow
 const __DateNowOffset = fakeNow - Date.now();

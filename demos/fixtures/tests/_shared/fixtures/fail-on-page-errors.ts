@@ -1,11 +1,11 @@
-import { expect } from '@playwright/test';
+import { expect } from "@playwright/test";
 
 export async function assertUncaughtExceptionsAsync(
   uncaughtExceptions: ReadonlyArray<Error>,
-  use: () => Promise<void>
+  use: () => Promise<void>,
 ): Promise<void> {
   await use();
-  const uncaughtExceptionsDtos = uncaughtExceptions.map((error) => {
+  const uncaughtExceptionsDtos = uncaughtExceptions.map(error => {
     return {
       message: error.message,
       cause: error.cause,

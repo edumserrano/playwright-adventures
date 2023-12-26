@@ -3,5 +3,5 @@ type PlaywrightCliOptions = {
 };
 
 export const playwrightCliOptions: PlaywrightCliOptions = {
-  UIMode: process.argv.some((x) => x.includes('--ui')),
+  UIMode: process.argv.some(x => x.includes("--ui")),
 };
