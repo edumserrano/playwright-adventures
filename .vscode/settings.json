@@ -9,7 +9,6 @@
     "playwright.config.ts": "playwright.*.ts, playwright.*.js",
     "tsconfig.json": "tsconfig.*.json",
     "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
-    ".eslintrc.json": ".eslintrc.*.json",
     ".prettierrc": ".prettierrc, .prettierignore",
     "environment.ts": "environment.*.ts"
   },
