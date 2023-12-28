@@ -1,11 +1,11 @@
 import { ConsoleMessage, test as baseTest } from "@playwright/test";
-import { setDate } from "./fixtures/set-date";
-import { addAnnotationsAsync } from "tests/_shared/fixtures/annotations";
-import { assertUncaughtExceptionsAsync } from "tests/_shared/fixtures/fail-on-page-errors";
-import { captureConsoleMessagesAsync } from "tests/_shared/fixtures/console-messages";
 import { PlaywrightProjectName } from "playwright.config";
-import { capturePageErrorsAsync } from "tests/_shared/fixtures/page-errors";
+import { addAnnotationsAsync } from "tests/_shared/fixtures/annotations";
+import { captureConsoleMessagesAsync } from "tests/_shared/fixtures/console-messages";
+import { assertUncaughtExceptionsAsync } from "tests/_shared/fixtures/fail-on-page-errors";
 import { assertConsoleMessagesAsync } from "tests/_shared/fixtures/fail-on-unexpected-console-messages";
+import { capturePageErrorsAsync } from "tests/_shared/fixtures/page-errors";
+import { setDate } from "tests/_shared/fixtures/set-date";
 
 // Re-exporting the default expect as well so that on the tests we can have
 // a single import for expect and test, but the test will be the extended test below

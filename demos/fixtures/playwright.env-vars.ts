@@ -1,4 +1,3 @@
-import { defaultSnapshotDir } from "playwright.shared-vars";
 import z from "zod";
 
 // Validating environment variables with zod

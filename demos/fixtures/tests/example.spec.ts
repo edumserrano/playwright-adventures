@@ -3,7 +3,7 @@
 //
 // This is why we can use the fixtures in these tests.
 import { PlaywrightProjectName } from "playwright.config";
-import { test, expect } from "tests/_shared/app-fixtures";
+import { expect, test } from "tests/_shared/app-fixtures";
 
 // This test shows the `setDate` fixture.
 // See demos\fixtures\tests\_shared\fixtures\set-date.ts.
@@ -18,7 +18,7 @@ test("setDate", async ({ page }) => {
   // property that is configured int the playwright.config.ts
   await page.goto("/");
   const messageLocator = page.getByText("Congratulations! Your app is");
-  expect(messageLocator).toHaveText(
+  await expect(messageLocator).toHaveText(
     "Congratulations! Your app is running and it's Sat Jan 20 2024. 🎉",
   );
   await expect(page).toHaveScreenshot();
