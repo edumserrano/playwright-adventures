@@ -115,13 +115,13 @@ When you clone the repo there won't be any stale screenshots to delete. To gener
 To get a report on the stale screenshots run the `test:clean-screenshots` command with the `-dryRun` switch:
 
 ```
-npm test:clean-screenshots '--' -dryRun
+npm run test:clean-screenshots '--' -dryRun
 ```
 
 To delete the stale screenshots run without the `-dryRun` switch:
 
 ```
-npm test:clean-screenshots
+npm run test:clean-screenshots
 ```
 
 To get back to the initial state, undo all local changes you have on this repo or uncomment `test-two` and run `npm test` to generate the deleted screenshots.
