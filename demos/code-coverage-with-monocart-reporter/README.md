@@ -54,7 +54,7 @@ npm run test:show-report
 
 After opening the test results report you can view the code coverage by opening the menu on the top right and then find the `Coverage Report - playwright code coverage demo with monocart reporter` option under `artifacts`.
 
-![how to access the code coverage report in the monocart test results report](/docs/assets/monocart-reporter-code-coverage.gif)
+https://github.com/edumserrano/playwright-adventures/assets/15857357/cacb8c83-1fc2-41e6-9c1c-f6a696536476
 
 Alternatively, you can view the code coverage report with:
 
