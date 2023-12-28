@@ -8,8 +8,13 @@ import path from "path";
 function getCodeCoverageOptions(codeCoverageDir: string): CoverageReportOptions {
   const v8RelativeFilePath = "v8/index.html";
 
-  // The paths in the codeCoverageReports variable are all
-  // relative to monocart-reporter coverage.outputDir
+  // The paths in the codeCoverageReports variable are all relative to monocart-reporter coverage.outputDir.
+  //
+  // Note that you can configure the reports to produce just an lcov or cobertura report for instance.
+  // No need to produce html report like the html-spa or v8 reports if the only thing you want is an lcov
+  // report to upload to sonarQ.
+  // However, I do recommend always having an html report so a human can look at it. Even if you only generate
+  // it outside your CI environment, just for local dev purposes.
   const _codeCoverageReports: ReportDescription[] = [
     [
       "v8",
