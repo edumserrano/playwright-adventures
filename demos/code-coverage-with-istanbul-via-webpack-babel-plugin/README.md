@@ -68,6 +68,8 @@ And you can view the code coverage html report with:
 npm run coverage:show-report
 ```
 
+[video demo code-coverage-with-istanbul-via-webpack-babel-plugin](/docs/assets/code-coverage-with-istanbul-via-webpack-babel-plugin.mp4)
+
 ## The app
 
 The app being tested is an Angular 17 app. It has very little changes from the template you get from doing `ng new`. The only addition is a button which has some conditional logic to better show the code coverage.
