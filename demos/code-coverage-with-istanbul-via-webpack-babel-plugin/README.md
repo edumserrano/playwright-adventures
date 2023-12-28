@@ -68,7 +68,7 @@ And you can view the code coverage html report with:
 npm run coverage:show-report
 ```
 
-[video demo code-coverage-with-istanbul-via-webpack-babel-plugin](/docs/assets/code-coverage-with-istanbul-via-webpack-babel-plugin.mp4)
+[video demo code-coverage-with-istanbul-via-webpack-babel-plugin](/docs/assets/code-coverage-with-istanbul-via-webpack-babel-plugin.mov)
 
 ## The app
 
