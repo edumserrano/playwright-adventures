@@ -1,5 +1,5 @@
 {
-  "name": "code-coverage-with-monocart-reporter",
+  "name": "monocart-reporter-advanced-config",
   "version": "0.0.0",
   "scripts": {
     "start": "npx ng serve -o",
