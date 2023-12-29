@@ -1,0 +1,16 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "*.component.ts": "${capture}.js, ${basename}.html, ${basename}.less, ${basename}.css, ${basename}.scss, ${basename}.sass, ${basename}.spec.ts, ${capture}.view-model.ts",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.jsx": "${capture}.js",
+    "*.tsx": "${capture}.ts",
+    "playwright.config.ts": "playwright.*.ts, playwright.*.js",
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
+    ".prettierrc": ".prettierrc, .prettierignore",
+    "environment.ts": "environment.*.ts"
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative"
+}
