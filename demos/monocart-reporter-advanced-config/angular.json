@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "code-coverage-with-monocart-reporter": {
+    "monocart-reporter-advanced-config": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/code-coverage-with-monocart-reporter",
+            "outputPath": "dist/monocart-reporter-advanced-config",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -50,10 +50,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "code-coverage-with-monocart-reporter:build:production"
+              "buildTarget": "monocart-reporter-advanced-config:build:production"
             },
             "development": {
-              "buildTarget": "code-coverage-with-monocart-reporter:build:development"
+              "buildTarget": "monocart-reporter-advanced-config:build:development"
             }
           },
           "defaultConfiguration": "development",

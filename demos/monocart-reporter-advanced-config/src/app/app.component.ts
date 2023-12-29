@@ -11,7 +11,7 @@ import { MatButtonModule } from "@angular/material/button";
   styleUrl: "./app.component.css",
 })
 export class AppComponent {
-  title = "code-coverage-with-monocart-reporter";
+  title = "monocart-reporter-advanced-config";
 
   // demo code just to help show off code coverage
   onPressMeClick(event: Event) {
