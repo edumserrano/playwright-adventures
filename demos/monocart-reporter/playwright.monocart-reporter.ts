@@ -20,6 +20,24 @@ export function getMonocartReporterOptions(testResultsDir: string): MonocartRepo
         background: "#009933",
       },
     },
+    /* See https://github.com/cenfun/monocart-reporter#custom-columns */
+    columns: (defaultColumns: any) => {
+      const descriptionColumn = defaultColumns.find((column: any) => column.id === "description");
+      if (!descriptionColumn) {
+        const index = defaultColumns.findIndex((column: any) => column.id === "duration");
+        defaultColumns.splice(index, 0, {
+          id: "description",
+          name: "Description",
+          align: "left",
+          searchable: true,
+          detailed: true,
+          markdown: true,
+          styleMap: {
+            "font-weight": "normal",
+          },
+        });
+      }
+    },
     /* See https://github.com/cenfun/monocart-reporter#collect-data-from-the-comments */
     visitor: (data: any, metadata: any, collect: any) => {
       const parserOptions = {
