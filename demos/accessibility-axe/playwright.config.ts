@@ -3,12 +3,6 @@ import path from "path";
 import { playwrightCliOptions } from "playwright.cli-options";
 import { env } from "playwright.env-vars";
 
-export enum PlaywrightProjectName {
-  DesktopChromium1280x720 = "desktop chromium 1280x720",
-  DesktopFirefox1280x720 = "desktop firefox 1280x720",
-  DesktopWebkit1280x720 = "desktop webkit 1280x720",
-};
-
 const _isRunningOnCI = env.CI;
 const _webServerPort = 4200;
 const _webServerHost = "127.0.0.1";
@@ -63,15 +57,15 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: PlaywrightProjectName.DesktopChromium1280x720,
+      name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
     {
-      name: PlaywrightProjectName.DesktopFirefox1280x720,
+      name: "firefox",
       use: { ...devices["Desktop Firefox"] },
     },
     {
-      name: PlaywrightProjectName.DesktopWebkit1280x720,
+      name: "webkit",
       use: { ...devices["Desktop Safari"] },
     },
   ],
