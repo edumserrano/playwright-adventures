@@ -36,8 +36,6 @@
     "@playwright/test": "^1.40.1",
     "@types/node": "^20.10.3",
     "babel-plugin-istanbul": "^6.1.1",
-    "i": "^0.3.7",
-    "npm": "^10.2.5",
     "nyc": "^15.1.0",
     "open-cli": "^7.2.0",
     "prettier": "^3.1.1",
