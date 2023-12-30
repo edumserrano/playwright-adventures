@@ -1,5 +1,5 @@
 {
-  "name": "fixtures",
+  "name": "accessibility-axe",
   "version": "0.0.0",
   "scripts": {
     "start": "npx ng serve -o",
