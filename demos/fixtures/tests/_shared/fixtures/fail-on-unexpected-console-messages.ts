@@ -1,7 +1,8 @@
 import { ConsoleMessage, expect } from "@playwright/test";
 
 function isAllowed(consoleMessage: ConsoleMessage): boolean {
-  const isAllowed = consoleMessage.text() === "This is an expected console message.";
+  const isAllowed =
+    consoleMessage.text() === "This is an expected console message.";
   return isAllowed;
 }
 

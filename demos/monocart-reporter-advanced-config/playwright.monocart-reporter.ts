@@ -1,7 +1,9 @@
 import { MonocartReporterOptions } from "monocart-reporter";
 import path from "path";
 
-export function getMonocartReporterOptions(testResultsDir: string): MonocartReporterOptions {
+export function getMonocartReporterOptions(
+  testResultsDir: string,
+): MonocartReporterOptions {
   const monocartOptions: MonocartReporterOptions = {
     name: "playwright monocart-reporter demo",
     outputFile: path.resolve(testResultsDir, "monocart-report.html"),
@@ -31,9 +33,13 @@ export function getMonocartReporterOptions(testResultsDir: string): MonocartRepo
       // If the tests used multiple comment items, such as @description and @owner, then I would have
       // to also define a custom column with id of 'owner' to map its values to the report.
 
-      const descriptionColumn = defaultColumns.find((column: any) => column.id === "description");
+      const descriptionColumn = defaultColumns.find(
+        (column: any) => column.id === "description",
+      );
       if (!descriptionColumn) {
-        const index = defaultColumns.findIndex((column: any) => column.id === "duration");
+        const index = defaultColumns.findIndex(
+          (column: any) => column.id === "duration",
+        );
         defaultColumns.splice(index, 0, {
           id: "description",
           name: "Description",

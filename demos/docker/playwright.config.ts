@@ -5,7 +5,9 @@ import { env } from "playwright.env-vars";
 
 const _isRunningOnCI = env.CI;
 const _webServerPort = 4200;
-const _webServerHost = env.USE_DOCKER_HOST_WEBSERVER ? `host.docker.internal` : `127.0.0.1`;
+const _webServerHost = env.USE_DOCKER_HOST_WEBSERVER
+  ? `host.docker.internal`
+  : `127.0.0.1`;
 const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
 const _webServerCommand = playwrightCliOptions.UIMode
   ? `npx ng serve --host ${_webServerHost} --port ${_webServerPort}`

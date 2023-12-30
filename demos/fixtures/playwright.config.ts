@@ -7,7 +7,7 @@ export enum PlaywrightProjectName {
   DesktopChromium1280x720 = "desktop chromium 1280x720",
   DesktopFirefox1280x720 = "desktop firefox 1280x720",
   DesktopWebkit1280x720 = "desktop webkit 1280x720",
-};
+}
 
 const _isRunningOnCI = env.CI;
 const _webServerPort = 4200;

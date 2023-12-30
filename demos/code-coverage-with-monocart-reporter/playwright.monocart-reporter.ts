@@ -5,7 +5,9 @@ import {
 } from "monocart-reporter";
 import path from "path";
 
-function getCodeCoverageOptions(codeCoverageDir: string): CoverageReportOptions {
+function getCodeCoverageOptions(
+  codeCoverageDir: string,
+): CoverageReportOptions {
   const v8RelativeFilePath = "v8/index.html";
 
   // The paths in the codeCoverageReports variable are all relative to monocart-reporter coverage.outputDir.

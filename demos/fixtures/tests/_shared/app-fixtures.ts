@@ -60,8 +60,9 @@ export const test = baseTest.extend<AppFixtures>({
   projectName: async ({}, use) => {
     const projectName = test.info().project.name;
     const validProjectNames = Object.values(PlaywrightProjectName) as string[];
-    if(!validProjectNames.includes(projectName)) {
-      throw new Error(`Error in projectName fixture. Invalid project name: ${projectName}. Expected one of: ${validProjectNames}.`);
+    if (!validProjectNames.includes(projectName)) {
+      const errorMessage = `Error in projectName fixture. Invalid project name: ${projectName}. Expected one of: ${validProjectNames}.`;
+      throw new Error(errorMessage);
     }
 
     const validProjectName = projectName as PlaywrightProjectName;

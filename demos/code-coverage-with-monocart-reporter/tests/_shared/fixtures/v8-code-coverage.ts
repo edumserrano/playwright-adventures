@@ -19,7 +19,9 @@ function browserSupportsV8CodeCoverage(browserType: BrowserType): boolean {
 export async function collectV8CodeCoverageAsync(
   options: collectV8CodeCoverageOptions,
 ): Promise<void> {
+  // prettier-ignore
   const v8CodeCoverageSupported = browserSupportsV8CodeCoverage(options.browserType);
+  // prettier-ignore
   const codeCoverageEnabled = options.enableJsCoverage || options.enableCssCoverage;
   if (!v8CodeCoverageSupported || !codeCoverageEnabled) {
     await options.use();

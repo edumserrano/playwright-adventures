@@ -55,7 +55,7 @@ class CodeMetadataProvider {
 
     const originUrlCommand = ["remote", "get-url", "--push", "origin"];
     const originUrlRaw = await simpleGit().raw(originUrlCommand);
-    const originUrl = originUrlRaw.trim().replace(".git","");
+    const originUrl = originUrlRaw.trim().replace(".git", "");
     const lastCommitMetadata = await this.getLastCommitMetadataAsync();
     const repositoryMetadata: RepositoryMetadata = {
       repoUrl: originUrl,

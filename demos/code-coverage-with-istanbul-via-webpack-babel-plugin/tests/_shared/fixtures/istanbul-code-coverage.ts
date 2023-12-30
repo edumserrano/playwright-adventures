@@ -13,12 +13,18 @@ export async function collectIstanbulCodeCoverageAsync(
   outputDir: string,
 ): Promise<void> {
   await fs.promises.mkdir(outputDir, { recursive: true });
-  await context.exposeFunction("collectIstanbulCoverage", (coverageJson: string) => {
-    if (coverageJson) {
-      const codeCoverageFilePath = path.join(outputDir, `coverage_${generateUUID()}.json`);
-      fs.writeFileSync(codeCoverageFilePath, coverageJson);
-    }
-  });
+  await context.exposeFunction(
+    "collectIstanbulCoverage",
+    (coverageJson: string) => {
+      if (coverageJson) {
+        const codeCoverageFilePath = path.join(
+          outputDir,
+          `coverage_${generateUUID()}.json`,
+        );
+        fs.writeFileSync(codeCoverageFilePath, coverageJson);
+      }
+    },
+  );
   await context.addInitScript(() => {
     window.addEventListener("beforeunload", () => {
       const codeCoverage = (window as any).__coverage__;
