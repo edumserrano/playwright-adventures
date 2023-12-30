@@ -7,12 +7,17 @@ indent_style = space
 indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
-max_line_length = 100
+max_line_length = 80
 
 # TypeScript Files
 [*.ts]
 quote_type = double
 indent_size = 2
+
+# HTML Files
+[*.{htm,html}]
+indent_size = 2
+max_line_length = 100
 
 # Web Files
 [*.{htm,html,js,jsm,tsx,pcss,svg,vue}]

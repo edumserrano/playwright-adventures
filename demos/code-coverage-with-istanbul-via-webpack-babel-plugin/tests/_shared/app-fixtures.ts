@@ -12,6 +12,10 @@ export { expect } from "@playwright/test";
 // All tests that use this export 'test' type will have the automatic fixture applied to them.
 export const test = baseTest.extend({
   context: async ({ context }, use) => {
-    await collectIstanbulCodeCoverageAsync(context, use, istanbulCodeCoverageInstrumentationDir);
+    await collectIstanbulCodeCoverageAsync(
+      context,
+      use,
+      istanbulCodeCoverageInstrumentationDir,
+    );
   },
 });

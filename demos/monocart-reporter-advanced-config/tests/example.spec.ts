@@ -35,7 +35,9 @@ test("press me without ctrl modifier @press-me-button", async ({ page }) => {
 Tests that the 'press me' button opens a dialog with the correct message when the
 ctrl modifier is used.
 */
-test("press me with ctrl modifier @press-me-button @with-ctrl-modifier", async ({ page }) => {
+test("press me with ctrl modifier @press-me-button @with-ctrl-modifier", async ({
+  page,
+}) => {
   let dialogMessage = "";
   page.on("dialog", dialog => {
     dialogMessage = dialog.message();

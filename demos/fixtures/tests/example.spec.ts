@@ -37,13 +37,18 @@ test("setDate", async ({ page }) => {
 //
 // However, if you added another console log the tests would fail because of the
 // failOnUnexpectedConsoleMessages fixture.
-test("consoleMessages and failOnUnexpectedConsoleMessages", async ({ page, consoleMessages }) => {
+test("consoleMessages and failOnUnexpectedConsoleMessages", async ({
+  page,
+  consoleMessages,
+}) => {
   // this relative navigation is possible because of the baseURL
   // property that is configured int the playwright.config.ts
   await page.goto("/");
   await expect(page).toHaveScreenshot();
   expect(consoleMessages.length).toBe(1);
-  expect(consoleMessages[0].text()).toBe("This is an expected console message.");
+  expect(consoleMessages[0].text()).toBe(
+    "This is an expected console message.",
+  );
 });
 
 // This test will always fail.
