@@ -11,13 +11,4 @@ import { RouterOutlet } from "@angular/router";
 })
 export class AppComponent {
   title = "accessibility-axe";
-
-  onPressMeClick(event: Event) {
-    const pointerEvent = event as PointerEvent;
-    if (pointerEvent.ctrlKey) {
-      alert("button pressed with ctrl key modifier");
-    } else {
-      alert("button pressed without ctrl key modifier");
-    }
-  }
 }

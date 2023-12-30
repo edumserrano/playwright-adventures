@@ -1,36 +1,45 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, TestInfo } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
+import { AxeResults } from "axe-core";
 
-test("screenshot @critical @accessibility", async ({ page }) => {
+async function attachAxeResults(
+  testInfo: TestInfo,
+  axeResults: AxeResults,
+): Promise<void> {
+  await testInfo.attach("accessibility-scan-results", {
+    body: JSON.stringify(axeResults, null, 2),
+    contentType: "application/json",
+  });
+}
+
+test("a11y", async ({ page }, testInfo) => {
   // this relative navigation is possible because of the baseURL
   // property that is configured int the playwright.config.ts
   await page.goto("/");
-  await expect(page).toHaveScreenshot();
+
+  // run the Axe accessibility scan against the page
+  const axeResults = await new AxeBuilder({ page }).analyze();
+
+  // export scan results as a test attachment
+  await attachAxeResults(testInfo, axeResults);
+
+  // verify that there are no violations in the returned scan results
+  expect(axeResults.violations).toEqual([]);
 });
 
-test("press me without ctrl modifier @press-me-button", async ({ page }) => {
-  let dialogMessage = "";
-  page.on("dialog", dialog => {
-    dialogMessage = dialog.message();
-    dialog.accept();
-  });
-
+test("a11y with exclusions", async ({ page }, testInfo) => {
+  // this relative navigation is possible because of the baseURL
+  // property that is configured int the playwright.config.ts
   await page.goto("/");
-  const pressMeButton = page.getByRole("button", { name: "Press me" });
-  await pressMeButton.click();
 
-  expect(dialogMessage).toBe("button pressed without ctrl key modifier");
-});
+  // run the Axe accessibility scan against the page
+  const axeResults = await new AxeBuilder({ page })
+    .disableRules(["color-contrast"])
+    .analyze();
 
-test("press me with ctrl modifier @press-me-button @with-ctrl-modifier", async ({ page }) => {
-  let dialogMessage = "";
-  page.on("dialog", dialog => {
-    dialogMessage = dialog.message();
-    dialog.accept();
-  });
+  // export scan results as a test attachment
+  await attachAxeResults(testInfo, axeResults);
 
-  await page.goto("/");
-  const pressMeButton = page.getByRole("button", { name: "Press me" });
-  await pressMeButton.click({ modifiers: ["Control"] });
-
-  expect(dialogMessage).toBe("button pressed with ctrl key modifier");
+  // verify that there are no violations in the returned scan results
+  expect(axeResults.violations).toEqual([]);
 });
