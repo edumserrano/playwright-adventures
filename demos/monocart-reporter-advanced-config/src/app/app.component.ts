@@ -13,7 +13,6 @@ import { MatButtonModule } from "@angular/material/button";
 export class AppComponent {
   title = "monocart-reporter-advanced-config";
 
-  // demo code just to help show off code coverage
   onPressMeClick(event: Event) {
     const pointerEvent = event as PointerEvent;
     if (pointerEvent.ctrlKey) {
