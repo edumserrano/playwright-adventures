@@ -11,10 +11,13 @@ const _webServerCommand = playwrightCliOptions.UIMode
   ? `npx ng serve --host ${_webServerHost} --port ${_webServerPort}`
   : `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`;
 
+const _testsDir = path.resolve("./tests"); // set to ./tests
+const _testResultsDir = path.resolve("./test-results"); // set to ./test-results
+
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
-  testDir: path.resolve("./tests"),
-  outputDir: path.resolve("./test-results"),
+  testDir: _testsDir,
+  outputDir: _testResultsDir,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -38,8 +41,18 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ["list"],
-    /* See https://playwright.dev/docs/test-reporters#html-reporter */
     [
+      /* See https://github.com/cenfun/monocart-reporter */
+      "monocart-reporter",
+      [
+        {
+          name: "accessibility demo with lighthouse",
+          outputFile: path.resolve(_testResultsDir, "monocart-report.html"),
+        },
+      ],
+    ],
+    [
+      /* See https://playwright.dev/docs/test-reporters#html-reporter */
       "html",
       {
         open: "never",
@@ -60,14 +73,14 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    },
+    // {
+    //   name: "firefox",
+    //   use: { ...devices["Desktop Firefox"] },
+    // },
+    // {
+    //   name: "webkit",
+    //   use: { ...devices["Desktop Safari"] },
+    // },
   ],
   /* Run your local dev server before starting the tests */
   webServer: {
