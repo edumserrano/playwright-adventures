@@ -75,6 +75,6 @@ export default defineConfig({
     url: _webServerUrl,
     reuseExistingServer: !_isRunningOnCI,
     stdout: "pipe",
-    timeout: 5 * 60 * 1000, // 1 min
+    timeout: 3 * 60 * 1000, // 3 min
   },
 });
