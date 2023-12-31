@@ -38,6 +38,11 @@ export default defineConfig({
    * See https://playwright.dev/docs/ci#workers.
    */
   workers: undefined,
+  /*
+   * Timeout for each test, includes test, hooks and fixtures.
+   * See https://playwright.dev/docs/test-timeouts
+   */
+  timeout: 1 * 60 * 1000, // 1 min
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ["list"],
@@ -50,14 +55,6 @@ export default defineConfig({
           outputFile: path.resolve(_testResultsDir, "monocart-report.html"),
         },
       ],
-    ],
-    [
-      /* See https://playwright.dev/docs/test-reporters#html-reporter */
-      "html",
-      {
-        open: "never",
-        outputFolder: path.resolve("playwright-html-report"),
-      },
     ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -88,6 +85,6 @@ export default defineConfig({
     url: _webServerUrl,
     reuseExistingServer: !_isRunningOnCI,
     stdout: "pipe",
-    timeout: 5 * 60 * 1000, // 1 min
+    timeout: 1 * 60 * 1000, // 1 min
   },
 });
