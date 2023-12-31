@@ -1,11 +1,10 @@
 {
   "name": "accessibility-lighthouse",
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "start": "npx ng serve -o",
     "test": "npx playwright test",
-    "test:show-report": "npx playwright show-report ./playwright-html-report",
+    "test:show-report": "npx monocart show-report test-results/report.html",
     "prettier:check": "npx prettier --check .",
     "prettier:write": "npx prettier --write ."
   },
@@ -34,7 +33,6 @@
     "lighthouse": "^11.4.0",
     "monocart-reporter": "^2.1.1",
     "open-cli": "^7.2.0",
-    "playwright-lighthouse": "^3.2.5",
     "prettier": "^3.1.1",
     "typescript": "~5.2.2",
     "zod": "^3.22.4"

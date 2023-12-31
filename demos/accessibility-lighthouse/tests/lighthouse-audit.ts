@@ -35,6 +35,7 @@ export class LighthouseAudit {
       extends: "lighthouse:default",
       settings: {
         formFactor: "desktop",
+        disableFullPageScreenshot: true,
         throttling: {
           // disable any network or cpu throttling from the default config
           // see https://github.com/GoogleChrome/lighthouse/blob/main/docs/throttling.md
