@@ -260,7 +260,7 @@ If you set `useHostWebServer` switch with `npm test '--' -useHostWebServer` or w
 
 This is due to the `webServer.reuseExistingServer` option of the [playwright.config.ts](/demos/docker/playwright.config.ts). When this is set to `true` then Playwright will check if the app is running on the `webServer.url` address and if it is then it just uses that as the target of the tests.
 
-The trick to make this work though is that the `webServer.url` must be set to an address that is reachable from the docker container. And since what we want to do is to reach the app that is running on the host then what the `playwright.config.ts` does is set the host of the `webServer.url` to `host.docker.internal`. Furthermore, the docker command must contain `--add-host=host.docker.internal:host-gateway`, which the Powershell scripts add if `useHostWebServer` is set to `yes`.
+The trick to make this work though is that the `webServer.url` must be set to an address that is reachable from the docker container. And since what we want to do is to reach the app that is running on the host then what the `playwright.config.ts` does is set the host of the `webServer.url` to `host.docker.internal`. Furthermore, the docker command must contain `--add-host=host.docker.internal:host-gateway`, which the Powershell scripts adds if `useHostWebServer` is set to `true`.
 
 For more info see:
 
