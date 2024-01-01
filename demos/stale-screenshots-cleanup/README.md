@@ -2,7 +2,7 @@
 
 - [Description](#description)
 - [Do I really need a solution to clean stale screenshots?](#do-i-really-need-a-solution-to-clean-stale-screenshots)
-- [How to build, run the app and run tests](#how-to-build-run-the-app-and-run-tests)
+- [How to build, run the app, run tests and view the test results](#how-to-build-run-the-app-run-tests-and-view-the-test-results)
 - [Playwright configuration](#playwright-configuration)
 - [Delete stale Playwright screenshots](#delete-stale-playwright-screenshots)
   - [The clean-stale-screenshots.ps1 script](#the-clean-stale-screenshotsps1-script)
@@ -40,7 +40,16 @@ If you feel that recreating all the screenshots is a viable process for you then
 >
 > This will make it so that your tests don't fail when recreating the screenshots, which is especially useful if you have tests that generate more than one screenshot. Otherwise, you might have to run the `npx playwright test` command several times untill ass screenshots are recreated.
 
-## How to build, run the app and run tests
+## How to build, run the app, run tests and view the test results
+
+> [!IMPORTANT]
+>
+> Required dependencies:
+>
+> - [Node](https://nodejs.org/en/blog/release/v20.10.0). Tested working with `v20.10.0`. If you need to have different versions of node installed it's recommended that you use [Node Version Manager](https://github.com/nvm-sh/nvm) to install and swap between node versions.
+> - [npm@latest](https://www.npmjs.com/package/npm): package manager used on the demos. Tested working on `10.2.5`.
+> - [Git LFS](https://git-lfs.com/): this demo takes screenshots and those images are uploaded to the repo using Git LFS. Without Git LFS you won't get any images when cloning the repo and the Playwright tests will fail. Tested working with `3.3.0`.
+> - [VS Code](https://code.visualstudio.com/download) is recommended as a code editor but you can use whatever you prefer.
 
 1. Clone the repo.
 2. Using your favorite shell go to `/demos/stale-screenshots-cleanup`.
@@ -57,7 +66,11 @@ If you feel that recreating all the screenshots is a viable process for you then
    npm test
    ```
    This will start the app and run the [playwright tests](/demos/stale-screenshots-cleanup/tests/example.spec.ts) against it.
-6. If you just want to run the app execute the command:
+6. After running the tests you can view test results with:
+   ```
+   npm run test:show-report
+   ```
+7. If you just want to run the app execute the command:
    ```
    npm start
    ```

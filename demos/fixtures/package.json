@@ -4,6 +4,7 @@
   "scripts": {
     "start": "npx ng serve -o",
     "test": "npx playwright test",
+    "test:show-report": "npx playwright show-report playwright-html-report",
     "prettier:check": "npx prettier --check .",
     "prettier:write": "npx prettier --write ."
   },

@@ -43,10 +43,14 @@ The demo at [/demos/docker](/demos/docker/) shows how to run Playwright tests in
 
 > [!IMPORTANT]
 >
-> To run this demo you must have the following dependencies installed:
+> Required dependencies:
 >
-> - [Docker](https://www.docker.com/products/docker-desktop/)
+> - [Node](https://nodejs.org/en/blog/release/v20.10.0). Tested working with `v20.10.0`. If you need to have different versions of node installed it's recommended that you use [Node Version Manager](https://github.com/nvm-sh/nvm) to install and swap between node versions.
+> - [npm@latest](https://www.npmjs.com/package/npm): package manager used on the demos. Tested working on `10.2.5`.
+> - [Git LFS](https://git-lfs.com/): this demo takes screenshots and those images are uploaded to the repo using Git LFS. Without Git LFS you won't get any images when cloning the repo and the Playwright tests will fail. Tested working with `3.3.0`.
 > - [latest Powershell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell): tested working on `7.4.0`.
+> - [Docker](https://www.docker.com/products/docker-desktop/)
+> - [VS Code](https://code.visualstudio.com/download) is recommended as a code editor but you can use whatever you prefer.
 
 1. Clone the repo.
 2. Using your favorite shell go to `/demos/docker`.

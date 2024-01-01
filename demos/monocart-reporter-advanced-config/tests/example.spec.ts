@@ -9,7 +9,10 @@ test("screenshot @critical @accessibility", async ({ page }) => {
   // this relative navigation is possible because of the baseURL
   // property that is configured int the playwright.config.ts
   await page.goto("/");
-  await expect(page).toHaveScreenshot();
+  const messageLocator = page.getByText("Congratulations! Your app is");
+  await expect(messageLocator).toHaveText(
+    "Congratulations! Your app is running. 🎉",
+  );
 });
 
 /**

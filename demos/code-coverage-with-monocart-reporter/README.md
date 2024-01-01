@@ -22,6 +22,14 @@ The demo at [/demos/code-coverage-with-monocart-reporter](/demos/code-coverage-w
 
 ## How to build, run the app and run tests
 
+> [!IMPORTANT]
+>
+> Required dependencies:
+>
+> - [Node](https://nodejs.org/en/blog/release/v20.10.0). Tested working with `v20.10.0`. If you need to have different versions of node installed it's recommended that you use [Node Version Manager](https://github.com/nvm-sh/nvm) to install and swap between node versions.
+> - [npm@latest](https://www.npmjs.com/package/npm): package manager used on the demos. Tested working on `10.2.5`.
+> - [VS Code](https://code.visualstudio.com/download) is recommended as a code editor but you can use whatever you prefer.
+
 1. Clone the repo.
 2. Using your favorite shell go to `/demos/code-coverage-with-monocart-reporter`.
 3. Install the required npm packages with:

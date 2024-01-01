@@ -4,6 +4,7 @@
   "scripts": {
     "start": "npx ng serve -o",
     "test": "npx playwright test",
+    "test:show-report": "npx playwright show-report playwright-html-report",
     "test:clean-screenshots": "pwsh -NoProfile -File ./npm-pwsh-scripts/clean-stale-screenshots.ps1 -snapshotDir ./tests/__screenshots__ -tempSnapshotDir ./tests/__temp-screenshots__",
     "prettier:check": "npx prettier --check .",
     "prettier:write": "npx prettier --write ."

@@ -1,6 +1,7 @@
 # Useful Playwright Fixtures
 
 - [Description](#description)
+- [How to build, run the app, run tests and view the test results](#how-to-build-run-the-app-run-tests-and-view-the-test-results)
 - [Playwright configuration](#playwright-configuration)
 - [Fixtures](#fixtures)
   - [Time/Date emulation](#timedate-emulation)
@@ -11,15 +12,50 @@
   - [Project name](#project-name)
   - [Custom annotations](#custom-annotations)
 
-> [!IMPORTANT]
->
-> When you run the tests in this fixtures demo with `npm test` you will have 8 tests that pass, 1 test that is skipped and 9 that fail. This is intentional as the tests are meant to show the fixtures in action. For more information see the comments at [example.spec.ts](./tests/example.spec.ts).
-
 ## Description
 
 A proper description of what a Playwright fixture is can be found on the [official docs](https://playwright.dev/docs/test-fixtures#introduction). For the purpose of this code demo, you can think of fixtures as a way to provide, or even [automatically apply](https://playwright.dev/docs/test-fixtures#automatic-fixtures), behaviour to your tests.
 
 The fixtures used in this code demo are all declared on the [app-fixtures.ts](/demos/fixtures/tests/_shared/app-fixtures.ts) file.
+
+## How to build, run the app, run tests and view the test results
+
+> [!IMPORTANT]
+>
+> Required dependencies:
+>
+> - [Node](https://nodejs.org/en/blog/release/v20.10.0). Tested working with `v20.10.0`. If you need to have different versions of node installed it's recommended that you use [Node Version Manager](https://github.com/nvm-sh/nvm) to install and swap between node versions.
+> - [npm@latest](https://www.npmjs.com/package/npm): package manager used on the demos. Tested working on `10.2.5`.
+> - [VS Code](https://code.visualstudio.com/download) is recommended as a code editor but you can use whatever you prefer.
+
+1. Clone the repo.
+2. Using your favorite shell go to `/demos/fixtures`.
+3. Install the required npm packages with:
+   ```
+   npm install
+   ```
+4. Install the [playwright browsers](https://playwright.dev/docs/browsers) with:
+   ```
+   npx playwright install
+   ```
+5. Run the tests with:
+   ```
+   npm test
+   ```
+   This will start the app and run the [playwright tests](/demos/fixtures/tests/example.spec.ts) against it.
+6. After running the tests you can view test results with:
+   ```
+   npm run test:show-report
+   ```
+7. If you just want to run the app execute the command:
+   ```
+   npm start
+   ```
+   Once the command finishes the app should open in your default browser at [http://127.0.0.1:4200/](http://127.0.0.1:4200/).
+
+> [!NOTE]
+>
+> When you run the tests in this fixtures demo with `npm test` you will have 8 tests that pass, 1 test that is skipped and 9 that fail. This is intentional as the tests are meant to show the fixtures in action. For more information see the comments at [example.spec.ts](./tests/example.spec.ts).
 
 ## Playwright configuration
 
@@ -37,8 +73,8 @@ The main changes are:
 
 Furthermore, we have created:
 
-- a [playwright.cli-options.ts](/demos/docker/playwright.cli-options.ts) file: to represent Playwright CLI options we care about.
-- a [playwright.env-vars.ts](/demos/docker/playwright.env-vars.ts) file: to represent environment variables we care about.
+- a [playwright.cli-options.ts](/demos/fixtures/playwright.cli-options.ts) file: to represent Playwright CLI options we care about.
+- a [playwright.env-vars.ts](/demos/fixtures/playwright.env-vars.ts) file: to represent environment variables we care about.
 
 > [!NOTE]
 >
