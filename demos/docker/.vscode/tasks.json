@@ -46,7 +46,7 @@
       "label": "run tests",
       "detail": "Runs the tests.",
       "type": "shell",
-      "command": "./npm-pwsh-scripts/playwright-vscode-task.ps1 -updateSnapshots ${input:updateSnapshots} -useHostWebServer ${input:useHostWebServer} -grep '${input:grep}'",
+      "command": "./npm-pwsh-scripts/playwright-vscode-task.ps1 -updateSnapshots ${input:updateSnapshots} -useHostWebServer ${input:useHostWebServer} -grep '${input:grep}' -installNpmPackagesMode ${input:installNpmPackagesMode}",
       "presentation": {
         "focus": true,
         "panel": "dedicated"
@@ -61,7 +61,7 @@
       "label": "open tests ui",
       "detail": "Opens Playwright tests UI.",
       "type": "shell",
-      "command": "./npm-pwsh-scripts/playwright-ui-vscode-task.ps1 -useHostWebServer ${input:useHostWebServer}",
+      "command": "./npm-pwsh-scripts/playwright-vscode-task.ps1 -ui -useHostWebServer ${input:useHostWebServer} -installNpmPackagesMode ${input:installNpmPackagesMode}",
       "presentation": {
         "focus": true,
         "panel": "dedicated"
@@ -143,6 +143,13 @@
       "description": "Only run tests matching this regular expression. By default all tests are executed.",
       "type": "promptString",
       "default": "*"
+    },
+    {
+      "id": "installNpmPackagesMode",
+      "description": "Install NPM packages in docker container or mount the from host.",
+      "type": "pickString",
+      "options": ["auto", "install", "mount"],
+      "default": "auto"
     },
     {
       "id": "lintMode",
