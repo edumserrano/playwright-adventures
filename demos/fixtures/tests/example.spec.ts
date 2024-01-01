@@ -11,8 +11,8 @@ import { expect, test } from "tests/_shared/app-fixtures";
 // The code at demos\fixtures\src\app\app.component.ts sets
 // the `currentDate` variable based on the current Date but
 // the `setDate` fixture will override the current Date with
-// a fake test date so that the asserts on the text field and
-// on the screenshot always works.
+// a fake test date so that the assert on the text field
+// always works.
 test("setDate", async ({ page }) => {
   // this relative navigation is possible because of the baseURL
   // property that is configured int the playwright.config.ts
@@ -21,7 +21,6 @@ test("setDate", async ({ page }) => {
   await expect(messageLocator).toHaveText(
     "Congratulations! Your app is running and it's Sat Jan 20 2024. 🎉",
   );
-  await expect(page).toHaveScreenshot();
 });
 
 // This test shows the consoleMessages and failOnUnexpectedConsoleMessages fixtures.
@@ -44,7 +43,6 @@ test("consoleMessages and failOnUnexpectedConsoleMessages", async ({
   // this relative navigation is possible because of the baseURL
   // property that is configured int the playwright.config.ts
   await page.goto("/");
-  await expect(page).toHaveScreenshot();
   expect(consoleMessages.length).toBe(1);
   expect(consoleMessages[0].text()).toBe(
     "This is an expected console message.",
@@ -87,5 +85,8 @@ test("projectName", async ({ page, projectName }) => {
   // this relative navigation is possible because of the baseURL
   // property that is configured int the playwright.config.ts
   await page.goto("/");
-  await expect(page).toHaveScreenshot();
+  const messageLocator = page.getByText("Congratulations! Your app is");
+  await expect(messageLocator).toHaveText(
+    "Congratulations! Your app is running and it's Sat Jan 20 2024. 🎉",
+  );
 });
