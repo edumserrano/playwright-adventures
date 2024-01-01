@@ -29,6 +29,7 @@ This repo aims to consolidate and share some of the experiences I've had and the
 ## Tips
 
 - [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](/docs/v8-vs-istanbul.md)
+- [Which reporters should I use?](/docs/reporters.md)
 
 ## Learn more about Playwright
 

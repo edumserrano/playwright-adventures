@@ -91,7 +91,7 @@ The majority of the content of the [playwright.config.ts](/demos/code-coverage-w
 The main changes are:
 
 1. Declared a few variables at the start that are reused throughout the playwright configuration.
-2. Updated the `reporter` array. Added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter) to the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter). To keep this demo focused on its goal, this Playwright configuration isn't using the [monocart-reporter](https://github.com/cenfun/monocart-reporter) but I strongly advise you to try it out. For an usage example see the `playwright.config.ts` for the [Playwright code coverage with monocart-reporter demo](/demos/code-coverage-with-monocart-reporter/README.md).
+2. Updated the `reporter` array. Added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter) to the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter).
 3. Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
 
 > [!NOTE]
