@@ -3,7 +3,6 @@
 - [Description](#description)
 - [How to build, run the app and run tests](#how-to-build-run-the-app-and-run-tests)
 - [How to view the test results and code coverage](#how-to-view-the-test-results-and-code-coverage)
-- [The app](#the-app)
 - [Tests and code coverage](#tests-and-code-coverage)
   - [Playwright configuration](#playwright-configuration)
   - [Collect code coverage data](#collect-code-coverage-data)
@@ -70,20 +69,12 @@ npm run coverage:show-report
 
 https://github.com/edumserrano/playwright-adventures/assets/15857357/668ae774-73b5-4e01-8221-6d12b46496be
 
-## The app
-
-The app being tested is an Angular 17 app. It has very little changes from the template you get from doing `ng new`. The only addition is a button which has some conditional logic to better show the code coverage.
-
-> [!NOTE]
->
-> Although the app being tested is an Angular app, the Playwright concepts that are demoed are frontend framework agnostic which means they and can be applied to any frontend framework.
-
 ## Tests and code coverage
 
 To get code coverage with `Istanbul` there are two main building blocks:
 
-- use the `babel-plugin-istanbul` Webpack plugin to collect code coverage during the tests' execution.
-- use the `nyc` CLI tool to generate the code coverage reports from the code coverage data.
+- use the `babel-plugin-istanbul` Webpack plugin to collect code coverage during the tests' execution: `npm i -D babel-plugin-istanbul`.
+- use the `nyc` CLI tool to generate the code coverage reports from the code coverage data: `npm i -D nyc`
 
 ### Playwright configuration
 
@@ -91,7 +82,7 @@ The majority of the content of the [playwright.config.ts](/demos/code-coverage-w
 
 The main changes are:
 
-1. Declared a few variables at the start that are reused throught the playwright configuration.
+1. Declared a few variables at the start that are reused throughout the playwright configuration.
 2. Updated the `reporter` array. Added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter) to the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter). To keep this demo focused on its goal, this Playwright configuration isn't using the [monocart-reporter](https://github.com/cenfun/monocart-reporter) but I strongly advise you to try it out. For an usage example see the `playwright.config.ts` for the [Playwright code coverage with monocart-reporter demo](/demos/code-coverage-with-monocart-reporter/README.md).
 3. Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
 

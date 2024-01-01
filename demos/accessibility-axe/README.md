@@ -3,3 +3,5 @@
 - [Description](#description)
 
 ## Description
+
+mention the `npm i -D @axe-core/playwright`
