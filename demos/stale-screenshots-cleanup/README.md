@@ -3,7 +3,6 @@
 - [Description](#description)
 - [Do I really need a solution to clean stale screenshots?](#do-i-really-need-a-solution-to-clean-stale-screenshots)
 - [How to build, run the app and run tests](#how-to-build-run-the-app-and-run-tests)
-- [The app](#the-app)
 - [Playwright configuration](#playwright-configuration)
 - [Delete stale Playwright screenshots](#delete-stale-playwright-screenshots)
   - [The clean-stale-screenshots.ps1 script](#the-clean-stale-screenshotsps1-script)
@@ -64,21 +63,13 @@ If you feel that recreating all the screenshots is a viable process for you then
    ```
    Once the command finishes the app should open in your default browser at [http://127.0.0.1:4200/](http://127.0.0.1:4200/).
 
-## The app
-
-The app used for this demo is an Angular 17 app. It has no changes from the template you get from doing `ng new`.
-
-> [!NOTE]
->
-> Although the app being tested is an Angular app, the Playwright concepts that are demoed are frontend framework agnostic which means they and can be applied to any frontend framework.
-
 ## Playwright configuration
 
 The majority of the content of the [playwright.config.ts](/demos/stale-screenshots-cleanup/playwright.config.ts) file is what you get by default after [adding Playwright to your project](https://playwright.dev/docs/intro#installing-playwright) with `npm init playwright@latest`.
 
 The main changes are:
 
-1. Declared a few variables at the start that are reused throught the playwright configuration.
+1. Declared a few variables at the start that are reused throughout the playwright configuration.
 2. Updated the `reporter` array. Added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter) to the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter).
 3. Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
 

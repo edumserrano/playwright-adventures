@@ -2,7 +2,6 @@
 
 - [Description](#description)
 - [How to build, run the app, run tests and view the test results](#how-to-build-run-the-app-run-tests-and-view-the-test-results)
-- [The app](#the-app)
 - [Run tests](#run-tests)
   - [What to expect](#what-to-expect)
   - [The docker command to run Playwright tests](#the-docker-command-to-run-playwright-tests)
@@ -20,7 +19,6 @@
   - [Playwright's test execution stops midway when running on Docker](#playwrights-test-execution-stops-midway-when-running-on-docker)
   - [Do I need Powershell to run Playwright in Docker?](#do-i-need-powershell-to-run-playwright-in-docker)
   - [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
-  - [Simplify the logic on the Powershell scripts if you don't need it](#simplify-the-logic-on-the-powershell-scripts-if-you-dont-need-it)
 - [Bonus: Visual Studio Code integration](#bonus-visual-studio-code-integration)
   - [Example running the tests using the Visual Studio Code task](#example-running-the-tests-using-the-visual-studio-code-task)
   - [Example running the tests using the Visual Studio task and setting `useHostWebServer` to `yes`](#example-running-the-tests-using-the-visual-studio-task-and-setting-usehostwebserver-to-yes)
@@ -79,14 +77,6 @@ The demo at [/demos/docker](/demos/docker/) shows how to run Playwright tests in
    npm start
    ```
    Once the command finishes the app should open in your default browser at [http://127.0.0.1:4200/](http://127.0.0.1:4200/).
-
-## The app
-
-The app being tested is an Angular 17 app. It has no changes from the template you get from doing `ng new`.
-
-> [!NOTE]
->
-> Although the app being tested is an Angular app, the Playwright concepts that are demoed are frontend framework agnostic which means they and can be applied to any frontend framework.
 
 ## Run tests
 
@@ -183,7 +173,7 @@ The majority of the content of the [playwright.config.ts](/demos/docker/playwrig
 
 The main changes are:
 
-1. Declared a few variables at the start that are reused throught the playwright configuration.
+1. Declared a few variables at the start that are reused throughout the playwright configuration.
 2. Updated the `reporter` array. In addition to using the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), we've added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter). To keep this demo focused on its goal, this Playwright configuration isn't using the [monocart-reporter](https://github.com/cenfun/monocart-reporter) but I strongly advise you to try it out. For an usage example see the `playwright.config.ts` for the [Playwright code coverage with monocart-reporter demo](/demos/code-coverage-with-monocart-reporter/README.md).
 3. Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
 4. Defined the `snapshotPathTemplate` option to group snapshots by Operating System. This is a choice for this demo, it's not mandatory. This options is configured so that all snapshots generated on Unix will be stored at `/tests/__screenshots__/linux` and all snapshots generated on Windows will be storted at `/tests/__screenshots__/win32`. One of the reasons this is done is so that we can add the windows directory to the [.gitignore](/demos/docker/.gitignore) to avoid committing windows snapshots in case someone runs the tests outside of Docker for any reason. Remember that the whole point of running in Docker is to generate Unix like snapshots to get consistent behavior between running locally and on CI, so you should never want to commit windows generated snapshots.
@@ -315,12 +305,6 @@ No, this demo used Powershell to create a script with the logic to build the doc
 You can use the `--` notation to [pass command line arguments to npm commands](https://dev.to/felipperegazio/handling-command-line-arguments-in-npm-scripts-2ean). However, if you're using Powershell and want to pass command line arguments then you should either use a double `-- --` notation or single quotes like `'--'`.
 
 Fore more info see [PowerShell, NPM Scripts, and Silently Dropped Arguments](https://www.lloydatkinson.net/posts/2022/powershell-npm-scripts-and-silently-dropped-arguments/).
-
-### Simplify the logic on the Powershell scripts if you don't need it
-
-The Powershell scripts at `/demos/docker/npm-pwsh-scripts` accept some input parameters and by default deal with the possibility of having to install the node modules inside the container if you're running the demo on Windows.
-
-I'd suggest simplifying the Powershell scripts if you don't need the input parameters or if your app does not need to [install node modules inside the container](#you-dont-always-need-to-install-node-modules-on-the-docker-container), for instance, because you're developing on a mac or because you're not using any package that is OS specific.
 
 ## Bonus: Visual Studio Code integration
 
