@@ -11,7 +11,7 @@ This repo aims to consolidate and share some of the experiences I've had and the
 
 > [!IMPORTANT]
 >
-> Although the code demos presented here use Angular, the Playwright concepts that are demoed are frontend framework agnostic which means they and can be applied to any frontend framework.
+> Although the code demos presented here use Angular for the target app of the Playwright tests, the Playwright concepts that are demoed are frontend framework agnostic which means they and can be applied to any frontend framework.
 
 ## Playwright demos
 
