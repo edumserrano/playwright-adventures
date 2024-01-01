@@ -4,9 +4,12 @@
 #
 
 param (
+  [switch] $ui = $false,
   [string] $updateSnapshots = "no",
   [string] $useHostWebServer = "no",
-  [string] $grep = ""
+  [string] $grep = "",
+  [ValidateSet("auto", "install", "mount")]
+  [string] $installNpmPackagesMode = "auto"
 )
 
 function ConvertToBool($value) {
@@ -16,6 +19,10 @@ function ConvertToBool($value) {
 function StartPlaywrightTests {
   $ErrorActionPreference = 'Stop';
   $command = "./npm-pwsh-scripts/playwright.ps1";
+
+  if ($ui) {
+    $command += " -ui";
+  }
 
   if (ConvertToBool -value $updateSnapshots) {
     $command += " -updateSnapshots";
@@ -28,6 +35,8 @@ function StartPlaywrightTests {
   if (![string]::IsNullOrEmpty($grep) -and $grep -ne "*") {
     $command += " -grep ""$grep"""
   }
+
+  $command += " -installNpmPackagesMode $installNpmPackagesMode";
 
   Invoke-Expression -Command $command
   Exit $LASTEXITCODE # see https://stackoverflow.com/questions/32348794/how-to-get-status-of-invoke-expression-successful-or-failed
