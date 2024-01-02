@@ -285,3 +285,27 @@ jobs:
           }
 
           Exit 0
+  monocart-reporter-advanced-config:
+    name: monocart-reporter-advanced-config demo
+    permissions:
+      contents: read
+    runs-on: windows-latest
+    steps:
+    - name: Dump github context for debug purposes
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: $env:GITHUB_CONTEXT
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        lfs: true
+    - name: monocart-reporter-advanced-config demo
+      run: |
+          cd "${{ github.workspace }}/demos/monocart-reporter-advanced-config"
+          npm ci
+          npx playwright install --with-deps
+          npm test
+
+          # There's no easy way to test that this demo is working as expected.
+          # For now this demo relies on manual testing to make sure everything
+          # is working.
