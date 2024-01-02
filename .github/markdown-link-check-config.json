@@ -3,6 +3,10 @@
     {
       "pattern": "^https://www.linkedin.com/in/eduardomserrano/",
       "description": "Linkedin returns 999, can't figure out how to make this work past Linkedin's 'are you a human?' check."
+    },
+    {
+      "pattern": "^http://127.0.0.1*",
+      "description": "Ignore references to localhost."
     }
   ],
   "replacementPatterns": [
