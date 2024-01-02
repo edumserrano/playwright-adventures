@@ -1,0 +1,69 @@
+name: Markdown link check
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0' # Once a week: "At 00:00 on Sunday."
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  main:
+    name: Markdown link check
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump github context for debug purposes
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: $env:GITHUB_CONTEXT
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Markdown link check
+      id: mlc-push
+      uses: gaurav-nelson/github-action-markdown-link-check@1.0.15
+      if: github.event_name != 'pull_request'
+      with:
+        use-quiet-mode: yes
+        config-file: .github/markdown-link-check-config.json
+    - name: Markdown link check
+      id: mlc-pr
+      uses: gaurav-nelson/github-action-markdown-link-check@1.0.15
+      if: github.event_name == 'pull_request'
+      with:
+        use-quiet-mode: yes
+        config-file: .github/markdown-link-check-config.json
+        check-modified-files-only: yes
+        base-branch: main
+    - name: Set has broken links variable
+      id: mlc
+      if: always()
+      run: |
+        $mlcPush = [System.Convert]::ToBoolean("${{ steps.mlc-push.conclusion == 'success' }}")
+        $mlcPr = [System.Convert]::ToBoolean("${{ steps.mlc-pr.conclusion == 'success' }}")
+        $noBrokenLinks = $mlcPush -or $mlcPr
+        if($noBrokenLinks)
+        {
+          Write-Output "has-broken-links=false" >> $env:GITHUB_OUTPUT
+        }
+        else
+        {
+          Write-Output "has-broken-links=true" >> $env:GITHUB_OUTPUT
+        }
+    - name: Log workflow
+      if: always()
+      run: |
+        $hasBrokenLinks = [System.Convert]::ToBoolean("${{ steps.mlc.outputs.has-broken-links }}")
+        if($hasBrokenLinks) {
+          Write-Output "::error::Broken links were found on markdown files. For more details see the details of the 'Markdown link check' step."
+        }
+        else {
+          Write-Output "::notice::No broken links were found on markdown files."
+        }

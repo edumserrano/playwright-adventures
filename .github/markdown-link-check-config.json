@@ -1,0 +1,26 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^https://www.linkedin.com/in/eduardomserrano/",
+      "description": "Linkedin returns 999, can't figure out how to make this work past Linkedin's 'are you a human?' check."
+    }
+  ],
+  "replacementPatterns": [
+    {
+      "pattern": "^/",
+      "replacement": "{{BASEURL}}/",
+      "description": "Make relative markdown URLs work"
+    }
+  ],
+  "httpHeaders": [
+    {
+      "urls": [
+        "https://docs.github.com"
+      ],
+      "headers": {
+        "Accept-Encoding": "gzip, deflate, br"
+      },
+      "description": "Avoids 403s from GitHub docs"
+    }
+  ]
+}
