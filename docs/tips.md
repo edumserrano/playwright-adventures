@@ -82,9 +82,9 @@ For some usage examples see the following demos:
 
 ## Avoid using watch mode on the target test apps
 
-When you run the target test app manually or with Playwright's [webServer](https://playwright.dev/docs/test-webserver) configuration option you should consider running without any kind watch mode if possible. You should do this if:
+When you run the target test app manually or with Playwright's [webServer](https://playwright.dev/docs/test-webserver) configuration option you should evaluate if you need to run with any kind of watch mode. If you are going to run your entire test suite then you should avoid running the target test app with a watch mode if:
 
-- your apps's watch mode is triggered by output generated from the Playwright reporters or screenshots and you can't configure it to ignore these.
+- your apps's watch mode is triggered by output generated from the Playwright test suite, such as output from reporters or screenshots, and you can't configure it to ignore these.
 - you want to avoid tests failing because you've accidentally changed the app's code whilst the tests are running and the watch mode rebuilt the app.
 
 If you check any of the demos in this repo you will see that the `webServer.command` is set like:
