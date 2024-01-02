@@ -179,6 +179,7 @@ jobs:
     - name: docker demo
       run: |
           cd "${{ github.workspace }}/demos/docker"
+          npm ci
           npm test
 
           # The docker demo has many options in the powershell script which are not tested.
