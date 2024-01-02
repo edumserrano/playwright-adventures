@@ -1,6 +1,7 @@
 # Playwright tips
 
 - [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](#which-code-coverage-should-i-use-with-playwright-monocart-reporter-or-istanbul-with-webpack-babel-plugin)
+- [Use Git LFS when you use screenshots](#use-git-lfs-when-you-use-screenshots)
 - [Which reporters should I use?](#which-reporters-should-i-use)
 - [Avoid using watch mode on the target test apps](#avoid-using-watch-mode-on-the-target-test-apps)
 - [What are the available devices for test projects configuration?](#what-are-the-available-devices-for-test-projects-configuration)
@@ -13,7 +14,7 @@
 
 Perhaps the main differences between using `Istanbul` or `v8` for code coverage are:
 
-- `v8` only works on `chromium`. That's why there's a function named `browserSupportsV8CodeCoverage` at [v8-code-coverage.ts](/demos/code-coverage-with-monocart-reporter/tests/_shared/fixtures/v8-code-coverage.ts) to only collect `v8` code coverage if the test is running on `chromium`. 
+- `v8` only works on `chromium`. That's why there's a function named `browserSupportsV8CodeCoverage` at [v8-code-coverage.ts](/demos/code-coverage-with-monocart-reporter/tests/_shared/fixtures/v8-code-coverage.ts) to only collect `v8` code coverage if the test is running on `chromium`.
 - `v8` can track code coverage on HTML and CSS files whilst `Istanbul` only tracks code coverage on JavaScript files.
 
 When you're using Playwright, the fact that `v8` code coverage only works on `chromium` shouldn't be much of a problem since it's very likely that you'll be running your tests against a `chromium` browser. This only becomes a slight issue if you have some  tests to specifically check non `chromium` browsers behaviour. If that's the case then you wouldn't be getting code coverage for those when using `v8`.
@@ -23,6 +24,20 @@ Conversely, the fact `v8` provides `html` and `CSS` coverage is usually not that
 **So where does that leave us? I'd say use whatever you find easier. For me, using code coverage with `monocart-reporter` fits that. I already use `monocart-reporter` as the Playwright test results reporter so having it provide code coverage as well just makes things simple.**
 
 Lastly, I would call out that this is not an either/or choice, if you need to, you can mix both approaches and have the code instrumented with both `v8` and `Istanbul` at the same time.
+
+## Use Git LFS when you use screenshots
+
+When you take screenshots with Playwright you should commit them to Git so that they can be used as the source of truth when rerunning the tests. Storing the screenshots in Git also let's you track screenshot changes over time.
+
+However, you should set up [Git LFS](https://git-lfs.com/) to [avoid slowing down your Git repository](https://stackoverflow.com/questions/35575400/what-is-the-advantage-of-git-lfs):
+
+> You should use Git LFS if you need to manage large files or binary files when using Git.
+>
+> The reason you should use Git LFS if you manage large or binary files is that Git is decentralized. This means every developer has the full change history on their computer. Changes in large binary files cause Git repositories to grow by the size of that file every time the file is changed (and that change is committed). That means it will take a long time to get the files. And if you do, it will be difficult to version and merge the binaries.
+>
+> So, every time the files grow, the Git repository grows. This causes slowdowns when Git users need to retrieve and clone a repository.
+
+See [here](https://www.atlassian.com/git/tutorials/git-lfs) to learn more about Git LFS.
 
 ## Which reporters should I use?
 
@@ -48,7 +63,7 @@ For some usage examples see the following demos:
 When you run the target test app manually or with Playwright's [webServer](https://playwright.dev/docs/test-webserver) configuration option you should consider running without any kind watch mode if possible. You should do this if:
 
 - your apps's watch mode is triggered by output generated from the Playwright reporters or screenshots and you can't configure it to ignore these.
-- you want to avoid tests failing because you've accidentally changed the app's code whilst the tests are running and the watch mode rebuilt the app. 
+- you want to avoid tests failing because you've accidentally changed the app's code whilst the tests are running and the watch mode rebuilt the app.
 
 If you check any of the demos in this repo you will see that the `webServer.command` is set like:
 

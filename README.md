@@ -7,7 +7,7 @@
 
 ## Description
 
-This repo aims to consolidate and share some of the experiences I've had and the solutions I've come up with whilst using Playwright to test Angular apps. 
+This repo aims to consolidate and share some of the experiences I've had and the solutions I've come up with whilst using Playwright to test Angular apps.
 
 > [!IMPORTANT]
 >
@@ -29,6 +29,7 @@ This repo aims to consolidate and share some of the experiences I've had and the
 ## Tips
 
 - [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](/docs/tips.md#which-code-coverage-should-i-use-with-playwright-monocart-reporter-or-istanbul-with-webpack-babel-plugin)
+- [Use Git LFS when you use screenshots](/docs/tips.md#use-git-lfs-when-you-use-screenshots)
 - [Which reporters should I use?](/docs/tips.md#which-reporters-should-i-use)
 - [Avoid using watch mode on the target test apps](/docs/tips.md#avoid-using-watch-mode-on-the-target-test-apps)
 - [What are the available devices for test projects configuration?](/docs/tips.md#what-are-the-available-devices-for-test-projects-configuration)
@@ -43,4 +44,4 @@ This repo aims to consolidate and share some of the experiences I've had and the
 - [Learn Playwright - Resources for learning end-to-end testing using Playwright automation framework](https://ray.run/): great curated collection of Playwright resources. From blogs, to FAQS, to videos, etc.
 - [CommitQuality Playwright's YouTube Playlist](https://www.youtube.com/playlist?list=PLXgRgGX8-5UVm9yioRY329rfcfy3MusiY): small sized tutorials that will help you master Playwright.
 - [Playwright's Discord channel](https://discord.com/servers/playwright-807756831384403968): great for interacting with community members and asking questions.
-- [Playwright's GitHub issues](https://github.com/microsoft/playwright/issues): always worth searching through when you're trying to learn new concepts or in case others have faced some problem you might be facing. 
+- [Playwright's GitHub issues](https://github.com/microsoft/playwright/issues): always worth searching through when you're trying to learn new concepts or in case others have faced some problem you might be facing.
