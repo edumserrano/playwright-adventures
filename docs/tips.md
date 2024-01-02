@@ -5,6 +5,7 @@
 - [Use Git LFS when you use screenshots](#use-git-lfs-when-you-use-screenshots)
 - [The `webServer.reuseExistingServer` configuration option](#the-webserverreuseexistingserver-configuration-option)
 - [Which reporters should I use?](#which-reporters-should-i-use)
+- [You might not need to run all your tests against all your projects](#you-might-not-need-to-run-all-your-tests-against-all-your-projects)
 - [Avoid using watch mode on the target test apps](#avoid-using-watch-mode-on-the-target-test-apps)
 - [What are the available devices for test projects configuration?](#what-are-the-available-devices-for-test-projects-configuration)
 - [Use test parallelization even on CI](#use-test-parallelization-even-on-ci)
@@ -95,6 +96,105 @@ For some usage examples see the following demos:
 - [accessibility-lighthouse](/demos/accessibility-lighthouse/)
 
 **Also, take a look at the [table of contents for the monocart-reporter's documentation](https://github.com/cenfun/monocart-reporter?tab=readme-ov-file#monocart-reporter) to understand the breadth of options this HTML reporter gives you.**
+
+## You might not need to run all your tests against all your projects
+
+In one of my projects I had a total of 9 [Playwright projects](https://playwright.dev/docs/test-projects) because the Visual Designs for the app had several differences at different resolutions and the app had to work properly on all 3 browser engines: `chromium`, `firefox` and `webkit (Safari)`.
+
+This meant that each test we had had to be executed 9 tests, one per project, and as the number of tests grew so did the overall time to execute the test suite.
+
+When we analyzed this problem, we came to the conclusion that not all the tests we had needed to run for all the projects. The main tests we wanted to run for all projects were the ones that did Visual Regression because we wanted to make sure the app looked as expected in all browsers and resolutions. So what we did was organize the tests into two folders:
+
+```
+tests/
+├── chromium-only/
+│   └── ...
+└── multi-devices/
+    └── ...
+```
+
+Under the `tests/chromium-only` folder we placed all the tests that didn't need to be run for all browsers/resolutions. These tests would only be executed with `chromium` with a `1920x1080` resolution. And under the `tests/multi-devices` folder we placed all the tests that should be run for all browsers/resolutions.
+
+Lastly, we updated the [projects[].testMatch](https://playwright.dev/docs/test-projects#splitting-tests-into-projects) option of the `playwright.config.ts` so that only the project with name `desktop chromium only 1920x1080` would run the tests in the `tests/chromium-only` folder and all the other projects would run the tests in the `tests/multi-devices`:
+
+```ts
+// below is the partial content of the playwright.config.ts file
+import { defineConfig, devices } from '@playwright/test';
+
+export default defineConfig({
+  ...
+  projects: [
+    {
+      name: "desktop chromium only 1920x1080",
+      testMatch: /chromium-only\/.*.spec.ts/u,
+      use: {
+          ...devices["Desktop Chrome"],
+          viewport: { width: 1920, height: 1080 },
+      },
+    },
+    {
+      name: "desktop chromium 1920x1080",
+      testMatch: /multi-devices\/.*.spec.ts/u,
+      use: {
+          ...devices["Desktop Chrome"],
+          viewport: { width: 1920, height: 1080 },
+      },
+    },
+    {
+      name: "desktop firefox 1920x1080",
+      testMatch: /multi-devices\/.*.spec.ts/u,
+      use: {
+          ...devices["Desktop Firefox"],
+          viewport: { width: 1920, height: 1080 },
+      },
+    },
+    {
+      name: "desktop safari 1920x1080",
+      testMatch: /multi-devices\/.*.spec.ts/u,
+      use: {
+          ...devices["Desktop Safari"],
+          viewport: { width: 1920, height: 1080 },
+      },
+    },
+    {
+      name: "desktop chromium 1366x1080",
+      testMatch: /multi-devices\/.*.spec.ts/u,
+      use: {
+          ...devices["Desktop Chrome"],
+          viewport: { width: 1366, height: 1080 },
+          defaultBrowserType: "chromium",
+      },
+    },
+    {
+      name: "iPad Mini landscape", // this matches the 1024 width breakpoint
+      testMatch: /multi-devices\/.*.spec.ts/u,
+      use: {
+          ...devices["iPad Mini landscape"],
+          defaultBrowserType: "chromium",
+      },
+    },
+    {
+      name: "iPad Mini", // this matches the 768 width breakpoint
+      testMatch: /multi-devices\/.*.spec.ts/u,
+      use: {
+          ...devices["iPad Mini"],
+          defaultBrowserType: "chromium",
+      },
+    },
+    {
+      name: "iPhone 11 Pro", // this matches the 375 width breakpoint
+      testMatch: /multi-devices\/.*.spec.ts/u,
+      use: {
+          ...devices["iPhone 11 Pro"],
+          defaultBrowserType: "chromium",
+      },
+    },
+  ],
+  ...
+});
+```
+
+**This signficantly reduced the overall time to execute our test suite.**
 
 ## Avoid using watch mode on the target test apps
 
