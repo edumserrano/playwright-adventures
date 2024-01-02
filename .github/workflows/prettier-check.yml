@@ -60,16 +60,5 @@ jobs:
           EXIT 1
         }
 
+        Write-Output "::notice::No violations were found with the code formatting."
         EXIT 0
-    - name: Log workflow
-      if: always()
-      run: |
-        $prettierResult = "${{ steps.prettier.outcome }}"
-        if($prettierResult -eq "success")
-        {
-          Write-Output "::notice::No violations were found with the code formatting."
-        }
-        else
-        {
-          Write-Output "::error::Prettier found violations with the code formatting. For more details see the details of the 'Run prettier' step."
-        }
