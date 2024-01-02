@@ -75,7 +75,7 @@ And you can view the code coverage html report with:
 npm run coverage:show-report
 ```
 
-https://github.com/edumserrano/playwright-adventures/assets/15857357/668ae774-73b5-4e01-8221-6d12b46496be
+https://github.com/edumserrano/playwright-adventures/assets/15857357/76a400bc-c387-4521-9386-12b47b3863bb
 
 ## Tests and code coverage
 
