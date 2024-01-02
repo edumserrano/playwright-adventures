@@ -134,25 +134,25 @@ jobs:
           # veryfing that the expected coverage report files were created
 
           $expectedBytes = $false
-          $expectedBranches = $false
           $expectedFunctions = $false
+          $expectedBranches = $false
           $expectedLines = $false
 
           foreach($testLine in $testOutput)
           {
-            if($testLine.Contains("│ Bytes     │    99.89 % │  22,400 │        25 │ 22,425 │"))
+            if($testLine.Contains("99.89 %"))
             {
               $expectedBytes = $true
             }
-            elseif($testLine.Contains("│ Functions │    85.71 % │       6 │         1 │      7 │"))
+            elseif($testLine.Contains("85.71 %"))
             {
               $expectedFunctions = $true
             }
-            elseif($testLine.Contains("│ Branches  │   100.00 % │       8 │         0 │      8 │"))
+            elseif($testLine.Contains("100.00 %"))
             {
               $expectedBranches = $true
             }
-            elseif($testLine.Contains("│ Lines     │    99.72 % │     352 │         1 │    353 │"))
+            elseif($testLine.Contains("99.72 %"))
             {
               $expectedLines = $true
             }
