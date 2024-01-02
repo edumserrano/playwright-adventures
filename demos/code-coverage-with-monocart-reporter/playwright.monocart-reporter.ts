@@ -26,6 +26,9 @@ function getCodeCoverageOptions(
       },
     ],
     [
+      "console-summary",
+    ],
+    [
       "cobertura",
       {
         file: "cobertura/code-coverage.cobertura.xml",
