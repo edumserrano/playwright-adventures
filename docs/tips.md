@@ -56,7 +56,7 @@ const _webServerCommand = playwrightCliOptions.UIMode
   : `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`;
 ```
 
-Which will only use the watch mode if the Playwright tests are executed using the [UI mode](https://playwright.dev/docs/test-ui-mode). When running with `UI mode` you **do** want the watch mode because the `UI mode` is usually used as part of your dev loop where you start Playwright's UI mode and then: add tests, add app code, run tests, repeat. If you didn't run with watch mode then you'd have to restart Playwright's `UI mode` with every app/test code change to be able to run the tests against the latest version of the code. 
+Which will only use the watch mode if the Playwright tests are executed using the [UI mode](https://playwright.dev/docs/test-ui-mode). When running with `UI mode` what you usually want is to incorporate it into your dev loop so that you can change the app code, add/update tests and then run them. If you don't use a watch mode then Playwright's `UI mode` won't pick up the updated the tests or app code.
 
 ## Set the filepath for screenshots
 
