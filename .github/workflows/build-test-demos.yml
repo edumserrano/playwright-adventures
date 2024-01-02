@@ -42,9 +42,9 @@ jobs:
             }
           }
 
-          if($expectedFailures)
+          if(!$expectedFailures)
           {
-            Write-Output "::error::Failed running the `accessibility-axe` tests. Expected exactly 3 failed tests. See the accessibility-axe demo step for more details."
+            Write-Output "::error::Failed running the accessibility-axe demo tests. Expected exactly 3 failed tests. See the accessibility-axe demo step for more details."
             Exit 0
           }
     - name: code-coverage-with-monocart-reporter demo
