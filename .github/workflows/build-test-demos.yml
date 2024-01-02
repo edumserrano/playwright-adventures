@@ -32,6 +32,21 @@ jobs:
           npm ci
           npx playwright install --with-deps
           npm test | Tee-Object -Variable testOutput
+
+          $expectedFailures = $false
+          foreach($outputLine in $testOutput)
+          {
+            if($outputLine.Contains("3 failed"))
+            {
+              $expectedFailures = $true
+            }
+          }
+
+          if($expectedFailures)
+          {
+            Write-Output "::error::Failed running the `accessibility-axe` tests. Expected exactly 3 failed tests. See the accessibility-axe demo step for more details."
+            Exit 0
+          }
     - name: code-coverage-with-monocart-reporter demo
       run: |
           cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
