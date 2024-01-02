@@ -9,6 +9,7 @@
 - [Use test parallelization even on CI](#use-test-parallelization-even-on-ci)
 - [Set the filepath for screenshots](#set-the-filepath-for-screenshots)
 - [webServer.url: beware of `localhost` vs `127.0.0.1` when using Node](#webserverurl-beware-of-localhost-vs-127001-when-using-node)
+- [Beware of font kerning/CSS issues with Visual Regression Tests](#beware-of-font-kerningcss-issues-with-visual-regression-tests)
 
 ## Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?
 
@@ -143,3 +144,15 @@ This avoids any errors that you might come across if you were to mix IPv4 with I
 The errors you might encounter are due to a [breaking change to Node 18](https://github.com/nodejs/node/issues/40537), where Node migrated to using IPv6 by default. If you were to configure Playwright's `webServer.url` to `http://127.0.0.1:4200/` and then run your Node app at `http://localhost:4200/` then you might get issues because in Node 18 `localhost` would be resolved to an IPv6 address of `::1` and then the Playwright tests would fail because they wouldn't find anything running at `http://127.0.0.1:4200/`.
 
 This issue with IPv4 and IPv6 doesn't seem to be a problem if you are running the tests on Unix Operating Systems.
+
+## Beware of font kerning/CSS issues with Visual Regression Tests
+
+Playwright is an awesome library but when doing Visual Regression Tests you might come accross a few issues. The ones I faced in my apps were problems with tests running on `webkit (Safari)` in certain resolutions or when running `webkit (Safari)` with [isMobile](https://playwright.dev/docs/emulation#ismobile) emulation. The two issues I encoutered were:
+
+1) problems with font kerning. See [microsoft/playwright [Question] Font kerning in WebKit #20203](https://github.com/microsoft/playwright/issues/20203) and [microsoft/playwright [BUG] Another Font kerning issue in WebKit #23789](https://github.com/microsoft/playwright/issues/23789).
+2) problems with CSS that would cause the page to be unstable and fail to take screenshots. See [microsoft/playwright [BUG] background-attachment:fixed prevents scrolling viewport on webkit with isMobile: true #23573](https://github.com/microsoft/playwright/issues/23573).
+
+I couldn't get any acceptable workaround to overcome the above issues so in my case I chose not to run the tests that were having issues on `webkit (Safari)` below a 1920x1080 resolution.
+
+With every new Playwright release and/or browser release you should retest any existing workarounds/limitations you might be facing because you might find that the issues have been solved.
+
