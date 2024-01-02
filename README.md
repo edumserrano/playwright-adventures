@@ -33,6 +33,7 @@ This repo aims to consolidate and share some of the experiences I've had and the
 - [Use Git LFS when you use screenshots](/docs/tips.md#use-git-lfs-when-you-use-screenshots)
 - [The `webServer.reuseExistingServer` configuration option](/docs/tips.md#the-webserverreuseexistingserver-configuration-option)
 - [Which reporters should I use?](/docs/tips.md#which-reporters-should-i-use)
+- [You might not need to run all your tests against all your projects](/docs/tips.md#you-might-not-need-to-run-all-your-tests-against-all-your-projects)
 - [Avoid using watch mode on the target test apps](/docs/tips.md#avoid-using-watch-mode-on-the-target-test-apps)
 - [What are the available devices for test projects configuration?](/docs/tips.md#what-are-the-available-devices-for-test-projects-configuration)
 - [Use test parallelization even on CI](/docs/tips.md#use-test-parallelization-even-on-ci)
