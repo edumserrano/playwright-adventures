@@ -1,6 +1,7 @@
 # Playwright tips
 
 - [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](#which-code-coverage-should-i-use-with-playwright-monocart-reporter-or-istanbul-with-webpack-babel-plugin)
+- [How to debug Playwright tests](#how-to-debug-playwright-tests)
 - [Use Git LFS when you use screenshots](#use-git-lfs-when-you-use-screenshots)
 - [The `webServer.reuseExistingServer` configuration option](#the-webserverreuseexistingserver-configuration-option)
 - [Which reporters should I use?](#which-reporters-should-i-use)
@@ -27,6 +28,21 @@ Conversely, the fact `v8` provides `html` and `CSS` coverage is usually not that
 **So where does that leave us? I'd say use whatever you find easier. For me, using code coverage with `monocart-reporter` fits that. I already use `monocart-reporter` as the Playwright test results reporter so having it provide code coverage as well just makes things simple.**
 
 Lastly, I would call out that this is not an either/or choice, if you need to, you can mix both approaches and have the code instrumented with both `v8` and `Istanbul` at the same time.
+
+## How to debug Playwright tests
+
+First I recommend you run the test you want to debug using [Playwright UI mode](https://playwright.dev/docs/test-ui-mode). If all the information you get from `UI mode` is not enough, then you should consider using [Playwright extension for VS Code](https://playwright.dev/docs/debug#vs-code-debugger) or similar for your editor of choice.
+
+Alternatively, you can use the [Playwright inspector](https://playwright.dev/docs/debug#playwright-inspector) to debug tests.
+
+> ![WARNING]
+>
+> If you're debugging Visual Regression tests, meaning tests that make use of screnshots, then you should be aware that screenshots might differ if they're generated from a browser in `headed` vs `headless` mode, just like they might differ when executed accross different Operating Systems.
+>
+> For instance, if you generate the screenshots without debug mode, which by default runs the browser in `headless` mode, and then try to debug the tests, which by default will run the browser in `headed` mode, then the screenshot comparison might fail.
+>
+> For more information see [microsoft/playwright [BUG] Issues with VRT tests #23559](https://github.com/microsoft/playwright/issues/23559), especially [this comment](https://github.com/microsoft/playwright/issues/23559#issuecomment-1579830160) on that issue.
+>
 
 ## Use Git LFS when you use screenshots
 
