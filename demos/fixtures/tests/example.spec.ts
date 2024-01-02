@@ -14,8 +14,6 @@ import { expect, test } from "tests/_shared/app-fixtures";
 // a fake test date so that the assert on the text field
 // always works.
 test("setDate", async ({ page }) => {
-  // this relative navigation is possible because of the baseURL
-  // property that is configured int the playwright.config.ts
   await page.goto("/");
   const messageLocator = page.getByText("Congratulations! Your app is");
   await expect(messageLocator).toHaveText(
@@ -40,8 +38,6 @@ test("consoleMessages and failOnUnexpectedConsoleMessages", async ({
   page,
   consoleMessages,
 }) => {
-  // this relative navigation is possible because of the baseURL
-  // property that is configured int the playwright.config.ts
   await page.goto("/");
   expect(consoleMessages.length).toBe(1);
   expect(consoleMessages[0].text()).toBe(
@@ -82,8 +78,6 @@ test("projectName", async ({ page, projectName }) => {
     test.skip();
   }
 
-  // this relative navigation is possible because of the baseURL
-  // property that is configured int the playwright.config.ts
   await page.goto("/");
   const messageLocator = page.getByText("Congratulations! Your app is");
   await expect(messageLocator).toHaveText(
