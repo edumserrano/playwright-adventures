@@ -19,7 +19,7 @@ test("setDate", async ({ page }) => {
   await page.goto("/");
   const messageLocator = page.getByText("Congratulations! Your app is");
   await expect(messageLocator).toHaveText(
-    "Congratulations! Your app is running and it's Sat Jan 20 2024. 🎉",
+    "Congratulations! Your app is running and it's Sat Jan 20 2024.",
   );
 });
 
@@ -87,6 +87,6 @@ test("projectName", async ({ page, projectName }) => {
   await page.goto("/");
   const messageLocator = page.getByText("Congratulations! Your app is");
   await expect(messageLocator).toHaveText(
-    "Congratulations! Your app is running and it's Sat Jan 20 2024. 🎉",
+    "Congratulations! Your app is running and it's Sat Jan 20 2024.",
   );
 });
