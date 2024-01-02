@@ -57,7 +57,7 @@ export default defineConfig({
   },
   /*
    * For snapshotPathTemplate configuration options see https://playwright.dev/docs/api/class-testproject#test-project-snapshot-path-template
-   * The default snapshotPathTemplate is defined at https://github.com/microsoft/playwright/blob/aaf9cc5b49e31ce3bd54b9db7bb4cd2a9cdfacba/packages/playwright/src/common/config.ts#L167C4-L167C4
+   * The default snapshotPathTemplate is defined at https://github.com/microsoft/playwright/blob/7bffff5790e28243a815c985135e908247b563db/packages/playwright/src/common/config.ts#L167C5-L167C138
    * We aren't changing the snapshotPathTemplate from its default, we're just making it explicit here so that it can be
    * better understood how setting the snapshotDir affects where the screenshots are generated.
    */
