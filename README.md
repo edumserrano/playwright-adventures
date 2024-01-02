@@ -31,6 +31,7 @@ This repo aims to consolidate and share some of the experiences I've had and the
 - [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](/docs/tips.md#which-code-coverage-should-i-use-with-playwright-monocart-reporter-or-istanbul-with-webpack-babel-plugin)
 - [Which reporters should I use?](/docs/tips.md#which-reporters-should-i-use)
 - [Avoid using watch mode on the target test apps](/docs/tips.md#avoid-using-watch-mode-on-the-target-test-apps)
+- [What are the available devices for test projects configuration?](/docs/tips.md#what-are-the-available-devices-for-test-projects-configuration)
 - [Set the filepath for screenshots](/docs/tips.md#set-the-filepath-for-screenshots)
 
 ## Learn more about Playwright

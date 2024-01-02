@@ -3,6 +3,7 @@
 - [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](#which-code-coverage-should-i-use-with-playwright-monocart-reporter-or-istanbul-with-webpack-babel-plugin)
 - [Which reporters should I use?](#which-reporters-should-i-use)
 - [Avoid using watch mode on the target test apps](#avoid-using-watch-mode-on-the-target-test-apps)
+- [What are the available devices for test projects configuration?](#what-are-the-available-devices-for-test-projects-configuration)
 - [Set the filepath for screenshots](#set-the-filepath-for-screenshots)
 
 ## Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?
@@ -57,6 +58,12 @@ const _webServerCommand = playwrightCliOptions.UIMode
 ```
 
 Which will only use the watch mode if the Playwright tests are executed using the [UI mode](https://playwright.dev/docs/test-ui-mode). When running with `UI mode` what you usually want is to incorporate it into your dev loop so that you can change the app code, add/update tests and then run them. If you don't use a watch mode then Playwright's `UI mode` won't pick up the updated the tests or app code.
+
+## What are the available devices for test projects configuration?
+
+Playwright Test supports running [multiple test projects](https://playwright.dev/docs/api/class-testproject) at the same time. This is useful for running tests in multiple configurations.
+
+For the full list of built-in devices used to setup test projects see [deviceDescriptorsSource.json](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json).
 
 ## Set the filepath for screenshots
 
