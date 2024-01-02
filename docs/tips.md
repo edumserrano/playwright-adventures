@@ -11,6 +11,7 @@
 - [Use test parallelization even on CI](#use-test-parallelization-even-on-ci)
 - [Set the filepath for screenshots](#set-the-filepath-for-screenshots)
 - [webServer.url: beware of `localhost` vs `127.0.0.1` when using Node](#webserverurl-beware-of-localhost-vs-127001-when-using-node)
+- [You can inject test only code into your app with `page.addInitScript`](#you-can-inject-test-only-code-into-your-app-with-pageaddinitscript)
 - [Beware of font kerning/CSS issues with Visual Regression Tests](#beware-of-font-kerningcss-issues-with-visual-regression-tests)
 
 ## Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?
@@ -260,6 +261,32 @@ This avoids any errors that you might come across if you were to mix IPv4 with I
 The errors you might encounter are due to a [breaking change to Node 18](https://github.com/nodejs/node/issues/40537), where Node migrated to using IPv6 by default. If you were to configure Playwright's `webServer.url` to `http://127.0.0.1:4200/` and then run your Node app at `http://localhost:4200/` then you might get issues because in Node 18 `localhost` would be resolved to an IPv6 address of `::1` and then the Playwright tests would fail because they wouldn't find anything running at `http://127.0.0.1:4200/`.
 
 This issue with IPv4 and IPv6 doesn't seem to be a problem if you are running the tests on Unix Operating Systems.
+
+## You can inject test only code into your app with `page.addInitScript`
+
+You can use [page.addInitScript](https://playwright.dev/docs/api/class-page#page-add-init-script) to inject test only code into your target test app. This is what:
+
+- the [code-coverage-with-istanbul-via-webpack-babel-plugin](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/) demo uses to add code that will [collect the code coverage instrumentation](/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/tests/_shared/fixtures/istanbul-code-coverage.ts).
+- the [setDate fixture](/demos/fixtures/tests/_shared/fixtures/set-date.ts) of the [fixtures](/demos/fixtures/) demo uses to add code that overrides/extends the behavior of Javascript's `Date` class so that the current date is always fixed. The `page.addInitScript` is very useful to monkey patch JavaScript functions.
+
+Other scenarios where I injected test only code were when I didn't have an easy way to control my app's behaviour or initial state and I used the `page.addInitScript` function to set a global variable which then the app code used to control its behaviour/state. For instance:
+
+```ts
+page.addInitScript(() => {
+  window.__test = true;
+});
+```
+
+OR
+
+```ts
+const testData = <some-test-data>;
+page.addInitScript((data) => {
+  window.__testData = data;
+}, testData);
+```
+
+Then in my app code I would check the `window.__test` or use the `window.__testData`. I don't particularly like this approach when it means that, in addition to the `page.addInitScript` function, I also need to add code to the app that is only meant for the tests but sometimes there isn't any other way.
 
 ## Beware of font kerning/CSS issues with Visual Regression Tests
 
