@@ -45,12 +45,16 @@ jobs:
           cd "${{ github.workspace }}/demos/$demo"
           npm ci
           npm run prettier:check
+          if($LASTEXITCODE -ne 0)
+          {
+            Exit $LASTEXITCODE
+          }
           echo "::endgroup::"
         }
     - name: Log workflow
       if: always()
       run: |
-        $prettierResult = "${{ steps.prettier.outputs.result }}"
+        $prettierResult = "${{ steps.prettier.outcome }}"
         if($prettierResult -eq "success")
         {
           Write-Output "::notice::No violations were found with the code formatting."
