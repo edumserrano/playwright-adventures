@@ -36,18 +36,18 @@ jobs:
 
           # Check that all is as expected. Should have 3 and only 3 failed tests.
 
-          $expectedFailures = $false
+          $expectedFailed = $false
           foreach($outputLine in $testOutput)
           {
             if($outputLine.Contains("3 failed"))
             {
-              $expectedFailures = $true
+              $expectedFailed = $true
             }
           }
 
-          if(!$expectedFailures)
+          if(!$expectedFailed)
           {
-            Write-Output "::error::Failed running the accessibility-axe demo tests. Expected exactly 3 failed tests. See the accessibility-axe demo step for more details."
+            Write-Output "::error::Failed running the accessibility-axe demo tests. Expected exactly 3 failed tests."
             Exit 1
           }
 
@@ -236,3 +236,52 @@ jobs:
           # The docker demo has many options in the powershell script which are not tested.
           # For now it will require manual testing on the docker demo powershell scripts to
           # make sure everything is working as expected.
+  fixtures:
+    name: fixtures demo
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump github context for debug purposes
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: $env:GITHUB_CONTEXT
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: fixtures demo
+      run: |
+          cd "${{ github.workspace }}/demos/fixtures"
+          npm ci
+          npx playwright install --with-deps
+          npm test
+
+          # Check that all is as expected. Should have 9 failed, 1 skipped and
+          # 8 passed tests.
+
+          $expectedFailed = $false
+          $expectedSkipped = $false
+          $expectedPassed = $false
+
+          foreach($outputLine in $testOutput)
+          {
+            if($outputLine.Contains("9 failed"))
+            {
+              $expectedFailed = $true
+            }
+            elseif($outputLine.Contains("1 skipped"))
+            {
+              $expectedSkipped = $true
+            }
+            elseif($outputLine.Contains("8 passed"))
+            {
+              $expectedPassed = $true
+            }
+          }
+
+          if(!$expectedFailed -OR !$expectedSkipped -OR !$expectedPassed)
+          {
+            Write-Output "::error::Failed running the fixtures demo tests. Expected 9 failed, 1 skipped and 8 passed tests."
+            Exit 1
+          }
+
+          Exit 0
