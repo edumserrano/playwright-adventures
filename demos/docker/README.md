@@ -88,7 +88,7 @@ The demo at [/demos/docker](/demos/docker/) shows how to run Playwright tests in
 
 When you run `npm test` this is what you should expect:
 
-![npm test output](/docs/assets/npm-test.gif)
+https://github.com/edumserrano/playwright-adventures/assets/15857357/e0de2b19-894f-4e00-8124-f1ddccdd9c35
 
 ### The docker command to run Playwright tests
 
@@ -124,7 +124,7 @@ Once you see this message you can access the Playwright UI by going to `http://l
 
 When you run `npm run test:ui` this is what you should expect:
 
-![npm run test:ui output](/docs/assets/npm-test-ui.gif)
+https://github.com/edumserrano/playwright-adventures/assets/15857357/cedd5115-f066-49a5-ac61-f4c187a4e27c
 
 ### The docker command to run Playwright tests with UI mode
 
@@ -333,7 +333,7 @@ The available tasks are:
 
 When you run the `run tests` task you will be prompted for some input which is then passed on to the [playwright.ps1](#playwrightps1-powershell-script-details) Powershell script.
 
-![VSCode test task example](/docs/assets/vscode-test.gif)
+https://github.com/edumserrano/playwright-adventures/assets/15857357/204e5a7e-c098-4823-bf0e-36f240620f22
 
 ### Example running the tests using the Visual Studio task and setting `useHostWebServer` to `yes`
 
@@ -341,16 +341,16 @@ When you run the `run tests` task and choose `yes` to the `Do you want to use th
 
 You have to run the app locally outside of docker before you choose this option.
 
-![VSCode test with localhost serve task example](/docs/assets/vscode-test-with-localhost-serve.gif)
+https://github.com/edumserrano/playwright-adventures/assets/15857357/f4c6bbad-ce61-4400-a1a8-3a94a32ba107
 
 ### Example running the tests in UI mode using the Visual Studio Code task
 
 When you run the `open tests ui` task you will be prompted for some input which is then passed on to the [playwright.ps1](#playwrightps1-powershell-script-details) Powershell script.
 
-![VSCode test with UI mode](/docs/assets/vscode-test-ui.gif)
+https://github.com/edumserrano/playwright-adventures/assets/15857357/923f30a0-27ad-4197-bb12-557c8746e688
 
 ### Example debugging the app using Visual Studio Code
 
 Although this is not related with running Playwright in docker, this demo also shows how you can configure a [launch task](/demos/docker/.vscode/launch.json) for Visual Studio Code that let's you debug the app in Visual Studio Code.
 
-![VSCode debug](/docs/assets/vscode-debug.gif)
+https://github.com/edumserrano/playwright-adventures/assets/15857357/db540972-f60c-4a1a-9f08-d61c38af28ec
