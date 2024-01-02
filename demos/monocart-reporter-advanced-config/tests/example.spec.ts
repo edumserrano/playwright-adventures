@@ -6,8 +6,6 @@ Tests that the application loads correctly. </br>
 Performs no actions after load and takes a screenshot.
 */
 test("load page @critical @accessibility", async ({ page }) => {
-  // this relative navigation is possible because of the baseURL
-  // property that is configured int the playwright.config.ts
   await page.goto("/");
   await expect(page).toHaveScreenshot();
 });

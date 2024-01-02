@@ -13,8 +13,6 @@ async function attachAxeResultsAsync(
 }
 
 test("a11y", async ({ page }, testInfo) => {
-  // this relative navigation is possible because of the baseURL
-  // property that is configured int the playwright.config.ts
   await page.goto("/");
 
   // run the Axe accessibility scan against the page
@@ -28,8 +26,6 @@ test("a11y", async ({ page }, testInfo) => {
 });
 
 test("a11y with exclusions", async ({ page }, testInfo) => {
-  // this relative navigation is possible because of the baseURL
-  // property that is configured int the playwright.config.ts
   await page.goto("/");
 
   // run the Axe accessibility scan against the page
