@@ -39,6 +39,7 @@ jobs:
           'monocart-reporter-advanced-config',`
           'stale-screenshots-cleanup')
 
+        $violationsFound = $false
         foreach ($demo in $demos)
         {
           echo "::group::$demo"
@@ -47,10 +48,19 @@ jobs:
           npm run prettier:check
           if($LASTEXITCODE -ne 0)
           {
-            Exit $LASTEXITCODE
+            $violationsFound = $true
+            Write-Output "::error::Prettier found violations with the code formatting for the $demo demo.""
           }
+
           echo "::endgroup::"
         }
+
+        if($violationsFound)
+        {
+          EXIT 1
+        }
+
+        EXIT 0
     - name: Log workflow
       if: always()
       run: |
