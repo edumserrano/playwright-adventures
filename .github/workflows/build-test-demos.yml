@@ -225,6 +225,8 @@ jobs:
       run: $env:GITHUB_CONTEXT
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        lfs: true
     - name: docker demo
       run: |
           cd "${{ github.workspace }}/demos/docker"
