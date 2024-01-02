@@ -37,6 +37,7 @@ This repo aims to consolidate and share some of the experiences I've had and the
 - [Use test parallelization even on CI](/docs/tips.md#use-test-parallelization-even-on-ci)
 - [Set the filepath for screenshots](/docs/tips.md#set-the-filepath-for-screenshots)
 - [webServer.url: beware of `localhost` vs `127.0.0.1` when using Node](/docs/tips.md#webserverurl-beware-of-localhost-vs-127001-when-using-node)
+- [Beware of font kerning/CSS issues with Visual Regression Tests](/docs//tips.md#beware-of-font-kerningcss-issues-with-visual-regression-tests)
 
 ## Learn more about Playwright
 
