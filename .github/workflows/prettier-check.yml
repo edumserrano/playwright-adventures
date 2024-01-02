@@ -1,0 +1,59 @@
+name: Prettier check
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0' # Once a week: "At 00:00 on Sunday."
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  main:
+    name: Prettier check
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump github context for debug purposes
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: $env:GITHUB_CONTEXT
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Run prettier
+      id: prettier
+      run: |
+        $demos = @(
+          'accessibility-axe',`
+          'accessibility-lighthouse',`
+          'code-coverage-with-istanbul-via-webpack-babel-plugin',`
+          'code-coverage-with-monocart-reporter',`
+          'docker',`
+          'fixtures',`
+          'monocart-reporter-advanced-config',`
+          'stale-screenshots-cleanup')
+
+        foreach ($demo in $demos)
+        {
+          cd "./demos/$demo"
+          npm ci
+          npm run prettier:check
+        }
+    - name: Log workflow
+      if: always()
+      run: |
+        $prettierResult = "${{ steps.prettier.outputs.result }}"
+        if($prettierResult -eq "success")
+        {
+          Write-Output "::notice::No violations were found with the code formatting."
+        }
+        else
+        {
+          Write-Output "::error::Prettier found violations with the code formatting. For more details see the details of the 'Run prettier' step."
+        }
