@@ -62,10 +62,11 @@ export default defineConfig({
   },
   /*
    * For snapshotPathTemplate configuration options see https://playwright.dev/docs/api/class-testproject#test-project-snapshot-path-template
-   * By default {snapshotDir} is the same as {testDir}
+   * By default {snapshotDir} is the same as {testDir}.
+   * The default snapshotPathTemplate is defined at https://github.com/microsoft/playwright/blob/7bffff5790e28243a815c985135e908247b563db/packages/playwright/src/common/config.ts#L167C5-L167C138
    */
-  snapshotPathTemplate:
-    "{snapshotDir}/__screenshots__/{platform}/{projectName}/{testFilePath}/{arg}{ext}",
+  // prettier-ignore
+  snapshotPathTemplate: "{snapshotDir}/__screenshots__/{platform}/{projectName}/{testFilePath}/{arg}{ext}",
   /* Configure projects for major browsers */
   projects: [
     {
