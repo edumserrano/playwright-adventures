@@ -41,7 +41,7 @@ jobs:
 
         foreach ($demo in $demos)
         {
-          cd "./demos/$demo"
+          cd "${{ github.workspace }}/demos/$demo"
           npm ci
           npm run prettier:check
         }
