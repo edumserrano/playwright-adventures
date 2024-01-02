@@ -49,7 +49,7 @@ jobs:
           if($LASTEXITCODE -ne 0)
           {
             $violationsFound = $true
-            Write-Output "::error::Prettier found violations with the code formatting for the $demo demo.""
+            Write-Output "::error::Prettier found violations with the code formatting for the $demo demo."
           }
 
           echo "::endgroup::"
