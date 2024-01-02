@@ -26,6 +26,12 @@ jobs:
       run: $env:GITHUB_CONTEXT
     - name: Checkout repository
       uses: actions/checkout@v4
+    - name: accessibility-axe demo
+      run: |
+          cd "${{ github.workspace }}/demos/accessibility-axe"
+          npm ci
+          npx playwright install --with-deps
+          npm test | Tee-Object -Variable testOutput
     - name: code-coverage-with-monocart-reporter demo
       run: |
           cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
