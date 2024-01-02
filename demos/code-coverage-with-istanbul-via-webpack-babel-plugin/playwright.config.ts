@@ -22,19 +22,7 @@ export default defineConfig({
   forbidOnly: !_isRunningOnCI,
   /* Retry on CI only */
   retries: _isRunningOnCI ? 2 : 0,
-  /*
-   * Note that the default config opts out of parallel tests on CI by doing 'workers: _isRunningOnCI ? 1 : undefined'
-   * According to the Playwright docs, the default config does this because:
-   *
-   * "We recommend setting workers to "1" in CI environments to prioritize stability and reproducibility.
-   * Running tests sequentially ensures each test gets the full system resources, avoiding potential conflicts.
-   * However, if you have a powerful self-hosted CI system, you may enable parallel tests.
-   * For wider parallelization, consider sharding - distributing tests across multiple CI jobs."
-   *
-   * It's up to you to check if you can run in parallel or not on CI. Not that your overall test
-   * execution speed can vary significantly if you can run tests in parallel.
-   * See https://playwright.dev/docs/ci#workers.
-   */
+  /* See https://playwright.dev/docs/ci#workers */
   workers: undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
