@@ -33,6 +33,8 @@ jobs:
           npx playwright install --with-deps
           npm test | Tee-Object -Variable testOutput
 
+          # Check that all is as expected. Should have 3 and only 3 failed tests.
+
           $expectedFailures = $false
           foreach($outputLine in $testOutput)
           {
@@ -60,7 +62,7 @@ jobs:
           # The check is done by verifying that the audit-report.json produced by lighthouse
           # contains the expected score results. If this file doesn't exist or doesn't have
           # the expected scores then it should be an indication that something is wrong.
-          #
+
           $auditReport = Get-ChildItem -Path . -Filter audit-report.json -Recurse -ErrorAction SilentlyContinue -Force
           $auditReportJson = Get-Content -Raw $auditReport | ConvertFrom-Json
           $performanceCategory = $auditReportJson.categories | where { $_.name -eq "Performance" }
@@ -68,7 +70,7 @@ jobs:
           $bestPracticesCategory = $auditReportJson.categories | where { $_.name -eq "Best Practices" }
           $seoCategory = $auditReportJson.categories | where { $_.name -eq "SEO" }
 
-          if($performanceCategory.score -ne 1 || $accessibilityCategory.score -ne 0.93 || $bestPracticesCategory.score -ne 1 || $seoCategory.score -ne 0.89)
+          if($performanceCategory.score -ne 1 -OR $accessibilityCategory.score -ne 0.93 -OR $bestPracticesCategory.score -ne 1 -OR $seoCategory.score -ne 0.89)
           {
             Write-Output "::error::Failed running the accessibility-lighthouse demo tests. Audit report didn't produce expected scores."
             Exit 1
@@ -81,6 +83,45 @@ jobs:
           npm ci
           npx playwright install --with-deps
           npm test
+
+          # Check that the code coverage worked as expected.
+          # The check is done by running the command to generate the code coverage
+          # and asserting on the values of the summary report.
+
+          npm run coverage:report | Tee-Object -Variable coverageSummary
+
+          $expectedStatements = $false
+          $expectedBranches = $false
+          $expectedFunctions = $false
+          $expectedLines = $false
+
+          foreach($coverageLine in $coverageSummary)
+          {
+            if($coverageLine.Contains("Statements   : 88.88% ( 8/9 )"))
+            {
+              $expectedStatements = $true
+            }
+            elseif($coverageLine.Contains("Branches     : 100% ( 2/2 )"))
+            {
+              $expectedBranches = $true
+            }
+            elseif($coverageLine.Contains("Functions    : 50% ( 1/2 )"))
+            {
+              $expectedFunctions = $true
+            }
+            elseif($coverageLine.Contains("Lines        : 100% ( 8/8 )"))
+            {
+              $expectedLines = $true
+            }
+          }
+
+          if(!$expectedStatements -OR !$expectedBranches -OR !$expectedFunctions -OR !$expectedLines)
+          {
+            Write-Output "::error::Failed running the code-coverage-with-istanbul-via-webpack-babel-plugin. Code coverage summary is different from what is expected."
+            Exit 1
+          }
+
+          Exit 0
     - name: code-coverage-with-monocart-reporter demo
       run: |
           cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
