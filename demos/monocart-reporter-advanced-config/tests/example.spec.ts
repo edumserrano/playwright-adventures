@@ -5,14 +5,11 @@ import { test, expect } from "@playwright/test";
 Tests that the application loads correctly. </br>
 Performs no actions after load and takes a screenshot.
 */
-test("screenshot @critical @accessibility", async ({ page }) => {
+test("load page @critical @accessibility", async ({ page }) => {
   // this relative navigation is possible because of the baseURL
   // property that is configured int the playwright.config.ts
   await page.goto("/");
-  const messageLocator = page.getByText("Congratulations! Your app is");
-  await expect(messageLocator).toHaveText(
-    "Congratulations! Your app is running. 🎉",
-  );
+  await expect(page).toHaveScreenshot();
 });
 
 /**
