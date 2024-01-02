@@ -6,6 +6,7 @@ import { ConsoleMessage, Page } from "@playwright/test";
 function isExcluded(consoleMessage: ConsoleMessage): boolean {
   const isExcluded =
     consoleMessage.text() === "Angular is running in development mode." ||
+    consoleMessage.text().includes("[JavaScript Warning: \"Ignoring unsupported entryTypes: largest-contentful-paint.\"") ||
     consoleMessage.location().url.includes("/@vite/") ||
     consoleMessage.location().url.includes("/@fs/");
   return isExcluded;
@@ -17,8 +18,6 @@ export async function captureConsoleMessagesAsync(
 ): Promise<void> {
   const consoleMessages: ConsoleMessage[] = [];
   page.on("console", (consoleMessage: ConsoleMessage) => {
-    // prettier-ignore
-    console.log(consoleMessage.text() + " --- " + consoleMessage.location().url);
     if (!isExcluded(consoleMessage)) {
       consoleMessages.push(consoleMessage);
     }
