@@ -1,0 +1,33 @@
+name: Build and test the demo apps
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0' # Once a week: "At 00:00 on Sunday."
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  main:
+    name: Build and test the demo apps
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump github context for debug purposes
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: $env:GITHUB_CONTEXT
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: code-coverage-with-monocart-reporter demo
+      run: |
+          cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
+          npm ci
+          npm test
