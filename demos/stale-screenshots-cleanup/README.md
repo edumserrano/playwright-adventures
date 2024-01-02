@@ -109,7 +109,7 @@ Furthermore, we have created:
 
 > [!IMPORTANT]
 >
-> Make sure you have installed the required npm packages and Playwright browsers before proceeding. See the [How to build, run the app and run tests](#how-to-build-run-the-app-and-run-tests) section.
+> Make sure you have installed the required npm packages and Playwright browsers before proceeding. See the [How to build, run the app, run tests and view the test results](#how-to-build-run-the-app-run-tests-and-view-the-test-results) section.
 
 When you clone the repo there won't be any stale screenshots to delete. To generate some stale screenshots go to the [example.spec.ts](/demos/stale-screenshots-cleanup/tests/example.spec.ts) file and comment the second test named `test-two`. This will mean that now you have 3 stale screenshots:
 
