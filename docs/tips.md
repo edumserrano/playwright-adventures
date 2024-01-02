@@ -4,6 +4,7 @@
 - [Which reporters should I use?](#which-reporters-should-i-use)
 - [Avoid using watch mode on the target test apps](#avoid-using-watch-mode-on-the-target-test-apps)
 - [What are the available devices for test projects configuration?](#what-are-the-available-devices-for-test-projects-configuration)
+- [Use test parallelization even on CI](#use-test-parallelization-even-on-ci)
 - [Set the filepath for screenshots](#set-the-filepath-for-screenshots)
 
 ## Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?
@@ -64,6 +65,19 @@ Which will only use the watch mode if the Playwright tests are executed using th
 Playwright Test supports running [multiple test projects](https://playwright.dev/docs/api/class-testproject) at the same time. This is useful for running tests in multiple configurations.
 
 For the full list of built-in devices used to setup test projects see [deviceDescriptorsSource.json](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json).
+
+## Use test parallelization even on CI
+
+By default, the `playwright.config.ts` will set the [workers](https://playwright.dev/docs/test-parallel) configuration option to:
+```
+workers: process.env.CI ? 1 : undefined
+```
+
+Which opts out of parallel tests when running the tests on CI environments. [According to the Playwright docs](https://playwright.dev/docs/ci#workers), the default config does this because:
+
+> We recommend setting workers to "1" in CI environments to prioritize stability and reproducibility. Running tests sequentially ensures each test gets the full system resources, avoiding potential conflicts. However, if you have a powerful self-hosted CI system, you may enable parallel tests. For wider parallelization, consider sharding - distributing tests across multiple CI jobs.
+
+I advise you to start by setting the workers to `undefined`, meaning running as much parallel tests as available cores. Only limit it in CI if you do face stability and reproducibility issues. **Running tests in parallel will drastically reduce the time it takes to run your Playwright test suite.**
 
 ## Set the filepath for screenshots
 
