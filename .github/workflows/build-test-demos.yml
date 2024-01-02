@@ -117,7 +117,7 @@ jobs:
 
           if(!$expectedStatements -OR !$expectedBranches -OR !$expectedFunctions -OR !$expectedLines)
           {
-            Write-Output "::error::Failed running the code-coverage-with-istanbul-via-webpack-babel-plugin. Code coverage summary is different from what is expected."
+            Write-Output "::error::Failed running the code-coverage-with-istanbul-via-webpack-babel-plugin demo. Code coverage summary is different from what is expected."
             Exit 1
           }
 
@@ -127,4 +127,52 @@ jobs:
           cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
           npm ci
           npx playwright install --with-deps
-          npm test
+          npm test | Tee-Object -Variable testOutput
+
+          # Check that the code coverage worked as expected.
+          # The check is done by asserting on the values of the summary report and
+          # veryfing that the expected coverage report files were created
+
+          $expectedBytes = $false
+          $expectedBranches = $false
+          $expectedFunctions = $false
+          $expectedLines = $false
+
+          foreach($testLine in $testOutput)
+          {
+            if($testLine.Contains("│ Bytes     │    99.89 % │  22,400 │        25 │ 22,425 │"))
+            {
+              $expectedBytes = $true
+            }
+            elseif($testLine.Contains("│ Functions │    85.71 % │       6 │         1 │      7 │"))
+            {
+              $expectedFunctions = $true
+            }
+            elseif($testLine.Contains("│ Branches  │   100.00 % │       8 │         0 │      8 │"))
+            {
+              $expectedBranches = $true
+            }
+            elseif($testLine.Contains("│ Lines     │    99.72 % │     352 │         1 │    353 │"))
+            {
+              $expectedLines = $true
+            }
+          }
+
+          if(!$expectedBytes -OR !$expectedFunctions -OR !$expectedBranches -OR !$expectedLines)
+          {
+            Write-Output "::error::Failed running the code-coverage-with-monocart-reporter demo. Code coverage summary is different from what is expected."
+            Exit 1
+          }
+
+          $cobertura = Test-Path ./test-results/code-coverage/cobertura/code-coverage.cobertura.xml -PathType Leaf
+          $v8Report = Test-Path ./test-results/code-coverage/v8/index.html -PathType Leaf
+          $htmlSpaReport = Test-Path ./test-results/code-coverage/html-spa/index.html -PathType Leaf
+          $lcovReport = Test-Path ./test-results/code-coverage/lcov/code-coverage.lcov.info -PathType Leaf
+
+          if(!$cobertura -OR !$v8Report -OR !$htmlSpaReport -OR !$lcovReport)
+          {
+            Write-Output "::error::Failed running the code-coverage-with-monocart-reporter demo. Expected 4 reports but at least one is missing."
+            Exit 1
+          }
+
+          Exit 0
