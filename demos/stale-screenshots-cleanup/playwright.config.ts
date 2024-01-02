@@ -49,8 +49,8 @@ export default defineConfig({
    * We aren't changing the snapshotPathTemplate from its default, we're just making it explicit here so that it can be
    * better understood how setting the snapshotDir affects where the screenshots are generated.
    */
-  snapshotPathTemplate:
-    "{snapshotDir}/{testFileDir}/{testFileName}-snapshots/{arg}{-projectName}{-snapshotSuffix}{ext}",
+  // prettier-ignore
+  snapshotPathTemplate: "{snapshotDir}/{testFileDir}/{testFileName}-snapshots/{arg}{-projectName}{-snapshotSuffix}{ext}",
   snapshotDir: env.SNAPSHOT_DIR,
   /* Configure projects for major browsers */
   projects: [
