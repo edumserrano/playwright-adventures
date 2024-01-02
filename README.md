@@ -1,5 +1,11 @@
 # Playwright adventures
 
+[![Markdown link check](https://github.com/edumserrano/playwright-adventures/actions/workflows/markdown-link-check.yml/badge.svg)](https://github.com/edumserrano/playwright-adventures/actions/workflows/markdown-link-check.yml)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/edumserrano)](https://github.com/sponsors/edumserrano)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Eduardo%20Serrano-blue.svg)](https://www.linkedin.com/in/eduardomserrano/)
+
 - [Description](#description)
 - [Playwright demos](#playwright-demos)
 - [Tips](#tips)
