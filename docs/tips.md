@@ -2,6 +2,7 @@
 
 - [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](#which-code-coverage-should-i-use-with-playwright-monocart-reporter-or-istanbul-with-webpack-babel-plugin)
 - [Use Git LFS when you use screenshots](#use-git-lfs-when-you-use-screenshots)
+- [The `webServer.reuseExistingServer` configuration option](#the-webserverreuseexistingserver-configuration-option)
 - [Which reporters should I use?](#which-reporters-should-i-use)
 - [Avoid using watch mode on the target test apps](#avoid-using-watch-mode-on-the-target-test-apps)
 - [What are the available devices for test projects configuration?](#what-are-the-available-devices-for-test-projects-configuration)
@@ -38,6 +39,25 @@ However, you should set up [Git LFS](https://git-lfs.com/) to [avoid slowing dow
 > So, every time the files grow, the Git repository grows. This causes slowdowns when Git users need to retrieve and clone a repository.
 
 See [here](https://www.atlassian.com/git/tutorials/git-lfs) to learn more about Git LFS.
+
+## The `webServer.reuseExistingServer` configuration option
+
+> [!NOTE]
+>
+> This only applies when running tests locally and if you are making use of the `webServer` configuration block as part of your Playwright tests configuration.
+>
+
+As per the [Playwright docs](https://playwright.dev/docs/test-webserver), the `webServer.reuseExistingServer` configuration option is described as:
+
+> If true, it will re-use an existing server on the url when available. If no server is running on that url, it will run the command to start a new server. If false, it will throw if an existing process is listening on the url. To see the stdout, you can set the DEBUG=pw:webserver environment variable.
+
+By default, the `webServer.reuseExistingServer` option is set to `true`, unless you are running in a CI environment. This means that you can take advantage of this option to reduce the time it takes to run Playwright tests.
+
+What you can do is:
+
+1) Start your app running.
+2) Make sure that `webServer.url` is set to the URL the app is running on.
+3) Now, everytime you run the `playwright test` command it won't have to build and start the app. It will run the tests against the app you started on step 1.
 
 ## Which reporters should I use?
 
