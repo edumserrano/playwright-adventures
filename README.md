@@ -1,5 +1,6 @@
-# Playwright adventures
+# Playwright adventure
 
+[![Build and test the demo apps](https://github.com/edumserrano/playwright-adventures/actions/workflows/build-test-demos.yml/badge.svg)](https://github.com/edumserrano/playwright-adventures/actions/workflows/build-test-demos.yml)
 [![Markdown link check](https://github.com/edumserrano/playwright-adventures/actions/workflows/markdown-link-check.yml/badge.svg)](https://github.com/edumserrano/playwright-adventures/actions/workflows/markdown-link-check.yml)
 [![Prettier check](https://github.com/edumserrano/playwright-adventures/actions/workflows/prettier-check.yml/badge.svg)](https://github.com/edumserrano/playwright-adventures/actions/workflows/prettier-check.yml)
 

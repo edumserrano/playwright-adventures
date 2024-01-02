@@ -13,9 +13,10 @@ defaults:
   run:
     shell: pwsh
 
+
 jobs:
-  main:
-    name: Build and test the demo apps
+  accessibility-axe:
+    name: accessibility-axe demo
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -51,6 +52,18 @@ jobs:
           }
 
           Exit 0
+  accessibility-lighthouse:
+    name: accessibility-lighthouse demo
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump github context for debug purposes
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: $env:GITHUB_CONTEXT
+    - name: Checkout repository
+      uses: actions/checkout@v4
     - name: accessibility-lighthouse demo
       run: |
           cd "${{ github.workspace }}/demos/accessibility-lighthouse"
@@ -77,6 +90,18 @@ jobs:
           }
 
           Exit 0
+  code-coverage-with-istanbul-via-webpack-babel-plugin:
+    name: code-coverage-with-istanbul-via-webpack-babel-plugin demo
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump github context for debug purposes
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: $env:GITHUB_CONTEXT
+    - name: Checkout repository
+      uses: actions/checkout@v4
     - name: code-coverage-with-istanbul-via-webpack-babel-plugin demo
       run: |
           cd "${{ github.workspace }}/demos/code-coverage-with-istanbul-via-webpack-babel-plugin"
@@ -122,6 +147,18 @@ jobs:
           }
 
           Exit 0
+  code-coverage-with-monocart-reporter:
+    name: code-coverage-with-monocart-reporter demo
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump github context for debug purposes
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: $env:GITHUB_CONTEXT
+    - name: Checkout repository
+      uses: actions/checkout@v4
     - name: code-coverage-with-monocart-reporter demo
       run: |
           cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
@@ -176,6 +213,18 @@ jobs:
           }
 
           Exit 0
+  docker:
+    name: docker demo
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump github context for debug purposes
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: $env:GITHUB_CONTEXT
+    - name: Checkout repository
+      uses: actions/checkout@v4
     - name: docker demo
       run: |
           cd "${{ github.workspace }}/demos/docker"
