@@ -16,6 +16,7 @@ export async function captureConsoleMessagesAsync(
 ): Promise<void> {
   const consoleMessages: ConsoleMessage[] = [];
   page.on("console", (consoleMessage: ConsoleMessage) => {
+    console.log(consoleMessage.text() + " --- " + consoleMessage.location().url);
     if (!isExcluded(consoleMessage)) {
       consoleMessages.push(consoleMessage);
     }
