@@ -41,9 +41,11 @@ jobs:
 
         foreach ($demo in $demos)
         {
+          echo "::group::$demo"
           cd "${{ github.workspace }}/demos/$demo"
           npm ci
           npm run prettier:check
+          echo "::endgroup::"
         }
     - name: Log workflow
       if: always()
