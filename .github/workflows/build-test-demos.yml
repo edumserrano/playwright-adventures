@@ -30,4 +30,5 @@ jobs:
       run: |
           cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
           npm ci
+          npx playwright install --with-deps
           npm test
