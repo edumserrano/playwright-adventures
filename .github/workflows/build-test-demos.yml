@@ -45,8 +45,42 @@ jobs:
           if(!$expectedFailures)
           {
             Write-Output "::error::Failed running the accessibility-axe demo tests. Expected exactly 3 failed tests. See the accessibility-axe demo step for more details."
-            Exit 0
+            Exit 1
           }
+
+          Exit 0
+    - name: accessibility-lighthouse demo
+      run: |
+          cd "${{ github.workspace }}/demos/accessibility-lighthouse"
+          npm ci
+          npx playwright install --with-deps
+          npm test
+
+          # Check that the lighthouse audit worked as expected.
+          # The check is done by verifying that the audit-report.json produced by lighthouse
+          # contains the expected score results. If this file doesn't exist or doesn't have
+          # the expected scores then it should be an indication that something is wrong.
+          #
+          $auditReport = Get-ChildItem -Path . -Filter audit-report.json -Recurse -ErrorAction SilentlyContinue -Force
+          $auditReportJson = Get-Content -Raw $auditReport | ConvertFrom-Json
+          $performanceCategory = $auditReportJson.categories | where { $_.name -eq "Performance" }
+          $accessibilityCategory = $auditReportJson.categories | where { $_.name -eq "Accessibility" }
+          $bestPracticesCategory = $auditReportJson.categories | where { $_.name -eq "Best Practices" }
+          $seoCategory = $auditReportJson.categories | where { $_.name -eq "SEO" }
+
+          if($performanceCategory.score -ne 1 || $accessibilityCategory.score -ne 0.93 || $bestPracticesCategory.score -ne 1 || $seoCategory.score -ne 0.89)
+          {
+            Write-Output "::error::Failed running the accessibility-lighthouse demo tests. Audit report didn't produce expected scores."
+            Exit 1
+          }
+
+          Exit 0
+    - name: code-coverage-with-istanbul-via-webpack-babel-plugin demo
+      run: |
+          cd "${{ github.workspace }}/demos/code-coverage-with-istanbul-via-webpack-babel-plugin"
+          npm ci
+          npx playwright install --with-deps
+          npm test
     - name: code-coverage-with-monocart-reporter demo
       run: |
           cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
