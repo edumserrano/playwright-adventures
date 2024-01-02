@@ -2,8 +2,8 @@
 
 - [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](#which-code-coverage-should-i-use-with-playwright-monocart-reporter-or-istanbul-with-webpack-babel-plugin)
 - [Which reporters should I use?](#which-reporters-should-i-use)
+- [Avoid using watch mode on the target test apps](#avoid-using-watch-mode-on-the-target-test-apps)
 - [Set the filepath for screenshots](#set-the-filepath-for-screenshots)
-- [as](#as)
 
 ## Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?
 
@@ -41,6 +41,23 @@ For some usage examples see the following demos:
 
 **Also, take a look at the [table of contents for the monocart-reporter's documentation](https://github.com/cenfun/monocart-reporter?tab=readme-ov-file#monocart-reporter) to understand the breadth of options this HTML reporter gives you.**
 
+## Avoid using watch mode on the target test apps
+
+When you run the target test app manually or with Playwright's [webServer](https://playwright.dev/docs/test-webserver) configuration option you should consider running without any kind watch mode if possible. You should do this if:
+
+- your apps's watch mode is triggered by output generated from the Playwright reporters or screenshots and you can't configure it to ignore these.
+- you want to avoid tests failing because you've accidentally changed the app's code whilst the tests are running and the watch mode rebuilt the app. 
+
+If you check any of the demos in this repo you will see that the `webServer.command` is set like:
+
+```
+const _webServerCommand = playwrightCliOptions.UIMode
+  ? `npx ng serve --host ${_webServerHost} --port ${_webServerPort}`
+  : `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`;
+```
+
+Which will only use the watch mode if the Playwright tests are executed using the [UI mode](https://playwright.dev/docs/test-ui-mode). When running with `UI mode` you **do** want the watch mode because the `UI mode` is usually used as part of your dev loop where you start Playwright's UI mode and then: add tests, add app code, run tests, repeat. If you didn't run with watch mode then you'd have to restart Playwright's `UI mode` with every app/test code change to be able to run the tests against the latest version of the code. 
+
 ## Set the filepath for screenshots
 
 If you're [taking screenshots with Playwright tests](https://playwright.dev/docs/test-snapshots) then you should consider setting a single parent folder to store all the screenshots instead of the default configuration which stores screenshots near the test location.
@@ -54,6 +71,4 @@ snapshotPathTemplate: "{snapshotDir}/__screenshots__/{testFileDir}/{testFileName
 By default `snapshotDir` is set to the value of [testDir](https://playwright.dev/docs/api/class-testproject#test-project-test-dir) and `testDir` by default is set to `tests`. This means that the above configuration sets the parent folder for all screenshots to `tests/__screenshots__`. The rest of the template is the same as the [default value for snapshotPathTemplate](https://github.com/microsoft/playwright/blob/7bffff5790e28243a815c985135e908247b563db/packages/playwright/src/common/config.ts#L167C5-L167C138).
 
 You can tweak the `snapshotPathTemplate` as you prefer but setting at least a parent folder for all screenshots makes it very easy to delete/browse them all if you need to.
-
-## as
 
