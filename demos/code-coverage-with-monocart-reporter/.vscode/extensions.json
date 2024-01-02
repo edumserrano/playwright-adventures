@@ -4,6 +4,6 @@
     "angular.ng-template",
     "ms-playwright.playwright",
     "editorconfig.editorconfig",
-    "esbenp.prettier-vscode",
+    "esbenp.prettier-vscode"
   ]
 }

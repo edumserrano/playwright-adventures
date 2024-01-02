@@ -6,4 +6,4 @@
 
 mention the `npm i -D @axe-core/playwright`
 
-consider creating videos to demo the accessibility results? 
+consider creating videos to demo the accessibility results?

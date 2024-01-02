@@ -25,9 +25,7 @@ function getCodeCoverageOptions(
         inline: true, // inline all scripts required for the V8 html report into a single HTML file.
       },
     ],
-    [
-      "console-summary",
-    ],
+    ["console-summary"],
     [
       "cobertura",
       {
