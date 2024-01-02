@@ -6,8 +6,8 @@ const {
 
 module.exports = {
   extends: "@istanbuljs/nyc-config-typescript",
-  "temp-dir": istanbulCodeCoverageInstrumentationDir, // set to ./tests/test-results/code-coverage/istanbul-instrumentation
-  "report-dir": path.resolve(codeCoverageDir, "reports"), // set to ./tests/test-results/code-coverage/reports
+  "temp-dir": istanbulCodeCoverageInstrumentationDir,
+  "report-dir": path.resolve(codeCoverageDir, "reports"),
   all: true,
   reporter: ["html-spa", "lcovonly", "cobertura", "text-summary"],
 };
