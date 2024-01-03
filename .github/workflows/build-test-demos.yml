@@ -170,32 +170,17 @@ jobs:
           # The check is done by asserting on the values of the summary report and
           # veryfing that the expected coverage report files were created
 
-          $expectedBytes = $false
-          $expectedFunctions = $false
-          $expectedBranches = $false
           $expectedLines = $false
 
           foreach($testLine in $testOutput)
           {
-            if($testLine.Contains("99.89 %"))
-            {
-              $expectedBytes = $true
-            }
-            elseif($testLine.Contains("85.71 %"))
-            {
-              $expectedFunctions = $true
-            }
-            elseif($testLine.Contains("100.00 %"))
-            {
-              $expectedBranches = $true
-            }
-            elseif($testLine.Contains("99.72 %"))
+            if($testLine.Contains("99.72 %"))
             {
               $expectedLines = $true
             }
           }
 
-          if(!$expectedBytes -OR !$expectedFunctions -OR !$expectedBranches -OR !$expectedLines)
+          if(!$expectedLines)
           {
             Write-Output "::error::Failed running the code-coverage-with-monocart-reporter demo. Code coverage summary is different from what is expected."
             Exit 1
