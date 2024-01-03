@@ -10,7 +10,7 @@ function waitForEventHandlerAsync() {
   //
   // On webkit, sometimes the assert on the consoleMessages fixture length fails.
   // I think it's because the assert happens before the on('console') event handler
-  // is processed.
+  // from demos/fixtures/tests/_shared/fixtures/console-messages.ts is processed.
   //
   // `process.nextTick()` adds callback to the "next tick queue". This queue is fully drained after the current
   // operation on the JavaScript stack runs to completion and before the event loop is allowed to continue.
