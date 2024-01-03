@@ -23,9 +23,15 @@ function getCodeCoverageOptions(
       {
         outputFile: v8RelativeFilePath, // v8 sub dir and html file name, relative to coverage.outputDir.
         inline: true, // inline all scripts required for the V8 html report into a single HTML file.
+        // metrics: ["functions", "branches", "lines"],
       },
     ],
-    ["console-summary"],
+    [
+      "console-summary",
+      {
+        // metrics: ["functions", "branches", "lines"],
+      },
+    ],
     [
       "cobertura",
       {
