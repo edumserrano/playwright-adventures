@@ -24,6 +24,10 @@ function waitForEventHandlerAsync() {
   // I've also tried to use 'await page.waitForEvent("console");' but then what happens is that most of the time
   // the console event is processed before this statement which means that then it times out waiting for an event
   // that already happened.
+  //
+  // UPDATE: even with this sometimes the assert on the consoleMessages fixture length fails on webkit.
+  // Not sure how much this is alleviating the problem. Keeping it for now but might switch to using a loop
+  // with timeout on the assert of the consoleMessages fixture length.
   return new Promise(process.nextTick);
 }
 
