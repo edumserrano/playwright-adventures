@@ -5,6 +5,28 @@
 import { PlaywrightProjectName } from "playwright.config";
 import { expect, test } from "tests/_shared/app-fixtures";
 
+function waitForEventHandlerAsync() {
+  // See https://stackoverflow.com/questions/44741102/how-to-make-jest-wait-for-all-asynchronous-code-to-finish-execution-before-expec
+  //
+  // On webkit, sometimes the assert on the consoleMessages fixture length fails.
+  // I think it's because the assert happens before the on('console') event handler
+  // is processed.
+  //
+  // `process.nextTick()` adds callback to the "next tick queue". This queue is fully drained after the current
+  // operation on the JavaScript stack runs to completion and before the event loop is allowed to continue.
+  //
+  // This is a small hack so that we can assert things have changed as a result of handling an event from the
+  // page.on('close) event. Without this, what we would need to do is have an assert loop in the test that checks
+  // if what you want to assert has happened (for instance a property changed value), and when the assert passes
+  // (for instance property changed to expected value) it exits the assert loop and the test passes. This assert
+  // loop would also have to have a timeout so that the test doesn't stay on the assert loop forever.
+  //
+  // I've also tried to use 'await page.waitForEvent("console");' but then what happens is that most of the time
+  // the console event is processed before this statement which means that then it times out waiting for an event
+  // that already happened.
+  return new Promise(process.nextTick);
+}
+
 // This test shows the `setDate` fixture.
 // See demos\fixtures\tests\_shared\fixtures\set-date.ts.
 //
@@ -39,10 +61,7 @@ test("consoleMessages and failOnUnexpectedConsoleMessages", async ({
   consoleMessages,
 }) => {
   await page.goto("/");
-  // On webkit, sometimes the assert on the consoleMessages fixture length fails.
-  // I think it's because the assert happens before the on('console') event handler
-  // is processed. Using waitForEvent("console") solves the issue.
-  await page.waitForEvent("console");
+  await waitForEventHandlerAsync();
   expect(consoleMessages.length).toBe(1);
   expect(consoleMessages[0].text()).toBe(
     "This is an expected console message.",
