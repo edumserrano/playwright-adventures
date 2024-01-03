@@ -39,6 +39,10 @@ test("consoleMessages and failOnUnexpectedConsoleMessages", async ({
   consoleMessages,
 }) => {
   await page.goto("/");
+  // On webkit, sometimes the assert on the consoleMessages fixture length fails.
+  // I think it's because the assert happens before the on('console') event handler
+  // is processed. Using waitForEvent("console") solves the issue.
+  await page.waitForEvent("console");
   expect(consoleMessages.length).toBe(1);
   expect(consoleMessages[0].text()).toBe(
     "This is an expected console message.",
