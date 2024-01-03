@@ -253,7 +253,7 @@ jobs:
           cd "${{ github.workspace }}/demos/fixtures"
           npm ci
           npx playwright install --with-deps
-          npm test
+          npm test | Tee-Object -Variable testOutput
 
           # Check that all is as expected. Should have 9 failed, 1 skipped and
           # 8 passed tests.
