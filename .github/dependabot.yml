@@ -3,17 +3,9 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    labels:
-      - 'dependabot'
-      - 'bot:robot:'
-      - 'npm'
   - package-ecosystem: github-actions
-    # Workflow files stored in the
-    # default location of `.github/workflows`
+    # Workflow files stored in the default location of `.github/workflows`
+    # See https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#directory
     directory: '/'
     schedule:
       interval: "daily"
@@ -21,3 +13,67 @@ updates:
       - 'dependabot'
       - 'bot:robot:'
       - 'github-workflows'
+  - package-ecosystem: "npm"
+    directory: "/demos/accessibility-axe"
+    schedule:
+      interval: "daily"
+    labels:
+      - 'dependabot'
+      - 'bot:robot:'
+      - 'npm'
+  - package-ecosystem: "npm"
+    directory: "/demos/accessibility-lighthouse"
+    schedule:
+      interval: "daily"
+    labels:
+      - 'dependabot'
+      - 'bot:robot:'
+      - 'npm'
+  - package-ecosystem: "npm"
+    directory: "/demos/code-coverage-with-istanbul-via-webpack-babel-plugin"
+    schedule:
+      interval: "daily"
+    labels:
+      - 'dependabot'
+      - 'bot:robot:'
+      - 'npm'
+  - package-ecosystem: "npm"
+    directory: "/demos/code-coverage-with-monocart-reporter"
+    schedule:
+      interval: "daily"
+    labels:
+      - 'dependabot'
+      - 'bot:robot:'
+      - 'npm'
+  - package-ecosystem: "npm"
+    directory: "/demos/docker"
+    schedule:
+      interval: "daily"
+    labels:
+      - 'dependabot'
+      - 'bot:robot:'
+      - 'npm'
+  - package-ecosystem: "npm"
+    directory: "/demos/fixtures"
+    schedule:
+      interval: "daily"
+    labels:
+      - 'dependabot'
+      - 'bot:robot:'
+      - 'npm'
+  - package-ecosystem: "npm"
+    directory: "/demos/monocart-reporter-advanced-config"
+    schedule:
+      interval: "daily"
+    labels:
+      - 'dependabot'
+      - 'bot:robot:'
+      - 'npm'
+  - package-ecosystem: "npm"
+    directory: "/demos/stale-screenshots-cleanup"
+    schedule:
+      interval: "daily"
+    labels:
+      - 'dependabot'
+      - 'bot:robot:'
+      - 'npm'
