@@ -4,6 +4,7 @@ import { ConsoleMessage, Page } from "@playwright/test";
 // For instance, the vite dev server used to serve the Angular 17 app for the tests
 // produces some Console Messages we want to ignore.
 function isExcluded(consoleMessage: ConsoleMessage): boolean {
+  //prettier-ignore
   const isExcluded =
     consoleMessage.text() === "Angular is running in development mode." ||
     consoleMessage.text().includes("[JavaScript Warning: \"Ignoring unsupported entryTypes: largest-contentful-paint.\"") ||
