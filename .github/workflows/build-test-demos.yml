@@ -13,20 +13,36 @@ defaults:
   run:
     shell: pwsh
 
+env:
+  REPO_ARTIFACT_NAME : repo
 
 jobs:
-  accessibility-axe:
-    name: accessibility-axe demo
+  checkout-repo:
+    name: Checkout repo
     permissions:
       contents: read
     runs-on: ubuntu-latest
     steps:
-    - name: Dump github context for debug purposes
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: $env:GITHUB_CONTEXT
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        lfs: true
+    - name: Upload repo
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
+        path: ${{ github.workspace }}
+  accessibility-axe:
+    name: accessibility-axe demo
+    needs: [checkout-repo]
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
     - name: accessibility-axe demo
       run: |
           cd "${{ github.workspace }}/demos/accessibility-axe"
@@ -54,16 +70,15 @@ jobs:
           Exit 0
   accessibility-lighthouse:
     name: accessibility-lighthouse demo
+    needs: [checkout-repo]
     permissions:
       contents: read
     runs-on: ubuntu-latest
     steps:
-    - name: Dump github context for debug purposes
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: $env:GITHUB_CONTEXT
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
     - name: accessibility-lighthouse demo
       run: |
           cd "${{ github.workspace }}/demos/accessibility-lighthouse"
@@ -92,16 +107,15 @@ jobs:
           Exit 0
   code-coverage-with-istanbul-via-webpack-babel-plugin:
     name: code-coverage-with-istanbul-via-webpack-babel-plugin demo
+    needs: [checkout-repo]
     permissions:
       contents: read
     runs-on: ubuntu-latest
     steps:
-    - name: Dump github context for debug purposes
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: $env:GITHUB_CONTEXT
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
     - name: code-coverage-with-istanbul-via-webpack-babel-plugin demo
       run: |
           cd "${{ github.workspace }}/demos/code-coverage-with-istanbul-via-webpack-babel-plugin"
@@ -149,16 +163,15 @@ jobs:
           Exit 0
   code-coverage-with-monocart-reporter:
     name: code-coverage-with-monocart-reporter demo
+    needs: [checkout-repo]
     permissions:
       contents: read
     runs-on: ubuntu-latest
     steps:
-    - name: Dump github context for debug purposes
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: $env:GITHUB_CONTEXT
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
     - name: code-coverage-with-monocart-reporter demo
       run: |
           cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
@@ -200,18 +213,15 @@ jobs:
           Exit 0
   docker:
     name: docker demo
+    needs: [checkout-repo]
     permissions:
       contents: read
     runs-on: ubuntu-latest
     steps:
-    - name: Dump github context for debug purposes
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: $env:GITHUB_CONTEXT
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
       with:
-        lfs: true
+        name: ${{ env.REPO_ARTIFACT_NAME }}
     - name: docker demo
       run: |
           cd "${{ github.workspace }}/demos/docker"
@@ -223,16 +233,15 @@ jobs:
           # make sure everything is working as expected.
   fixtures:
     name: fixtures demo
+    needs: [checkout-repo]
     permissions:
       contents: read
     runs-on: ubuntu-latest
     steps:
-    - name: Dump github context for debug purposes
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: $env:GITHUB_CONTEXT
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
     - name: fixtures demo
       run: |
           cd "${{ github.workspace }}/demos/fixtures"
@@ -275,18 +284,15 @@ jobs:
           Exit 0
   monocart-reporter-advanced-config:
     name: monocart-reporter-advanced-config demo
+    needs: [checkout-repo]
     permissions:
       contents: read
     runs-on: windows-latest
     steps:
-    - name: Dump github context for debug purposes
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: $env:GITHUB_CONTEXT
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
       with:
-        lfs: true
+        name: ${{ env.REPO_ARTIFACT_NAME }}
     - name: monocart-reporter-advanced-config demo
       run: |
           cd "${{ github.workspace }}/demos/monocart-reporter-advanced-config"
@@ -299,18 +305,15 @@ jobs:
           # is working.
   stale-screenshots-cleanup:
     name: stale-screenshots-cleanup demo
+    needs: [checkout-repo]
     permissions:
       contents: read
     runs-on: windows-latest
     steps:
-    - name: Dump github context for debug purposes
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: $env:GITHUB_CONTEXT
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
       with:
-        lfs: true
+        name: ${{ env.REPO_ARTIFACT_NAME }}
     - name: stale-screenshots-cleanup demo
       run: |
           cd "${{ github.workspace }}/demos/stale-screenshots-cleanup"
@@ -321,3 +324,26 @@ jobs:
           # There's no easy way to test that this demo is working as expected.
           # For now this demo relies on manual testing to make sure everything
           # is working.
+  delete-repo-artifact:
+    name: Delete repo artifact
+    needs: [
+      checkout-repo,
+      accessibility-axe, 
+      accessibility-lighthouse, 
+      code-coverage-with-istanbul-via-webpack-babel-plugin,
+      code-coverage-with-monocart-reporter,
+      docker,
+      fixtures,
+      monocart-reporter-advanced-config,
+      stale-screenshots-cleanup,
+    ]
+    if: always() && needs.checkout-repo.result == 'success'
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Delete repo artifact
+      uses: geekyeggo/delete-artifact@v4
+      with:
+          token: ${{ github.token }}
+          name: ${{ env.REPO_ARTIFACT_NAME }}
