@@ -32,314 +32,312 @@ jobs:
       with:
         name: ${{ env.REPO_ARTIFACT_NAME }}
         path: ${{ github.workspace }}
-  # accessibility-axe:
-  #   name: accessibility-axe demo
-  #   needs: [checkout-repo]
-  #   permissions:
-  #     contents: read
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Download repo from workflow artifacts
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: ${{ env.REPO_ARTIFACT_NAME }}
-  #   - name: accessibility-axe demo
-  #     run: |
-  #         cd "${{ github.workspace }}/demos/accessibility-axe"
-  #         npm ci
-  #         npx playwright install --with-deps
-  #         npm test | Tee-Object -Variable testOutput
+  accessibility-axe:
+    name: accessibility-axe demo
+    needs: [checkout-repo]
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: accessibility-axe demo
+      run: |
+          cd "${{ github.workspace }}/demos/accessibility-axe"
+          npm ci
+          npx playwright install --with-deps
+          npm test | Tee-Object -Variable testOutput
 
-  #         # Check that all is as expected. Should have 3 and only 3 failed tests.
+          # Check that all is as expected. Should have 3 and only 3 failed tests.
 
-  #         $expectedFailed = $false
-  #         foreach($outputLine in $testOutput)
-  #         {
-  #           if($outputLine.Contains("3 failed"))
-  #           {
-  #             $expectedFailed = $true
-  #           }
-  #         }
+          $expectedFailed = $false
+          foreach($outputLine in $testOutput)
+          {
+            if($outputLine.Contains("3 failed"))
+            {
+              $expectedFailed = $true
+            }
+          }
 
-  #         if(!$expectedFailed)
-  #         {
-  #           Write-Output "::error::Failed running the accessibility-axe demo tests. Expected exactly 3 failed tests."
-  #           Exit 1
-  #         }
+          if(!$expectedFailed)
+          {
+            Write-Output "::error::Failed running the accessibility-axe demo tests. Expected exactly 3 failed tests."
+            Exit 1
+          }
 
-  #         Exit 0
-  # accessibility-lighthouse:
-  #   name: accessibility-lighthouse demo
-  #   needs: [checkout-repo]
-  #   permissions:
-  #     contents: read
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Download repo from workflow artifacts
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: ${{ env.REPO_ARTIFACT_NAME }}
-  #   - name: accessibility-lighthouse demo
-  #     run: |
-  #         cd "${{ github.workspace }}/demos/accessibility-lighthouse"
-  #         npm ci
-  #         npx playwright install --with-deps
-  #         npm test
+          Exit 0
+  accessibility-lighthouse:
+    name: accessibility-lighthouse demo
+    needs: [checkout-repo]
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: accessibility-lighthouse demo
+      run: |
+          cd "${{ github.workspace }}/demos/accessibility-lighthouse"
+          npm ci
+          npx playwright install --with-deps
+          npm test
 
-  #         # Check that the lighthouse audit worked as expected.
-  #         # The check is done by verifying that the audit-report.json produced by lighthouse
-  #         # contains the expected score results. If this file doesn't exist or doesn't have
-  #         # the expected scores then it should be an indication that something is wrong.
+          # Check that the lighthouse audit worked as expected.
+          # The check is done by verifying that the audit-report.json produced by lighthouse
+          # contains the expected score results. If this file doesn't exist or doesn't have
+          # the expected scores then it should be an indication that something is wrong.
 
-  #         $auditReport = Get-ChildItem -Path . -Filter audit-report.json -Recurse -ErrorAction SilentlyContinue -Force
-  #         $auditReportJson = Get-Content -Raw $auditReport | ConvertFrom-Json
-  #         $performanceCategory = $auditReportJson.categories | where { $_.name -eq "Performance" }
-  #         $accessibilityCategory = $auditReportJson.categories | where { $_.name -eq "Accessibility" }
-  #         $bestPracticesCategory = $auditReportJson.categories | where { $_.name -eq "Best Practices" }
-  #         $seoCategory = $auditReportJson.categories | where { $_.name -eq "SEO" }
+          $auditReport = Get-ChildItem -Path . -Filter audit-report.json -Recurse -ErrorAction SilentlyContinue -Force
+          $auditReportJson = Get-Content -Raw $auditReport | ConvertFrom-Json
+          $performanceCategory = $auditReportJson.categories | where { $_.name -eq "Performance" }
+          $accessibilityCategory = $auditReportJson.categories | where { $_.name -eq "Accessibility" }
+          $bestPracticesCategory = $auditReportJson.categories | where { $_.name -eq "Best Practices" }
+          $seoCategory = $auditReportJson.categories | where { $_.name -eq "SEO" }
 
-  #         if($performanceCategory.score -ne 1 -OR $accessibilityCategory.score -ne 0.93 -OR $bestPracticesCategory.score -ne 1 -OR $seoCategory.score -ne 0.89)
-  #         {
-  #           Write-Output "::error::Failed running the accessibility-lighthouse demo tests. Audit report didn't produce expected scores."
-  #           Exit 1
-  #         }
+          if($performanceCategory.score -ne 1 -OR $accessibilityCategory.score -ne 0.93 -OR $bestPracticesCategory.score -ne 1 -OR $seoCategory.score -ne 0.89)
+          {
+            Write-Output "::error::Failed running the accessibility-lighthouse demo tests. Audit report didn't produce expected scores."
+            Exit 1
+          }
 
-  #         Exit 0
-  # code-coverage-with-istanbul-via-webpack-babel-plugin:
-  #   name: code-coverage-with-istanbul-via-webpack-babel-plugin demo
-  #   needs: [checkout-repo]
-  #   permissions:
-  #     contents: read
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Download repo from workflow artifacts
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: ${{ env.REPO_ARTIFACT_NAME }}
-  #   - name: code-coverage-with-istanbul-via-webpack-babel-plugin demo
-  #     run: |
-  #         cd "${{ github.workspace }}/demos/code-coverage-with-istanbul-via-webpack-babel-plugin"
-  #         npm ci
-  #         npx playwright install --with-deps
-  #         npm test
+          Exit 0
+  code-coverage-with-istanbul-via-webpack-babel-plugin:
+    name: code-coverage-with-istanbul-via-webpack-babel-plugin demo
+    needs: [checkout-repo]
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: code-coverage-with-istanbul-via-webpack-babel-plugin demo
+      run: |
+          cd "${{ github.workspace }}/demos/code-coverage-with-istanbul-via-webpack-babel-plugin"
+          npm ci
+          npx playwright install --with-deps
+          npm test
 
-  #         # Check that the code coverage worked as expected.
-  #         # The check is done by running the command to generate the code coverage
-  #         # and asserting on the values of the summary report.
+          # Check that the code coverage worked as expected.
+          # The check is done by running the command to generate the code coverage
+          # and asserting on the values of the summary report.
 
-  #         npm run coverage:report | Tee-Object -Variable coverageSummary
+          npm run coverage:report | Tee-Object -Variable coverageSummary
 
-  #         $expectedStatements = $false
-  #         $expectedBranches = $false
-  #         $expectedFunctions = $false
-  #         $expectedLines = $false
+          $expectedStatements = $false
+          $expectedBranches = $false
+          $expectedFunctions = $false
+          $expectedLines = $false
 
-  #         foreach($coverageLine in $coverageSummary)
-  #         {
-  #           if($coverageLine.Contains("Statements   : 88.88% ( 8/9 )"))
-  #           {
-  #             $expectedStatements = $true
-  #           }
-  #           elseif($coverageLine.Contains("Branches     : 100% ( 2/2 )"))
-  #           {
-  #             $expectedBranches = $true
-  #           }
-  #           elseif($coverageLine.Contains("Functions    : 50% ( 1/2 )"))
-  #           {
-  #             $expectedFunctions = $true
-  #           }
-  #           elseif($coverageLine.Contains("Lines        : 100% ( 8/8 )"))
-  #           {
-  #             $expectedLines = $true
-  #           }
-  #         }
+          foreach($coverageLine in $coverageSummary)
+          {
+            if($coverageLine.Contains("Statements   : 88.88% ( 8/9 )"))
+            {
+              $expectedStatements = $true
+            }
+            elseif($coverageLine.Contains("Branches     : 100% ( 2/2 )"))
+            {
+              $expectedBranches = $true
+            }
+            elseif($coverageLine.Contains("Functions    : 50% ( 1/2 )"))
+            {
+              $expectedFunctions = $true
+            }
+            elseif($coverageLine.Contains("Lines        : 100% ( 8/8 )"))
+            {
+              $expectedLines = $true
+            }
+          }
 
-  #         if(!$expectedStatements -OR !$expectedBranches -OR !$expectedFunctions -OR !$expectedLines)
-  #         {
-  #           Write-Output "::error::Failed running the code-coverage-with-istanbul-via-webpack-babel-plugin demo. Code coverage summary is different from what is expected."
-  #           Exit 1
-  #         }
+          if(!$expectedStatements -OR !$expectedBranches -OR !$expectedFunctions -OR !$expectedLines)
+          {
+            Write-Output "::error::Failed running the code-coverage-with-istanbul-via-webpack-babel-plugin demo. Code coverage summary is different from what is expected."
+            Exit 1
+          }
 
-  #         Exit 0
-  # code-coverage-with-monocart-reporter:
-  #   name: code-coverage-with-monocart-reporter demo
-  #   needs: [checkout-repo]
-  #   permissions:
-  #     contents: read
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Download repo from workflow artifacts
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: ${{ env.REPO_ARTIFACT_NAME }}
-  #   - name: code-coverage-with-monocart-reporter demo
-  #     run: |
-  #         cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
-  #         npm ci
-  #         npx playwright install --with-deps
-  #         npm test | Tee-Object -Variable testOutput
+          Exit 0
+  code-coverage-with-monocart-reporter:
+    name: code-coverage-with-monocart-reporter demo
+    needs: [checkout-repo]
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: code-coverage-with-monocart-reporter demo
+      run: |
+          cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
+          npm ci
+          npx playwright install --with-deps
+          npm test | Tee-Object -Variable testOutput
 
-  #         # Check that the code coverage worked as expected.
-  #         # The check is done by asserting on the values of the summary report and
-  #         # veryfing that the expected coverage report files were created
+          # Check that the code coverage worked as expected.
+          # The check is done by asserting on the values of the summary report and
+          # veryfing that the expected coverage report files were created
 
-  #         $expectedLines = $false
+          $expectedLines = $false
 
-  #         foreach($testLine in $testOutput)
-  #         {
-  #           if($testLine.Contains("99.72 %"))
-  #           {
-  #             $expectedLines = $true
-  #           }
-  #         }
+          foreach($testLine in $testOutput)
+          {
+            if($testLine.Contains("99.72 %"))
+            {
+              $expectedLines = $true
+            }
+          }
 
-  #         if(!$expectedLines)
-  #         {
-  #           Write-Output "::error::Failed running the code-coverage-with-monocart-reporter demo. Code coverage summary is different from what is expected."
-  #           Exit 1
-  #         }
+          if(!$expectedLines)
+          {
+            Write-Output "::error::Failed running the code-coverage-with-monocart-reporter demo. Code coverage summary is different from what is expected."
+            Exit 1
+          }
 
-  #         $cobertura = Test-Path ./test-results/code-coverage/cobertura/code-coverage.cobertura.xml -PathType Leaf
-  #         $v8Report = Test-Path ./test-results/code-coverage/v8/index.html -PathType Leaf
-  #         $htmlSpaReport = Test-Path ./test-results/code-coverage/html-spa/index.html -PathType Leaf
-  #         $lcovReport = Test-Path ./test-results/code-coverage/lcov/code-coverage.lcov.info -PathType Leaf
+          $cobertura = Test-Path ./test-results/code-coverage/cobertura/code-coverage.cobertura.xml -PathType Leaf
+          $v8Report = Test-Path ./test-results/code-coverage/v8/index.html -PathType Leaf
+          $htmlSpaReport = Test-Path ./test-results/code-coverage/html-spa/index.html -PathType Leaf
+          $lcovReport = Test-Path ./test-results/code-coverage/lcov/code-coverage.lcov.info -PathType Leaf
 
-  #         if(!$cobertura -OR !$v8Report -OR !$htmlSpaReport -OR !$lcovReport)
-  #         {
-  #           Write-Output "::error::Failed running the code-coverage-with-monocart-reporter demo. Expected 4 reports but at least one is missing."
-  #           Exit 1
-  #         }
+          if(!$cobertura -OR !$v8Report -OR !$htmlSpaReport -OR !$lcovReport)
+          {
+            Write-Output "::error::Failed running the code-coverage-with-monocart-reporter demo. Expected 4 reports but at least one is missing."
+            Exit 1
+          }
 
-  #         Exit 0
-  # docker:
-  #   name: docker demo
-  #   needs: [checkout-repo]
-  #   permissions:
-  #     contents: read
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Download repo from workflow artifacts
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: ${{ env.REPO_ARTIFACT_NAME }}
-  #   - name: docker demo
-  #     run: |
-  #         cd "${{ github.workspace }}/demos/docker"
-  #         npm ci
-  #         npm test
+          Exit 0
+  docker:
+    name: docker demo
+    needs: [checkout-repo]
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: docker demo
+      run: |
+          cd "${{ github.workspace }}/demos/docker"
+          npm ci
+          npm test
 
-  #         # The docker demo has many options in the powershell script which are not tested.
-  #         # For now it will require manual testing on the docker demo powershell scripts to
-  #         # make sure everything is working as expected.
-  # fixtures:
-  #   name: fixtures demo
-  #   needs: [checkout-repo]
-  #   permissions:
-  #     contents: read
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Download repo from workflow artifacts
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: ${{ env.REPO_ARTIFACT_NAME }}
-  #   - name: fixtures demo
-  #     run: |
-  #         cd "${{ github.workspace }}/demos/fixtures"
-  #         npm ci
-  #         npx playwright install --with-deps
-  #         npm test | Tee-Object -Variable testOutput
+          # The docker demo has many options in the powershell script which are not tested.
+          # For now it will require manual testing on the docker demo powershell scripts to
+          # make sure everything is working as expected.
+  fixtures:
+    name: fixtures demo
+    needs: [checkout-repo]
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: fixtures demo
+      run: |
+          cd "${{ github.workspace }}/demos/fixtures"
+          npm ci
+          npx playwright install --with-deps
+          npm test | Tee-Object -Variable testOutput
 
-  #         # Check that all is as expected. Should have 9 failed, 1 skipped and
-  #         # 8 passed tests.
+          # Check that all is as expected. Should have 9 failed, 1 skipped and
+          # 8 passed tests.
 
-  #         $expectedFailed = $false
-  #         $expectedSkipped = $false
-  #         $expectedPassed = $false
+          $expectedFailed = $false
+          $expectedSkipped = $false
+          $expectedPassed = $false
 
-  #         foreach($outputLine in $testOutput)
-  #         {
-  #           if($outputLine.Contains("9 failed"))
-  #           {
-  #             $expectedFailed = $true
-  #           }
-  #           elseif($outputLine.Contains("1 skipped"))
-  #           {
-  #             $expectedSkipped = $true
-  #           }
-  #           elseif($outputLine.Contains("8 passed"))
-  #           {
-  #             $expectedPassed = $true
-  #           }
-  #         }
+          foreach($outputLine in $testOutput)
+          {
+            if($outputLine.Contains("9 failed"))
+            {
+              $expectedFailed = $true
+            }
+            elseif($outputLine.Contains("1 skipped"))
+            {
+              $expectedSkipped = $true
+            }
+            elseif($outputLine.Contains("8 passed"))
+            {
+              $expectedPassed = $true
+            }
+          }
 
-  #         if(!$expectedFailed -OR !$expectedSkipped -OR !$expectedPassed)
-  #         {
-  #           Write-Output "expectedFailed=$expectedFailed"
-  #           Write-Output "expectedSkipped=$expectedSkipped"
-  #           Write-Output "expectedPassed=$expectedPassed"
-  #           Write-Output "::error::Failed running the fixtures demo tests. Expected 9 failed, 1 skipped and 8 passed tests."
-  #           Exit 1
-  #         }
+          if(!$expectedFailed -OR !$expectedSkipped -OR !$expectedPassed)
+          {
+            Write-Output "expectedFailed=$expectedFailed"
+            Write-Output "expectedSkipped=$expectedSkipped"
+            Write-Output "expectedPassed=$expectedPassed"
+            Write-Output "::error::Failed running the fixtures demo tests. Expected 9 failed, 1 skipped and 8 passed tests."
+            Exit 1
+          }
 
-  #         Exit 0
-  # monocart-reporter-advanced-config:
-  #   name: monocart-reporter-advanced-config demo
-  #   needs: [checkout-repo]
-  #   permissions:
-  #     contents: read
-  #   runs-on: windows-latest
-  #   steps:
-  #   - name: Download repo from workflow artifacts
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: ${{ env.REPO_ARTIFACT_NAME }}
-  #   - name: monocart-reporter-advanced-config demo
-  #     run: |
-  #         cd "${{ github.workspace }}/demos/monocart-reporter-advanced-config"
-  #         npm ci
-  #         npx playwright install --with-deps
-  #         npm test
+          Exit 0
+  monocart-reporter-advanced-config:
+    name: monocart-reporter-advanced-config demo
+    needs: [checkout-repo]
+    permissions:
+      contents: read
+    runs-on: windows-latest
+    steps:
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: monocart-reporter-advanced-config demo
+      run: |
+          cd "${{ github.workspace }}/demos/monocart-reporter-advanced-config"
+          npm ci
+          npx playwright install --with-deps
+          npm test
 
-  #         # There's no easy way to test that this demo is working as expected.
-  #         # For now this demo relies on manual testing to make sure everything
-  #         # is working.
-  # stale-screenshots-cleanup:
-  #   name: stale-screenshots-cleanup demo
-  #   needs: [checkout-repo]
-  #   permissions: write-all
-  #   runs-on: windows-latest
-  #   steps:
-  #   - name: Download repo from workflow artifacts
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: ${{ env.REPO_ARTIFACT_NAME }}
-  #   - name: stale-screenshots-cleanup demo
-  #     run: |
-  #         cd "${{ github.workspace }}/demos/stale-screenshots-cleanup"
-  #         npm ci
-  #         npx playwright install --with-deps
-  #         npm test
+          # There's no easy way to test that this demo is working as expected.
+          # For now this demo relies on manual testing to make sure everything
+          # is working.
+  stale-screenshots-cleanup:
+    name: stale-screenshots-cleanup demo
+    needs: [checkout-repo]
+    permissions: write-all
+    runs-on: windows-latest
+    steps:
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: stale-screenshots-cleanup demo
+      run: |
+          cd "${{ github.workspace }}/demos/stale-screenshots-cleanup"
+          npm ci
+          npx playwright install --with-deps
+          npm test
 
-  #         # There's no easy way to test that this demo is working as expected.
-  #         # For now this demo relies on manual testing to make sure everything
-  #         # is working.
+          # There's no easy way to test that this demo is working as expected.
+          # For now this demo relies on manual testing to make sure everything
+          # is working.
   delete-repo-artifact:
     name: Delete repo artifact
     needs: [
       checkout-repo,
-      # accessibility-axe, 
-      # accessibility-lighthouse, 
-      # code-coverage-with-istanbul-via-webpack-babel-plugin,
-      # code-coverage-with-monocart-reporter,
-      # docker,
-      # fixtures,
-      # monocart-reporter-advanced-config,
-      # stale-screenshots-cleanup,
+      accessibility-axe, 
+      accessibility-lighthouse, 
+      code-coverage-with-istanbul-via-webpack-babel-plugin,
+      code-coverage-with-monocart-reporter,
+      docker,
+      fixtures,
+      monocart-reporter-advanced-config,
+      stale-screenshots-cleanup,
     ]
     permissions:
       actions: write
-      # contents: write
-      # issues: write
     runs-on: ubuntu-latest
     steps:
     - name: Delete repo artifact
