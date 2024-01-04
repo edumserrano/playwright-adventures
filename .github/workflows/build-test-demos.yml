@@ -306,8 +306,7 @@ jobs:
   stale-screenshots-cleanup:
     name: stale-screenshots-cleanup demo
     needs: [checkout-repo]
-    permissions:
-      contents: read
+    permissions: write-all
     runs-on: windows-latest
     steps:
     - name: Download repo from workflow artifacts
@@ -337,7 +336,6 @@ jobs:
       monocart-reporter-advanced-config,
       stale-screenshots-cleanup,
     ]
-    if: always() && needs.checkout-repo.result == 'success'
     permissions:
       contents: read
     runs-on: ubuntu-latest
