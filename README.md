@@ -15,7 +15,7 @@
 
 ## Description
 
-This repo aims to consolidate and share some of the experiences I've had and the solutions I've come up with whilst using Playwright to test Angular apps.
+**[Playwright](https://playwright.dev/) enables reliable end-to-end testing for modern web apps and it has become my preferred approach to test web apps.** This repo aims to consolidate and share some of the experiences I've had and the solutions I've come up with whilst using Playwright.
 
 > [!IMPORTANT]
 >
