@@ -32,42 +32,42 @@ jobs:
       with:
         name: ${{ env.REPO_ARTIFACT_NAME }}
         path: ${{ github.workspace }}
-  accessibility-axe:
-    name: accessibility-axe demo
-    needs: [checkout-repo]
-    permissions:
-      contents: read
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download repo from workflow artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ env.REPO_ARTIFACT_NAME }}
-    - name: accessibility-axe demo
-      run: |
-          cd "${{ github.workspace }}/demos/accessibility-axe"
-          npm ci
-          npx playwright install --with-deps
-          npm test | Tee-Object -Variable testOutput
+  # accessibility-axe:
+  #   name: accessibility-axe demo
+  #   needs: [checkout-repo]
+  #   permissions:
+  #     contents: read
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Download repo from workflow artifacts
+  #     uses: actions/download-artifact@v4
+  #     with:
+  #       name: ${{ env.REPO_ARTIFACT_NAME }}
+  #   - name: accessibility-axe demo
+  #     run: |
+  #         cd "${{ github.workspace }}/demos/accessibility-axe"
+  #         npm ci
+  #         npx playwright install --with-deps
+  #         npm test | Tee-Object -Variable testOutput
 
-          # Check that all is as expected. Should have 3 and only 3 failed tests.
+  #         # Check that all is as expected. Should have 3 and only 3 failed tests.
 
-          $expectedFailed = $false
-          foreach($outputLine in $testOutput)
-          {
-            if($outputLine.Contains("3 failed"))
-            {
-              $expectedFailed = $true
-            }
-          }
+  #         $expectedFailed = $false
+  #         foreach($outputLine in $testOutput)
+  #         {
+  #           if($outputLine.Contains("3 failed"))
+  #           {
+  #             $expectedFailed = $true
+  #           }
+  #         }
 
-          if(!$expectedFailed)
-          {
-            Write-Output "::error::Failed running the accessibility-axe demo tests. Expected exactly 3 failed tests."
-            Exit 1
-          }
+  #         if(!$expectedFailed)
+  #         {
+  #           Write-Output "::error::Failed running the accessibility-axe demo tests. Expected exactly 3 failed tests."
+  #           Exit 1
+  #         }
 
-          Exit 0
+  #         Exit 0
   # accessibility-lighthouse:
   #   name: accessibility-lighthouse demo
   #   needs: [checkout-repo]
@@ -211,26 +211,26 @@ jobs:
   #         }
 
   #         Exit 0
-  # docker:
-  #   name: docker demo
-  #   needs: [checkout-repo]
-  #   permissions:
-  #     contents: read
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Download repo from workflow artifacts
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: ${{ env.REPO_ARTIFACT_NAME }}
-  #   - name: docker demo
-  #     run: |
-  #         cd "${{ github.workspace }}/demos/docker"
-  #         npm ci
-  #         npm test
+  docker:
+    name: docker demo
+    needs: [checkout-repo]
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download repo from workflow artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: docker demo
+      run: |
+          cd "${{ github.workspace }}/demos/docker"
+          npm ci
+          npm test
 
-  #         # The docker demo has many options in the powershell script which are not tested.
-  #         # For now it will require manual testing on the docker demo powershell scripts to
-  #         # make sure everything is working as expected.
+          # The docker demo has many options in the powershell script which are not tested.
+          # For now it will require manual testing on the docker demo powershell scripts to
+          # make sure everything is working as expected.
   # fixtures:
   #   name: fixtures demo
   #   needs: [checkout-repo]
@@ -327,29 +327,29 @@ jobs:
     name: Delete repo artifact
     needs: [
       checkout-repo,
-      accessibility-axe, 
+      # accessibility-axe, 
       # accessibility-lighthouse, 
       # code-coverage-with-istanbul-via-webpack-babel-plugin,
       # code-coverage-with-monocart-reporter,
-      # docker,
+      docker,
       # fixtures,
       # monocart-reporter-advanced-config,
       # stale-screenshots-cleanup,
     ]
     permissions:
-      actions: write
-      checks: write
+      # actions: write
+      # checks: write
       contents: write
-      deployments: write
-      id-token: write
-      issues: write
-      discussions: write
-      packages: write
-      pages: write
-      pull-requests: write
-      repository-projects: write
-      security-events: write
-      statuses: write
+      # deployments: write
+      # id-token: write
+      # issues: write
+      # discussions: write
+      # packages: write
+      # pages: write
+      # pull-requests: write
+      # repository-projects: write
+      # security-events: write
+      # statuses: write
     runs-on: ubuntu-latest
     steps:
     - name: Delete repo artifact
