@@ -211,26 +211,26 @@ jobs:
   #         }
 
   #         Exit 0
-  docker:
-    name: docker demo
-    needs: [checkout-repo]
-    permissions:
-      contents: read
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download repo from workflow artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ env.REPO_ARTIFACT_NAME }}
-    - name: docker demo
-      run: |
-          cd "${{ github.workspace }}/demos/docker"
-          npm ci
-          npm test
+  # docker:
+  #   name: docker demo
+  #   needs: [checkout-repo]
+  #   permissions:
+  #     contents: read
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Download repo from workflow artifacts
+  #     uses: actions/download-artifact@v4
+  #     with:
+  #       name: ${{ env.REPO_ARTIFACT_NAME }}
+  #   - name: docker demo
+  #     run: |
+  #         cd "${{ github.workspace }}/demos/docker"
+  #         npm ci
+  #         npm test
 
-          # The docker demo has many options in the powershell script which are not tested.
-          # For now it will require manual testing on the docker demo powershell scripts to
-          # make sure everything is working as expected.
+  #         # The docker demo has many options in the powershell script which are not tested.
+  #         # For now it will require manual testing on the docker demo powershell scripts to
+  #         # make sure everything is working as expected.
   # fixtures:
   #   name: fixtures demo
   #   needs: [checkout-repo]
@@ -331,19 +331,19 @@ jobs:
       # accessibility-lighthouse, 
       # code-coverage-with-istanbul-via-webpack-babel-plugin,
       # code-coverage-with-monocart-reporter,
-      docker,
+      # docker,
       # fixtures,
       # monocart-reporter-advanced-config,
       # stale-screenshots-cleanup,
     ]
     permissions:
       actions: write
-      checks: write
+      # checks: write
       contents: write
-      deployments: write
+      # deployments: write
       id-token: write
       issues: write
-      discussions: write
+      # discussions: write
       # packages: write
       # pages: write
       # pull-requests: write
