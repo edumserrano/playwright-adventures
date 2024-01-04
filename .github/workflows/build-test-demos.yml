@@ -337,13 +337,13 @@ jobs:
       # stale-screenshots-cleanup,
     ]
     permissions:
-      # actions: write
-      # checks: write
+      actions: write
+      checks: write
       contents: write
-      # deployments: write
-      # id-token: write
-      # issues: write
-      # discussions: write
+      deployments: write
+      id-token: write
+      issues: write
+      discussions: write
       # packages: write
       # pages: write
       # pull-requests: write
