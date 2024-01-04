@@ -337,9 +337,8 @@ jobs:
       # stale-screenshots-cleanup,
     ]
     permissions:
-      actions: write
+      # actions: write
       contents: write
-      # issues: write
     runs-on: ubuntu-latest
     steps:
     - name: Delete repo artifact
