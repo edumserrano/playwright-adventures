@@ -31,7 +31,7 @@
     "@angular/compiler-cli": "^17.0.0",
     "@playwright/test": "^1.40.1",
     "@types/node": "^20.10.7",
-    "monocart-reporter": "^2.1.1",
+    "monocart-reporter": "^2.2.1",
     "open-cli": "^8.0.0",
     "prettier": "^3.1.1",
     "typescript": "~5.2.2",
