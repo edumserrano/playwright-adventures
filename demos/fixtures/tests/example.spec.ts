@@ -48,7 +48,7 @@ test("consoleMessages and failOnUnexpectedConsoleMessages", async ({
   // I think it's because the assert happens before the on('console') event handler
   // from demos/fixtures/tests/_shared/fixtures/console-messages.ts is processed.
   // To make this test reliable I'm using expect.toPass to retry the assertion
-  // until it's successfull.
+  // until it's successful.
   //
   // See https://playwright.dev/docs/test-assertions#expecttopass.
   // Could also use expect.poll https://playwright.dev/docs/test-assertions#expectpoll
