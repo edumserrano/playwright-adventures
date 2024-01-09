@@ -5,7 +5,6 @@
     "start": "npx ng serve -o",
     "test": "npx playwright test",
     "test:show-report": "npx monocart show-report ./test-results/monocart-report.html",
-    "coverage:show-report": "open-cli ./test-results/code-coverage/v8/index.html",
     "prettier:check": "npx prettier --check .",
     "prettier:write": "npx prettier --write ."
   },
