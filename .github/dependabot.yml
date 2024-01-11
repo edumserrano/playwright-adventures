@@ -13,6 +13,10 @@ updates:
       - 'dependabot'
       - 'bot:robot:'
       - 'github-workflows'
+    groups:
+      github-actions:
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
     directory: "/demos/accessibility-axe"
     schedule:
@@ -21,6 +25,10 @@ updates:
       - 'dependabot'
       - 'bot:robot:'
       - 'npm'
+    groups:
+      npm-accessibility-axe:
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
     directory: "/demos/accessibility-lighthouse"
     schedule:
@@ -29,6 +37,10 @@ updates:
       - 'dependabot'
       - 'bot:robot:'
       - 'npm'
+    groups:
+      npm-accessibility-lighthouse:
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
     directory: "/demos/code-coverage-with-istanbul-via-webpack-babel-plugin"
     schedule:
@@ -37,6 +49,10 @@ updates:
       - 'dependabot'
       - 'bot:robot:'
       - 'npm'
+    groups:
+      npm-code-coverage-with-istanbul-via-webpack-babel-plugin:
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
     directory: "/demos/code-coverage-with-monocart-reporter"
     schedule:
@@ -45,6 +61,10 @@ updates:
       - 'dependabot'
       - 'bot:robot:'
       - 'npm'
+    groups:
+      npm-code-coverage-with-monocart-reporter:
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
     directory: "/demos/docker"
     schedule:
@@ -53,6 +73,10 @@ updates:
       - 'dependabot'
       - 'bot:robot:'
       - 'npm'
+    groups:
+      npm-docker:
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
     directory: "/demos/fixtures"
     schedule:
@@ -61,6 +85,10 @@ updates:
       - 'dependabot'
       - 'bot:robot:'
       - 'npm'
+    groups:
+      npm-fixtures:
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
     directory: "/demos/monocart-reporter-advanced-config"
     schedule:
@@ -69,6 +97,10 @@ updates:
       - 'dependabot'
       - 'bot:robot:'
       - 'npm'
+    groups:
+      npm-monocart-reporter-advanced-config:
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
     directory: "/demos/stale-screenshots-cleanup"
     schedule:
@@ -77,3 +109,7 @@ updates:
       - 'dependabot'
       - 'bot:robot:'
       - 'npm'
+    groups:
+      npm-stale-screenshots-cleanup:
+        patterns:
+          - "*"
