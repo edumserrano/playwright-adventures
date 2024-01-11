@@ -26,7 +26,7 @@ updates:
       - 'bot:robot:'
       - 'npm'
     groups:
-      npm-accessibility-axe:
+      npm:
         patterns:
           - "*"
   - package-ecosystem: "npm"
@@ -38,7 +38,7 @@ updates:
       - 'bot:robot:'
       - 'npm'
     groups:
-      npm-accessibility-lighthouse:
+      npm:
         patterns:
           - "*"
   - package-ecosystem: "npm"
@@ -50,7 +50,7 @@ updates:
       - 'bot:robot:'
       - 'npm'
     groups:
-      npm-code-coverage-with-istanbul-via-webpack-babel-plugin:
+      npm:
         patterns:
           - "*"
   - package-ecosystem: "npm"
@@ -62,7 +62,7 @@ updates:
       - 'bot:robot:'
       - 'npm'
     groups:
-      npm-code-coverage-with-monocart-reporter:
+      npm:
         patterns:
           - "*"
   - package-ecosystem: "npm"
@@ -74,7 +74,7 @@ updates:
       - 'bot:robot:'
       - 'npm'
     groups:
-      npm-docker:
+      npm:
         patterns:
           - "*"
   - package-ecosystem: "npm"
@@ -86,7 +86,7 @@ updates:
       - 'bot:robot:'
       - 'npm'
     groups:
-      npm-fixtures:
+      npm:
         patterns:
           - "*"
   - package-ecosystem: "npm"
@@ -98,7 +98,7 @@ updates:
       - 'bot:robot:'
       - 'npm'
     groups:
-      npm-monocart-reporter-advanced-config:
+      npm:
         patterns:
           - "*"
   - package-ecosystem: "npm"
@@ -110,6 +110,6 @@ updates:
       - 'bot:robot:'
       - 'npm'
     groups:
-      npm-stale-screenshots-cleanup:
+      npm:
         patterns:
           - "*"
