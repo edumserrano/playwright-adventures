@@ -29,9 +29,9 @@
     "@angular/cli": "^17.0.10",
     "@angular/compiler-cli": "^17.0.9",
     "@playwright/test": "^1.40.1",
-    "@types/node": "^20.11.0",
+    "@types/node": "^20.11.1",
     "open-cli": "^8.0.0",
-    "prettier": "^3.1.1",
+    "prettier": "^3.2.2",
     "typescript": "~5.2.2",
     "zod": "^3.22.4"
   }
