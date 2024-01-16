@@ -27,7 +27,7 @@
     "@angular/cli": "^17.0.10",
     "@angular/compiler-cli": "^17.0.9",
     "@playwright/test": "^1.40.1",
-    "@types/node": "^20.11.1",
+    "@types/node": "^20.11.4",
     "lighthouse": "^11.4.0",
     "monocart-reporter": "^2.2.3",
     "open-cli": "^8.0.0",
