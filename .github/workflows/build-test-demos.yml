@@ -52,7 +52,7 @@ jobs:
       with:
         save-always: true
         path: ${{ steps.npm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('${{ github.workspace }}/demos/accessibility-axe/package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/accessibility-axe/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-accessibility-axe
     - name: accessibility-axe demo
@@ -100,7 +100,7 @@ jobs:
       with:
         save-always: true
         path: ${{ steps.npm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('${{ github.workspace }}/demos/accessibility-lighthouse/package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/accessibility-lighthouse/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-accessibility-lighthouse
     - name: accessibility-lighthouse demo
@@ -151,7 +151,7 @@ jobs:
       with:
         save-always: true
         path: ${{ steps.npm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('${{ github.workspace }}/demos/code-coverage-with-istanbul-via-webpack-babel-plugin/package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/code-coverage-with-istanbul-via-webpack-babel-plugin/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-code-coverage-with-istanbul-via-webpack-babel-plugin
     - name: code-coverage-with-istanbul-via-webpack-babel-plugin demo
@@ -219,7 +219,7 @@ jobs:
       with:
         save-always: true
         path: ${{ steps.npm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('${{ github.workspace }}/demos/code-coverage-with-monocart-reporter/package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/code-coverage-with-monocart-reporter/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-code-coverage-with-monocart-reporter
     - name: code-coverage-with-monocart-reporter demo
@@ -281,7 +281,7 @@ jobs:
       with:
         save-always: true
         path: ${{ steps.npm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('${{ github.workspace }}/demos/docker/package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/docker/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-docker
     - name: docker demo
@@ -313,7 +313,7 @@ jobs:
       with:
         save-always: true
         path: ${{ steps.npm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('${{ github.workspace }}/demos/fixture/package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/fixture/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-fixture
     - name: fixtures demo
@@ -376,7 +376,7 @@ jobs:
       with:
         save-always: true
         path: ${{ steps.npm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('${{ github.workspace }}/demos/monocart-reporter-advanced-config/package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/monocart-reporter-advanced-config/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-monocart-reporter-advanced-config
     - name: monocart-reporter-advanced-config demo
@@ -401,18 +401,14 @@ jobs:
         name: ${{ env.REPO_ARTIFACT_NAME }}
     - name: Get npm cache directory
       id: npm-cache-dir
-      run: |
-        Write-Host ${{ hashFiles('${{ github.workspace }}/demos/stale-screenshots-cleanup/package-lock.json') }}
-        Write-Host ${{ hashFiles('github.workspace/demos/stale-screenshots-cleanup/package-lock.json') }}
-        Write-Host ${{ hashFiles('./demos/stale-screenshots-cleanup/package-lock.json') }}
-        echo "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
+      run: echo "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
     - name: Cache npm packages
       uses: actions/cache@v4
       id: npm-cache
       with:
         save-always: true
         path: ${{ steps.npm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('${{ github.workspace }}/demos/stale-screenshots-cleanup/package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/stale-screenshots-cleanup/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-stale-screenshots-cleanup
     - name: stale-screenshots-cleanup demo
