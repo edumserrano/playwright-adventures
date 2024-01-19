@@ -12,6 +12,8 @@ async function attachAxeResultsAsync(
   });
 }
 
+// This test will always fail because the app being tested has
+// accessibility issues
 test("a11y", async ({ page }, testInfo) => {
   await page.goto("/");
 
@@ -25,6 +27,9 @@ test("a11y", async ({ page }, testInfo) => {
   expect(axeResults.violations).toEqual([]);
 });
 
+// This test shows how to exclude rules from the accessibility scan.
+// It's the same as the above but it passes due to the 'color-contrast'
+// rule exclusion
 test("a11y with exclusions", async ({ page }, testInfo) => {
   await page.goto("/");
 
