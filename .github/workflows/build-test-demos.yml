@@ -313,9 +313,9 @@ jobs:
       with:
         save-always: true
         path: ${{ steps.npm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('./demos/fixture/package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/fixtures/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-fixture
+          ${{ runner.os }}-node-fixtures
     - name: fixtures demo
       run: |
           cd "${{ github.workspace }}/demos/fixtures"
