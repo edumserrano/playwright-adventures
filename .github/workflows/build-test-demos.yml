@@ -136,7 +136,7 @@ jobs:
 
           foreach($coverageLine in $coverageSummary)
           {
-            if($coverageLine.Contains("Statements   : 90.00% ( 9/10 )"))
+            if($coverageLine.Contains("Statements   : 90% ( 9/10 )"))
             {
               $expectedStatements = $true
             }
