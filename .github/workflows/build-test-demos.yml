@@ -43,6 +43,18 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: echo "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
+    - name: Cache npm packages
+      uses: actions/cache@v4
+      id: npm-cache
+      with:
+        save-always: true
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/accessibility-axe/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-accessibility-axe
     - name: accessibility-axe demo
       run: |
           cd "${{ github.workspace }}/demos/accessibility-axe"
@@ -79,6 +91,18 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: echo "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
+    - name: Cache npm packages
+      uses: actions/cache@v4
+      id: npm-cache
+      with:
+        save-always: true
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/accessibility-lighthouse/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-accessibility-lighthouse
     - name: accessibility-lighthouse demo
       run: |
           cd "${{ github.workspace }}/demos/accessibility-lighthouse"
@@ -118,6 +142,18 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: echo "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
+    - name: Cache npm packages
+      uses: actions/cache@v4
+      id: npm-cache
+      with:
+        save-always: true
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/code-coverage-with-istanbul-via-webpack-babel-plugin/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-code-coverage-with-istanbul-via-webpack-babel-plugin
     - name: code-coverage-with-istanbul-via-webpack-babel-plugin demo
       run: |
           cd "${{ github.workspace }}/demos/code-coverage-with-istanbul-via-webpack-babel-plugin"
@@ -174,6 +210,18 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: echo "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
+    - name: Cache npm packages
+      uses: actions/cache@v4
+      id: npm-cache
+      with:
+        save-always: true
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/code-coverage-with-monocart-reporter/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-code-coverage-with-monocart-reporter
     - name: code-coverage-with-monocart-reporter demo
       run: |
           cd "${{ github.workspace }}/demos/code-coverage-with-monocart-reporter"
@@ -224,6 +272,18 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: echo "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
+    - name: Cache npm packages
+      uses: actions/cache@v4
+      id: npm-cache
+      with:
+        save-always: true
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/docker/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-docker
     - name: docker demo
       run: |
           cd "${{ github.workspace }}/demos/docker"
@@ -244,6 +304,18 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: echo "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
+    - name: Cache npm packages
+      uses: actions/cache@v4
+      id: npm-cache
+      with:
+        save-always: true
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/fixture/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-fixture
     - name: fixtures demo
       run: |
           cd "${{ github.workspace }}/demos/fixtures"
@@ -295,6 +367,18 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: echo "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
+    - name: Cache npm packages
+      uses: actions/cache@v4
+      id: npm-cache
+      with:
+        save-always: true
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/monocart-reporter-advanced-config/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-monocart-reporter-advanced-config
     - name: monocart-reporter-advanced-config demo
       run: |
           cd "${{ github.workspace }}/demos/monocart-reporter-advanced-config"
@@ -315,6 +399,18 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: echo "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
+    - name: Cache npm packages
+      uses: actions/cache@v4
+      id: npm-cache
+      with:
+        save-always: true
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('./demos/stale-screenshots-cleanup/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-stale-screenshots-cleanup
     - name: stale-screenshots-cleanup demo
       run: |
           cd "${{ github.workspace }}/demos/stale-screenshots-cleanup"
