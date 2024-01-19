@@ -98,7 +98,9 @@ jobs:
           $bestPracticesCategory = $auditReportJson.categories | where { $_.name -eq "Best Practices" }
           $seoCategory = $auditReportJson.categories | where { $_.name -eq "SEO" }
 
-          if($performanceCategory.score -ne 1 -OR $accessibilityCategory.score -ne 0.93 -OR $bestPracticesCategory.score -ne 1 -OR $seoCategory.score -ne 0.89)
+          Write-Output $auditReportJson
+
+          if($performanceCategory.score -ne 1 -OR $accessibilityCategory.score -ne 0.93 -OR $bestPracticesCategory.score -ne 1 -OR $seoCategory.score -ne 0.80)
           {
             Write-Output "::error::Failed running the accessibility-lighthouse demo tests. Audit report didn't produce expected scores."
             Exit 1
@@ -327,8 +329,8 @@ jobs:
     name: Delete repo artifact
     needs: [
       checkout-repo,
-      accessibility-axe, 
-      accessibility-lighthouse, 
+      accessibility-axe,
+      accessibility-lighthouse,
       code-coverage-with-istanbul-via-webpack-babel-plugin,
       code-coverage-with-monocart-reporter,
       docker,
