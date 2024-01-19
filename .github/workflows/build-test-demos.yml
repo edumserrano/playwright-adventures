@@ -79,6 +79,17 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ env.REPO_ARTIFACT_NAME }}
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: echo "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
+    - uses: actions/cache@v4
+      id: npm-cache
+      with:
+        save-always: true
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('${{ github.workspace }}/demos/accessibility-lighthouse/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-accessibility-lighthouse
     - name: accessibility-lighthouse demo
       run: |
           cd "${{ github.workspace }}/demos/accessibility-lighthouse"
