@@ -48,6 +48,10 @@ The demo at [/demos/accessibility-axe](/demos/accessibility-axe/) shows how to u
 >
 > When you run the tests in this demo with `npm test` you will have 3 tests that pass and 3 that fail. This is intentional. The app being tested does have accessability issues and this demo shows how to write a test that captures them as well as how to write tests to exclude certain accessibility rules. For more information see the comments at [example.spec.ts](./tests/example.spec.ts).
 
+The accessibility scan report can be found attached to the tests.
+
+https://github.com/edumserrano/playwright-adventures/assets/15857357/f6ca2268-e85e-4764-b582-e33949c36780
+
 ## Playwright configuration
 
 The majority of the content of the [playwright.config.ts](/demos/accessibility-axe/playwright.config.ts) file is what you get by default after [adding Playwright to your project](https://playwright.dev/docs/intro#installing-playwright) with `npm init playwright@latest`.
