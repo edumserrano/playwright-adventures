@@ -136,11 +136,11 @@ jobs:
 
           foreach($coverageLine in $coverageSummary)
           {
-            if($coverageLine.Contains("Statements   : 88.88% ( 8/9 )"))
+            if($coverageLine.Contains("Statements   : 90.00% ( 9/10 )"))
             {
               $expectedStatements = $true
             }
-            elseif($coverageLine.Contains("Branches     : 100% ( 2/2 )"))
+            elseif($coverageLine.Contains("Branches     : 100% ( 4/4 )"))
             {
               $expectedBranches = $true
             }
@@ -148,7 +148,7 @@ jobs:
             {
               $expectedFunctions = $true
             }
-            elseif($coverageLine.Contains("Lines        : 100% ( 8/8 )"))
+            elseif($coverageLine.Contains("Lines        : 100% ( 9/9 )"))
             {
               $expectedLines = $true
             }
@@ -327,8 +327,8 @@ jobs:
     name: Delete repo artifact
     needs: [
       checkout-repo,
-      accessibility-axe, 
-      accessibility-lighthouse, 
+      accessibility-axe,
+      accessibility-lighthouse,
       code-coverage-with-istanbul-via-webpack-babel-plugin,
       code-coverage-with-monocart-reporter,
       docker,
