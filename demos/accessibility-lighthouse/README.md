@@ -53,6 +53,8 @@ The demo at [/demos/accessibility-lighthouse](/demos/accessibility-lighthouse/) 
 
 The `Lighthouse` run report can be found attached to the test:
 
+https://github.com/edumserrano/playwright-adventures/assets/15857357/fcf71866-5ecb-4b18-9ab4-9963693c89a9
+
 ## Playwright configuration
 
 The majority of the content of the [playwright.config.ts](/demos/accessibility-lighthouse/playwright.config.ts) file is what you get by default after [adding Playwright to your project](https://playwright.dev/docs/intro#installing-playwright) with `npm init playwright@latest`.
