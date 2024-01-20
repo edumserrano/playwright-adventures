@@ -21,7 +21,12 @@ class CodeMetadataProvider {
   private _lastCommitMetadata: LastCommitMetadata | null = null;
   private _repositoryMetadata: RepositoryMetadata | null = null;
 
-  public async getLastCommitMetadataAsync(): Promise<LastCommitMetadata> {
+  public async getLastCommitMetadataAsync(): Promise<LastCommitMetadata | null> {
+    const isRepo = await simpleGit().checkIsRepo();
+    if (!isRepo) {
+      return null;
+    }
+
     if (this._lastCommitMetadata !== null) {
       return this._lastCommitMetadata;
     }
@@ -29,7 +34,7 @@ class CodeMetadataProvider {
     const lastCommitAuthorCommand = ["log", "-1", "--format=%an %ae"];
     const lastCommitAuthorName = await simpleGit().raw(lastCommitAuthorCommand);
     const lastCommitHashCommand = ["log", "-1", "--format=%H"];
-    const lastCommithash = await simpleGit().raw(lastCommitHashCommand);
+    const lastCommitHash = await simpleGit().raw(lastCommitHashCommand);
     const lastCommitDateCommand = ["log", "-1", "--format=%ad"];
     const lastCommitDate = await simpleGit().raw(lastCommitDateCommand);
     const lastCommitRefsCommand = ["log", "-1", "--format=%D"];
@@ -38,7 +43,7 @@ class CodeMetadataProvider {
     const lastCommitMessage = await simpleGit().raw(lastCommitMessageCommand);
 
     const lastCommitMetadata: LastCommitMetadata = {
-      hash: lastCommithash.trim(),
+      hash: lastCommitHash.trim(),
       refs: lastCommitRefs.trim(),
       author: lastCommitAuthorName.trim(),
       date: lastCommitDate.trim(),
@@ -48,7 +53,12 @@ class CodeMetadataProvider {
     return lastCommitMetadata;
   }
 
-  public async getRepoMetadataAsync(): Promise<RepositoryMetadata> {
+  public async getRepoMetadataAsync(): Promise<RepositoryMetadata | null> {
+    const isRepo = await simpleGit().checkIsRepo();
+    if (!isRepo) {
+      return null;
+    }
+
     if (this._repositoryMetadata !== null) {
       return this._repositoryMetadata;
     }
@@ -57,9 +67,13 @@ class CodeMetadataProvider {
     const originUrlRaw = await simpleGit().raw(originUrlCommand);
     const originUrl = originUrlRaw.trim().replace(".git", "");
     const lastCommitMetadata = await this.getLastCommitMetadataAsync();
+    if (!lastCommitMetadata) {
+      return null;
+    }
+
     const repositoryMetadata: RepositoryMetadata = {
       repoUrl: originUrl,
-      browseCommitFilesUrl: `${originUrl}/tree/${lastCommitMetadata.hash}`,
+      browseCommitFilesUrl: `${originUrl}/tree/${lastCommitMetadata!.hash}`,
     };
     this._repositoryMetadata = repositoryMetadata;
     return repositoryMetadata;
@@ -68,20 +82,26 @@ class CodeMetadataProvider {
 
 async function globalSetup(config: FullConfig): Promise<void> {
   const codeProvider = new CodeMetadataProvider();
-  const lastCommitMetadata = await codeProvider.getLastCommitMetadataAsync();
-  const repoMetadata = await codeProvider.getRepoMetadataAsync();
   const metadata = config.metadata;
   metadata["ci"] = env.CI ? "yes" : "no";
   metadata["worker-count"] = config.workers;
   metadata["max-failures"] = config.maxFailures;
   metadata["retries"] = config.projects[0].retries;
-  metadata["repo-url"] = repoMetadata.repoUrl;
-  metadata["browse-files-url"] = repoMetadata.browseCommitFilesUrl;
-  metadata["commit-message"] = lastCommitMetadata.message;
-  metadata["commit-author"] = lastCommitMetadata.author;
-  metadata["commit-date"] = lastCommitMetadata.date;
-  metadata["commit-hash"] = lastCommitMetadata.hash;
-  metadata["commit-refs"] = lastCommitMetadata.refs;
+
+  const repoMetadata = await codeProvider.getRepoMetadataAsync();
+  if (repoMetadata) {
+    metadata["repo-url"] = repoMetadata.repoUrl;
+    metadata["browse-files-url"] = repoMetadata.browseCommitFilesUrl;
+  }
+
+  const lastCommitMetadata = await codeProvider.getLastCommitMetadataAsync();
+  if (lastCommitMetadata) {
+    metadata["commit-message"] = lastCommitMetadata.message;
+    metadata["commit-author"] = lastCommitMetadata.author;
+    metadata["commit-date"] = lastCommitMetadata.date;
+    metadata["commit-hash"] = lastCommitMetadata.hash;
+    metadata["commit-refs"] = lastCommitMetadata.refs;
+  }
 }
 
 export default globalSetup;
