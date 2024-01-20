@@ -38,6 +38,8 @@ export function getMonocartReporterOptions(
       const descriptionColumn = defaultColumns.find(
         (column: any) => column.id === "description",
       );
+
+      // if there's no description column then add one and place it before the duration column
       if (!descriptionColumn) {
         const index = defaultColumns.findIndex(
           (column: any) => column.id === "duration",
