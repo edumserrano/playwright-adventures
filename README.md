@@ -17,6 +17,8 @@
 
 **[Playwright](https://playwright.dev/) enables reliable end-to-end testing for modern web apps and it has become my preferred approach to test web apps.** This repo aims to consolidate and share some of the experiences I've had and the solutions I've come up with whilst using Playwright.
 
+My experiences with Playwright focused on using it as the test tool whilst developing web apps, where the main goal was to get better tests, including Visual Regression and Accesibility tests, which could run on a developer's machine as part of their development loop as well as run as part of the build pipeline of the web app, before the app is even deployed to an environment.
+
 > [!IMPORTANT]
 >
 > Although the code demos presented here use Angular for the target app of the Playwright tests, the Playwright concepts that are demoed are frontend framework agnostic which means they and can be applied to any frontend framework.
