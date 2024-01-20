@@ -50,7 +50,6 @@ The demo at [/demos/accessibility-lighthouse](/demos/accessibility-lighthouse/) 
 > [!NOTE]
 >
 > When you run the tests in this demo with `npm test` you will have 1 test that passes and 2 that are skipped. This is to show that `Lighthouse` will only run on `Chromium` browsers.
->
 
 The `Lighthouse` run report can be found attached to the test:
 
@@ -109,7 +108,6 @@ The [lighthouse-audit.ts](/demos/accessibility-lighthouse/tests/lighthouse-audit
 > `Lighthouse` is in charge of doing the page navigation and that is a limitation because it means we can't use interactions from Playwright constructs such as `await page.goto("/");` and then pass the `page` object to `Lighthouse`. The biggest problem with this is that it that you can't run `Lighthouse` against anything else other than the initial render state of a URL.
 >
 > If you need to navigate to a URL and perform some operations to set up the page in some state before you run `Lighthouse`, then you're out of luck. This is not possible. If you want to do this, use the [@axe-core/playwright](https://www.npmjs.com/package/@axe-core/playwright) NPM package instead, for which you can find a demo at [/demos/accessibility-axe/](/demos/accessibility-axe/)
->
 
 The `lighthouseAuditAsync` function creates a `Config` object which contains the configuration used when running `Lighthouse`. There are many configuration values you can set. For more information you can go through the [Lighthouse docs](https://github.com/GoogleChrome/lighthouse/tree/main/docs) files such as:
 
@@ -140,7 +138,6 @@ In addition, the test also attaches the `Lighthouse` run results to the test rep
 > [!WARNING]
 >
 > Attaching the `Lighthouse` run results to the test report only works because this demo is using the [monocart-reporter](https://www.npmjs.com/package/monocart-reporter). If you're using the default [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter) then you will have to find another way to attach the `Lighthouse` run results.
->
 
 For all the `Lighthouse` tests you need to have the:
 
@@ -153,5 +150,5 @@ So that the `test` function used is the one exported from [lighthouse-fixtures.t
 On other `non-Lighthouse` tests you should use the usual `test` import:
 
 ```ts
-import { expect, test } from "@playwright/test"
+import { expect, test } from "@playwright/test";
 ```
