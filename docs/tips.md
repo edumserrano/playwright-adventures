@@ -2,7 +2,7 @@
 
 - [Which code coverage should I use with Playwright? monocart-reporter or Istanbul with Webpack Babel plugin?](#which-code-coverage-should-i-use-with-playwright-monocart-reporter-or-istanbul-with-webpack-babel-plugin)
 - [How to debug Playwright tests](#how-to-debug-playwright-tests)
-- [Use Git LFS when you use screenshots](#use-git-lfs-when-you-use-screenshots)
+- [Should you use Git LFS when you use screenshots?](#should-you-use-git-lfs-when-you-use-screenshots)
 - [The `webServer.reuseExistingServer` configuration option](#the-webserverreuseexistingserver-configuration-option)
 - [Which reporters should I use?](#which-reporters-should-i-use)
 - [You might not need to run all your tests against all your projects](#you-might-not-need-to-run-all-your-tests-against-all-your-projects)
@@ -46,11 +46,11 @@ Alternatively, you can use the [Playwright inspector](https://playwright.dev/doc
 > For more information see [microsoft/playwright [BUG] Issues with VRT tests #23559](https://github.com/microsoft/playwright/issues/23559), especially [this comment](https://github.com/microsoft/playwright/issues/23559#issuecomment-1579830160) on that issue.
 >
 
-## Use Git LFS when you use screenshots
+## Should you use Git LFS when you use screenshots?
 
 When you take screenshots with Playwright you should commit them to Git so that they can be used as the source of truth when rerunning the tests. Storing the screenshots in Git also let's you track screenshot changes over time.
 
-However, you should set up [Git LFS](https://git-lfs.com/) to [avoid slowing down your Git repository](https://stackoverflow.com/questions/35575400/what-is-the-advantage-of-git-lfs):
+However, **you should set up [Git LFS](https://git-lfs.com/) or a similar alternative** to [avoid slowing down your Git repository](https://stackoverflow.com/questions/35575400/what-is-the-advantage-of-git-lfs):
 
 > You should use Git LFS if you need to manage large files or binary files when using Git.
 >
@@ -59,6 +59,19 @@ However, you should set up [Git LFS](https://git-lfs.com/) to [avoid slowing dow
 > So, every time the files grow, the Git repository grows. This causes slowdowns when Git users need to retrieve and clone a repository.
 
 See [here](https://www.atlassian.com/git/tutorials/git-lfs) to learn more about Git LFS.
+
+> [!CAUTION]
+> Check out the Git LFS costs for your hosting solution. Some like [Azure DevOps](https://azure.microsoft.com/en-gb/products/devops) provide [unlimited free storage for Git LFS](https://devblogs.microsoft.com/devops/announcing-git-lfs-on-all-vso-git-repos/). Others, like GitHub will not:
+>
+> - [About billing for Git Large File Storage](https://docs.github.com/en/billing/managing-billing-for-git-large-file-storage/about-billing-for-git-large-file-storage)
+> - [About storage and bandwidth usage](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-storage-and-bandwidth-usage)
+> - [Git lfs bandwidth limit when public repo is cloned #62051](https://github.com/orgs/community/discussions/62051)
+> - [GitHub’s Large File Storage is no panacea for Open Source — quite the opposite](https://angryfrenchman.org/github-s-large-file-storage-is-no-panacea-for-open-source-quite-the-opposite-12c0e16a9a91)
+> - [How does git LFS track and store binary data more efficiently than git?](https://stackoverflow.com/questions/75946411/how-does-git-lfs-track-and-store-binary-data-more-efficiently-than-git)
+>
+> If you have a public repo on GitHub and you want to use Git LFS and you're worried about hitting the limitations with GitHub's Git LFS, then I'd suggest configuring your Git LFS storage source to sit outside of GitHub or use [Git LFS alternatives like DVC](https://stackoverflow.com/questions/65555192/use-azure-blob-storage-for-git-lfs) which [supports many storage types](https://dvc.org/doc/command-reference/remote/modify#supported-storage-types).
+>
+> As to setting up the Git LFS storage to reside outside of GitHub you can find also many alternatives online. The ones I liked more were about using a [Custom Transfer Agent](https://github.com/git-lfs/git-lfs/blob/main/docs/custom-transfers.md) for Git LFS, such as [lfs-s3](https://github.com/nicolas-graves/lfs-s3).
 
 ## The `webServer.reuseExistingServer` configuration option
 
