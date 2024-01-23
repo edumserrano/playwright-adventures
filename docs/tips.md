@@ -66,6 +66,7 @@ See [here](https://www.atlassian.com/git/tutorials/git-lfs) to learn more about 
 > - [About billing for Git Large File Storage](https://docs.github.com/en/billing/managing-billing-for-git-large-file-storage/about-billing-for-git-large-file-storage)
 > - [About storage and bandwidth usage](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-storage-and-bandwidth-usage)
 > - [Git lfs bandwidth limit when public repo is cloned #62051](https://github.com/orgs/community/discussions/62051)
+> - [How to delete a file tracked by git-lfs and release the storage quota?](https://stackoverflow.com/questions/34579211/how-to-delete-a-file-tracked-by-git-lfs-and-release-the-storage-quota)
 > - [GitHub’s Large File Storage is no panacea for Open Source — quite the opposite](https://angryfrenchman.org/github-s-large-file-storage-is-no-panacea-for-open-source-quite-the-opposite-12c0e16a9a91)
 > - [How does git LFS track and store binary data more efficiently than git?](https://stackoverflow.com/questions/75946411/how-does-git-lfs-track-and-store-binary-data-more-efficiently-than-git)
 >
