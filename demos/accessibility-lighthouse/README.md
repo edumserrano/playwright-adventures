@@ -110,6 +110,8 @@ The [lighthouse-audit.ts](/demos/accessibility-lighthouse/tests/lighthouse-audit
 > `Lighthouse` is in charge of doing the page navigation and that is a limitation because it means we can't use interactions from Playwright constructs such as `await page.goto("/");` and then pass the `page` object to `Lighthouse`. The biggest problem with this is that it that you can't run `Lighthouse` against anything else other than the initial render state of a URL.
 >
 > If you need to navigate to a URL and perform some operations to set up the page in some state before you run `Lighthouse`, then you're out of luck. This is not possible. If you want to do this, use the [@axe-core/playwright](https://www.npmjs.com/package/@axe-core/playwright) NPM package instead, for which you can find a demo at [/demos/accessibility-axe/](/demos/accessibility-axe/)
+> 
+> Note that Lighthouse has added support for this scenario through [User Flows](https://github.com/GoogleChrome/lighthouse/blob/main/docs/user-flows.md). The issue is that it doesn't seem to be possible to integrate `User Flows` with Playwright given the current `Lighthouse` API for `User Flows`. See [Users flows and Playwright #13326](https://github.com/GoogleChrome/lighthouse/discussions/13326).
 
 The `lighthouseAuditAsync` function creates a `Config` object which contains the configuration used when running `Lighthouse`. There are many configuration values you can set. For more information you can go through the [Lighthouse docs](https://github.com/GoogleChrome/lighthouse/tree/main/docs) files such as:
 
