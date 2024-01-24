@@ -33,6 +33,27 @@ function getCodeCoverageOptions(
       },
     ],
     [
+      // This must be set as the first reporter of the list of istanbul reporters.
+      // This configuration is using the `cobertura` and `lcovonly` instanbul reporters.
+      // For a list of all istanbul built-in reporters see: https://github.com/cenfun/monocart-coverage-reports?tab=readme-ov-file#available-reports
+      //
+      // If this reporter is not set as the first of the istanbul built-in reporters,
+      // the index.html is not generated at {subdir}/index.html and instead is placed at
+      // {subdir}/app/index.html. This then makes it so that the index.html doesn't display
+      // the code coverage report when opened because the index.html has references
+      // to files that should be at the same directory which is {subdir} and they're not
+      // found at {subdir}/app. Example:
+      //
+      // <script src="bundle.js"></script>
+      //
+      // And bundle.js exists at {subdir} and not at {subdir}/app.
+      //
+      "html-spa",
+      {
+        subdir: "html-spa",
+      },
+    ],
+    [
       "cobertura",
       {
         file: "cobertura/code-coverage.cobertura.xml",
@@ -42,12 +63,6 @@ function getCodeCoverageOptions(
       "lcovonly",
       {
         file: "lcov/code-coverage.lcov.info",
-      },
-    ],
-    [
-      "html-spa",
-      {
-        subdir: "html-spa",
       },
     ],
   ];
