@@ -309,7 +309,10 @@ No, this demo used Powershell to create a script with the logic to build the doc
 
 You can use the `--` notation to [pass command line arguments to npm commands](https://dev.to/felipperegazio/handling-command-line-arguments-in-npm-scripts-2ean). However, if you're using Powershell and want to pass command line arguments then you should either use a double `-- --` notation or single quotes like `'--'`.
 
-Fore more info see [PowerShell, NPM Scripts, and Silently Dropped Arguments](https://www.lloydatkinson.net/posts/2022/powershell-npm-scripts-and-silently-dropped-arguments/).
+Fore more info see:
+
+- [PowerShell, NPM Scripts, and Silently Dropped Arguments](https://www.lloydatkinson.net/posts/2022/powershell-npm-scripts-and-silently-dropped-arguments/).
+- [[BUG] Arguments are not correctly passed from CLI to npm script (npm 7, Windows, Powershell) #3136](https://github.com/npm/cli/issues/3136#issuecomment-948544220)
 
 ## Bonus: Visual Studio Code integration
 
