@@ -29,7 +29,7 @@
     "@angular/cli": "^17.1.1",
     "@angular/compiler-cli": "^17.1.1",
     "@playwright/test": "^1.41.1",
-    "@types/node": "^20.11.7",
+    "@types/node": "^20.11.10",
     "open-cli": "^8.0.0",
     "prettier": "^3.2.4",
     "typescript": "~5.2.2",
