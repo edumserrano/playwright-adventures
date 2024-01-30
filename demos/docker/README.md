@@ -237,7 +237,11 @@ Here's an example of the error message:
 > can sometimes be 10x slower than the "esbuild" package, so you may also not
 > want to do that.
 
-To avoid this error, the [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script provides the `-installNpmPackagesMode` input parameter. If set to `auto` it will override the `node_modules` folder that is mounted into the docker container and install the NPM packages if the host Operating System is Windows, otherwise it will use what was mounted from the host. If set to `install` it will always install the NPM packages and if set to `mount` it will always use the mounted NPM packages.
+To avoid this error, the [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script provides the `-installNpmPackagesMode` input parameter. If set to `auto` it will override the `node_modules` folder that is mounted into the docker container and install the NPM packages if the host Operating System is Windows, otherwise it will use what was mounted from the host. If set to `install` it will always install the NPM packages and if set to `mount` it will always use the mounted NPM packages. Example:
+
+```
+npm test '--' -installNpmPackagesMode mount
+```
 
 > [!NOTE]
 >
@@ -292,6 +296,8 @@ For more information see [microsoft/WSL [wsl2] filesystem performance is much sl
 > [!TIP]
 >
 > If you're using [Docker for Desktop](https://www.docker.com/products/docker-desktop/) switching the Docker engine can easily be done in the `General settings`. You can always toggle back to WSL2 at any time.
+>
+> Toggling off WSL2 use on `Docker for Desktop` on Windows, means Docker will use Hyper-V. [You might have to enabled it](https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v#enable-hyper-v-using-powershell).
 
 ### Playwright's test execution stops midway when running on Docker
 
@@ -307,7 +313,11 @@ No, this demo used Powershell to create a script with the logic to build the doc
 
 ### Powershell and passing command line arguments to npm commands
 
-You can use the `--` notation to [pass command line arguments to npm commands](https://dev.to/felipperegazio/handling-command-line-arguments-in-npm-scripts-2ean). However, if you're using Powershell and want to pass command line arguments then you should either use a double `-- --` notation or single quotes like `'--'`.
+You can use the `--` notation to [pass command line arguments to npm commands](https://dev.to/felipperegazio/handling-command-line-arguments-in-npm-scripts-2ean). However, if you're using Powershell and want to pass command line arguments to npm commands, then you should either use a double `-- --` notation or single quotes like `'--'`. Example:
+
+```
+npm test '--' -ui -useHostWebServer
+```
 
 Fore more info see:
 
