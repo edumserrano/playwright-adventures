@@ -8,7 +8,8 @@ updates:
     # See https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#directory
     directory: '/'
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "saturday"
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -20,7 +21,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/demos/accessibility-axe"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "saturday
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -32,7 +34,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/demos/accessibility-lighthouse"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "saturday
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -44,7 +47,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/demos/code-coverage-with-istanbul-via-webpack-babel-plugin"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "saturday
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -56,7 +60,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/demos/code-coverage-with-monocart-reporter"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "saturday
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -68,7 +73,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/demos/docker"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "saturday
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -80,7 +86,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/demos/fixtures"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "saturday
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -92,7 +99,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/demos/monocart-reporter-advanced-config"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "saturday
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -104,7 +112,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/demos/stale-screenshots-cleanup"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "saturday
     labels:
       - 'dependabot'
       - 'bot:robot:'
