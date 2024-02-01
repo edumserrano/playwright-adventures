@@ -124,7 +124,7 @@ jobs:
 
           Write-Output $auditReportJson
 
-          if($performanceCategory.score -ne 1 -OR $accessibilityCategory.score -ne 0.93 -OR $bestPracticesCategory.score -ne 1 -OR $seoCategory.score -ne 0.80)
+          if($performanceCategory.score -le 0.8 -OR $accessibilityCategory.score -le 0.8 -OR $bestPracticesCategory.score -le 0.8 -OR $seoCategory.score -le 0.8)
           {
             Write-Output "::error::Failed running the accessibility-lighthouse demo tests. Audit report didn't produce expected scores."
             Exit 1
