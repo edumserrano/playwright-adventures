@@ -22,7 +22,7 @@ updates:
     directory: "/demos/accessibility-axe"
     schedule:
       interval: "weekly"
-      day: "saturday
+      day: "saturday"
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -35,7 +35,7 @@ updates:
     directory: "/demos/accessibility-lighthouse"
     schedule:
       interval: "weekly"
-      day: "saturday
+      day: "saturday"
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -48,7 +48,7 @@ updates:
     directory: "/demos/code-coverage-with-istanbul-via-webpack-babel-plugin"
     schedule:
       interval: "weekly"
-      day: "saturday
+      day: "saturday"
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -61,7 +61,7 @@ updates:
     directory: "/demos/code-coverage-with-monocart-reporter"
     schedule:
       interval: "weekly"
-      day: "saturday
+      day: "saturday"
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -74,7 +74,7 @@ updates:
     directory: "/demos/docker"
     schedule:
       interval: "weekly"
-      day: "saturday
+      day: "saturday"
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -87,7 +87,7 @@ updates:
     directory: "/demos/fixtures"
     schedule:
       interval: "weekly"
-      day: "saturday
+      day: "saturday"
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -100,7 +100,7 @@ updates:
     directory: "/demos/monocart-reporter-advanced-config"
     schedule:
       interval: "weekly"
-      day: "saturday
+      day: "saturday"
     labels:
       - 'dependabot'
       - 'bot:robot:'
@@ -113,7 +113,7 @@ updates:
     directory: "/demos/stale-screenshots-cleanup"
     schedule:
       interval: "weekly"
-      day: "saturday
+      day: "saturday"
     labels:
       - 'dependabot'
       - 'bot:robot:'
