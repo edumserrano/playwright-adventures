@@ -7,7 +7,9 @@ param (
   [switch] $useHostWebServer = $false,
   [string] $grep = "",
   [ValidateSet("auto", "install", "mount")]
-  [string] $installNpmPackagesMode = "auto"
+  [string] $installNpmPackagesMode = "auto",
+  [ValidateSet("auto", "supported", "unsupported")]
+  [string] $fileChangesDetectionSupportMode = "auto"
 )
 
 function GetPlaywrightVersion() {
@@ -52,6 +54,40 @@ function NeedsToInstallNpmPackages() {
   }
 
   return $needsToInstallNpmPackages;
+}
+
+function IsFileChangesDetectionSupported() {
+  if ($fileChangesDetectionSupportMode -eq "auto") {
+    $isDockerDesktopOnWindowsUsingWsl2 = IsDockerDesktopOnWindowsUsingWsl2
+    if($isDockerDesktopOnWindowsUsingWsl2) {
+      Write-Host "Detected Docker Desktop running on WSL2. FILE_CHANGES_DETECTION_SUPPORTED=false environment variable will be added to the docker run command." -ForegroundColor Cyan
+    }
+
+    return !$isDockerDesktopOnWindowsUsingWsl2;
+  } elseif ($fileChangesDetectionSupportMode -eq "supported") {
+    return $true
+  } elseif ($fileChangesDetectionSupportMode -eq "unsupported") {
+    return $false
+  }
+
+  throw "Unknown '-fileChangesDetectionSupportMode' option. Received: $fileChangesDetectionSupportMode. Available options are: 'auto | supported | unsupported'"
+}
+
+function IsDockerDesktopOnWindowsUsingWsl2() {
+  if(!$IsWindows) {
+    return $false
+  }
+
+  # See https://stackoverflow.com/a/67746496 to understand possible answers to parse
+  # the output from wsl command and understand why the command below does '-replace "`0"'
+  $wslDistributions = (wsl --list --all --verbose) -replace "`0"
+  foreach($wslDistribution in $wslDistributions) {
+    if($wslDistribution.Contains("docker-desktop") -and $wslDistribution.Split(" ")[-1] -eq "2") {
+      return $true
+    }
+  }
+
+  return $false
 }
 
 function StartPlaywrightTests {
@@ -102,15 +138,23 @@ function StartPlaywrightTests {
   Exit $LASTEXITCODE # see https://stackoverflow.com/questions/32348794/how-to-get-status-of-invoke-expression-successful-or-failed
 }
 
-
 function StartPlaywrightUI() {
   Write-Host "Starting playwright tests with ui in docker container...`n"
   Write-Host "options:" -ForegroundColor DarkYellow
   Write-Host "-useHostWebServer=$useHostWebServer" -ForegroundColor DarkYellow
   Write-Host "-installNpmPackagesMode=$installNpmPackagesMode`n" -ForegroundColor DarkYellow
+  Write-Host "-fileChangesDetectionSupportMode=$fileChangesDetectionSupportMode`n" -ForegroundColor DarkYellow
 
   if ($useHostWebServer) {
     $useHostWebServerOption = "--add-host=host.docker.internal:host-gateway --env USE_DOCKER_HOST_WEBSERVER=true"
+  }
+
+  # For more info on the reason for the FILE_CHANGES_DETECTION_SUPPORTED environment variable
+  # see the section '' of the README at /demos/docker/README.md
+  if(IsFileChangesDetectionSupported) {
+    $fileChangesDetectionSupportedEnv = "--env FILE_CHANGES_DETECTION_SUPPORTED=true"
+  } else {
+    $fileChangesDetectionSupportedEnv = "--env FILE_CHANGES_DETECTION_SUPPORTED=false"
   }
 
   # Must use a random port or else there will be issues with the UI app where sometimes the tests don't load/refresh properly.
@@ -127,7 +171,7 @@ function StartPlaywrightUI() {
     $startCommand = "/bin/bash -c 'npm ci && $startCommand'" # see https://stackoverflow.com/questions/28490874/docker-run-image-multiple-commands
   }
 
-  $dockerRunCommand = "docker run -it --rm --ipc=host $useHostWebServerOption --workdir=/app -p ${playwrightUiPort}:${playwrightUiPort} -v '${PWD}:/app' $nodeModulesMount mcr.microsoft.com/playwright:v$playwrightVersion-jammy $startCommand"
+  $dockerRunCommand = "docker run -it --rm --ipc=host $useHostWebServerOption $fileChangesDetectionSupportedEnv --workdir=/app -p ${playwrightUiPort}:${playwrightUiPort} -v '${PWD}:/app' $nodeModulesMount mcr.microsoft.com/playwright:v$playwrightVersion-jammy $startCommand"
   if ($installNpmPackages) {
     Write-Host "NPM packages will be installed in the docker container." -ForegroundColor Cyan
   }
