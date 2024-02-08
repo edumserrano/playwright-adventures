@@ -279,9 +279,11 @@ As a workaround to forcing file changes polling, which for `Angular` can be done
 
 The last alternative I can provide to this issue is to run the target test app outside of Docker and then use the `-useHostWebServer` option:
 
-> npm run test:ui '--' -useHostWebServer
+```
+npm run test:ui '--' -useHostWebServer
+```
 
-Since the app is running outside of Docker the file change detection will work as usual and the `-useHostWebServer` will make the tests running on Docker execute against the instance of the app running on the host. For more information on the `-userHostWebServer` see the [Why should I use the `useHostWebServer` input parameter of the Powershell scripts ?](#why-should-i-use-the-usehostwebserver-input-parameter-of-the-powershell-scripts) section.
+Since the app is running outside of Docker the file change detection will work as usual and the `-useHostWebServer` will make the tests running on Docker execute against the instance of the app running on the host. For more information on the `-userHostWebServer` see the [Why should I use the `useHostWebServer` input parameter of the Powershell scripts ?](#why-should-i-use-the-usehostwebserver-input-parameter-of-the-powershell-scripts-) section.
 
 ### When do you need to install node modules on the docker container
 
