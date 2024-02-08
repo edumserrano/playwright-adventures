@@ -11,5 +11,9 @@ const _envSchema = z.object({
     .enum(["0", "1", "true", "false", "True", "False"])
     .catch("false")
     .transform(value => value === "true" || value === "1" || value === "True"),
+  FILE_CHANGES_DETECTION_SUPPORTED: z
+    .enum(["0", "1", "true", "false", "True", "False"])
+    .catch("false")
+    .transform(value => value === "true" || value === "1" || value === "True"),
 });
 export const env = _envSchema.parse(process.env);

@@ -5,17 +5,20 @@
 - [Run tests](#run-tests)
   - [What to expect](#what-to-expect)
   - [The docker command to run Playwright tests](#the-docker-command-to-run-playwright-tests)
+  - [Available options for running tests](#available-options-for-running-tests)
 - [Run tests with UI mode](#run-tests-with-ui-mode)
   - [What to expect](#what-to-expect-1)
   - [The docker command to run Playwright tests with UI mode](#the-docker-command-to-run-playwright-tests-with-ui-mode)
+  - [Available options for running tests with UI mode](#available-options-for-running-tests-with-ui-mode)
 - [playwright.ps1 Powershell script details](#playwrightps1-powershell-script-details)
 - [Playwright configuration](#playwright-configuration)
 - [Other notes on the docker integration](#other-notes-on-the-docker-integration)
+  - [File changes aren't triggering an application rebuild when testing with UI mode](#file-changes-arent-triggering-an-application-rebuild-when-testing-with-ui-mode)
   - [When do you need to install node modules on the docker container](#when-do-you-need-to-install-node-modules-on-the-docker-container)
   - [I want to use more of the Playwright test CLI options](#i-want-to-use-more-of-the-playwright-test-cli-options)
   - [How does the `useHostWebServer` input parameter of the Powershell scripts work ?](#how-does-the-usehostwebserver-input-parameter-of-the-powershell-scripts-work-)
   - [Why should I use the `useHostWebServer` input parameter of the Powershell scripts ?](#why-should-i-use-the-usehostwebserver-input-parameter-of-the-powershell-scripts-)
-  - [Running Playwright in docker is slow](#running-playwright-in-docker-is-slow)
+  - [Why are my Playwright tests running in Docker slow?](#why-are-my-playwright-tests-running-in-docker-slow)
   - [Playwright's test execution stops midway when running on Docker](#playwrights-test-execution-stops-midway-when-running-on-docker)
   - [Do I need Powershell to run Playwright in Docker?](#do-i-need-powershell-to-run-playwright-in-docker)
   - [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
@@ -110,6 +113,33 @@ Let's analyse the docker command:
 - the `mcr.microsoft.com/playwright:v1.40.1-jammy`: is the name and tag of the docker image to run. The tag used needs to match the same version of the `@playwright/test` npm package used by the app.
 - the `/bin/bash -c 'npm ci && npx playwright test'`: is the command that the docker image will execute. This command will run `npm ci` to install all the required packages and then runs the Playwright tests with `npx playwright test`.
 
+### Available options for running tests
+
+> [!NOTE]
+>
+> For a description of the options see the [playwright.ps1 Powershell script details](#playwrightps1-powershell-script-details) section.
+
+The `npm test` can be customized with the following options:
+
+- `useHostWebServer`: setting `-useHostWebServer` enables this option.
+- `-updateSnapshots`: setting `-updateSnapshots` enables this option.
+- `-grep`: free text. Example: `-grep 'checkout tests'`.
+- `installNpmPackagesMode`: one of `auto`, `install` or `mount`. Example: `-installNpmPackagesMode install`.
+
+You can combine any of the options. Examples:
+
+```
+npm test '--' -useHostWebServer
+
+npm test '--' -useHostWebServer -updateSnapshots
+
+npm test '--' -installNpmPackagesMode auto -grep 'login'
+```
+
+> [!NOTE]
+>
+> On the example `npm` commands above you only need the single quotes around the double dash if you're running the `npm` command from Powershell. For more info see [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
+
 ## Run tests with UI mode
 
 ### What to expect
@@ -131,7 +161,7 @@ https://github.com/edumserrano/playwright-adventures/assets/15857357/cedd5115-f0
 The docker setup to run the tests with the Playwright UI mode is based on the [Playwright Docker docs](https://playwright.dev/docs/docker) and the [Playwright Docker & GitHub Codespaces docs](https://playwright.dev/docs/test-ui-mode#docker--github-codespaces). When running `npm run test:ui`, the [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script is executed and builds the following docker command to run the Playwright UI mode:
 
 ```
-docker run -it --rm --ipc=host --workdir=/app -p <host-port>:<container-port> -v '<path-to-cloned-repo>\demos\docker:/app' -v '/app/node_modules' mcr.microsoft.com/playwright:v1.40.1-jammy /bin/bash -c 'npm ci && npx playwright test --ui-port=<container-port> --ui-host=0.0.0.0'
+docker run -it --rm --ipc=host --env FILE_CHANGES_DETECTION_SUPPORTED=true --workdir=/app -p <host-port>:<container-port> -v '<path-to-cloned-repo>\demos\docker:/app' -v '/app/node_modules' mcr.microsoft.com/playwright:v1.40.1-jammy /bin/bash -c 'npm ci && npx playwright test --ui-port=<container-port> --ui-host=0.0.0.0'
 ```
 
 Let's analyse the docker command:
@@ -139,6 +169,7 @@ Let's analyse the docker command:
 - the `-it`: instructs Docker to allocate a pseudo-TTY connected to the container's stdin; creating an interactive bash shell in the container. The main reason this flag is used is to be able to abort the docker command by using `CTRL+C`.
 - the `--rm`: automatically removes the container when it exits.
 - the `--ipc=host`: is recommended when using Chrome ([Docker docs](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc)). Chrome can run out of memory without this flag.
+- the `--env FILE_CHANGES_DETECTION_SUPPORTED=true`: sets an environment variable that can be used by the [playwright.config.ts](/demos/docker/playwright.config.ts) to know if the app running in docker will have support for file changes detection. For more info see the [File changes aren't triggering an application rebuild when testing with UI mode](#file-changes-arent-triggering-an-application-rebuild-when-testing-with-ui-mode) section.
 - the `--workdir=/app`: sets the working directory inside the container. It's set to be the directory where the app code will be mounted.
 - the `-v '<path-to-cloned-repo>\demos\docker:/app'`: mounts the contents of the folder `<path-to-cloned-repo>\demos\docker` into the docker container at `/app`.
 - the `-v '/app/node_modules'`: is a way to exclude the `node_modules` folder from the mounted folder above. See [How to Mount a Docker Volume While Excluding a Subdirectory](https://www.howtogeek.com/devops/how-to-mount-a-docker-volume-while-excluding-a-subdirectory/).
@@ -149,6 +180,30 @@ Let's analyse the docker command:
 >
 > The docker command to run the Playwright UI mode doesn't pass the CI environment variable to the docker container, it will always be false and so will the variable `_isRunningOnCI` used by the [playwright.config.ts](/demos/docker/playwright.config.ts). This is intentional as the UI mode is never meant to be executed in a CI environment.
 
+### Available options for running tests with UI mode
+
+> [!NOTE]
+>
+> For a description of the options see the [playwright.ps1 Powershell script details](#playwrightps1-powershell-script-details) section.
+
+The `npm run test:ui` can be customized with the following options:
+
+- `useHostWebServer`: setting `-useHostWebServer` enables this option.
+- `installNpmPackagesMode`: one of `auto`, `install` or `mount`. Example: `-installNpmPackagesMode install`.
+- `fileChangesDetectionSupportMode`: one of `auto`, `supported` or `unsupported`. Example: `-fileChangesDetectionSupportMode auto`.
+
+You can combine any of the options. Examples:
+
+```
+npm run test:ui '--' -fileChangesDetectionSupportMode supported
+
+npm run test:ui '--' -useHostWebServer -installNpmPackagesMode auto
+```
+
+> [!NOTE]
+>
+> On the example `npm` commands above you only need the single quotes around the double dash if you're running the `npm` command from Powershell. For more info see [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
+
 ## playwright.ps1 Powershell script details
 
 The [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script has the logic to build the `docker run` command to run the tests/UI mode in docker. This script accepts the following input parameters:
@@ -158,18 +213,7 @@ The [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell s
 - `useHostWebServer`: defaults to `$false`. If this switch is set it allows the tests running in the container to run against an instance of the app running on your machine instead of in the docker container. To use this option, first start the app with `npm start` and once the app is running run `npm test` and pass this option.
 - `grep`: defaults to an empty string. By default it runs all tests but, if set it adds the `--grep <grep>` option to the `npx playwright test` command. The [`--grep`](https://playwright.dev/docs/test-cli) option only runs tests matching the provided regular expression. **This parameter is ignored if the `-ui` switch is set.**
 - `installNpmPackagesMode`: defaults to `auto`. Can be one of `auto`, `install` or `mount`. It defines if the NPM packages need to be installed in the container or if they should be mounted from the host. The `auto` option will install the NPM packages if the host OS is Windows, otherwise it will mount them from the host. The `install` option will always install the NPM packages and the `mount` option will always mount the NPM packages. **This parameter is ignored if the `-useHostWebServer` switch is set.** For more information see [When do you need to install node modules on the docker container](#when-do-you-need-to-install-node-modules-on-the-docker-container).
-
-You can combine any of the above parameters. For instance you can pass multiple options like so:
-
-```
-npm test '--' -updateSnapshots -useHostWebServer -grep "firefox"
-
-npm test '--' -ui -useHostWebServer"
-```
-
-> [!NOTE]
->
-> On the example `npm` commands above, you only need the single quotes around the double dash if you're running the `npm` command from Powershell. For more info see [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
+- `fileChangesDetectionSupportMode`: defaults to `auto`. Can be one of `auto`, `supported` or `unsupported`. It defines if the application running on the Docker container will have support for file changes detection or not by setting the `FILE_CHANGES_DETECTION_SUPPORTED` Docker environment variable as part of the Docker run command. The `auto` option sets the `FILE_CHANGES_DETECTION_SUPPORTED` environment variable to `false` if you're running on Windows and using Docker Desktop with WSL2, otherwise it will set it to `true`. The `supported` option sets environment variable to `true`, whilst the `unsupported` option sets it to `false`. See the [File changes aren't triggering an application rebuild when testing with UI mode](#file-changes-arent-triggering-an-application-rebuild-when-testing-with-ui-mode) section to better understand the reason for this parameter.
 
 ## Playwright configuration
 
@@ -202,6 +246,43 @@ Furthermore, we have created:
 
 ## Other notes on the docker integration
 
+### File changes aren't triggering an application rebuild when testing with UI mode
+
+> [!NOTE]
+>
+> Almost sure you can ignore this section if you're not using a Windows OS.
+
+> [!IMPORTANT]
+>
+> This demo solves this issue by allowing you to set the `--poll` option of the [Angular CLI ng serve command](https://angular.io/cli/serve) via an extra parameter that can be passed into the `npm run test:ui` npm script. Check the `fileChangesDetectionSupportMode` option on the [Available options for running tests with UI mode](#available-options-for-running-tests-with-ui-mode) section.
+
+When running tests in UI mode you always want the app to rebuild when you change the code so that you can run tests on your latest changes.
+
+However, there might be cases where the app doesn't rebuild when you change the code. For instance, if you're running Docker Desktop using WSL2 then you might not get file change support. As an example, for Angular apps the default watch mode will not work.
+
+The root cause for this is explained by:
+
+> In cases where Angular CLI is running in a shared directory on linux VM on a windows host the webpack dev server isn't detecting file changes from the host environment. (ex: Whenever a docker dev environment is running on a windows host.)
+> This is solved by adding poll option to the webpack dev server configuration. By default when no poll interval is set watchpack will use native file system change detection. This change allows for setting the poll interval which will turn on polling. [^1]
+
+[^1]: [feat(webpackDevServer): Add watchOptions for webpackDevServer #1814](https://github.com/angular/angular-cli/pull/1814#issuecomment-241854816)
+
+Although the comment above comes from an issue in the Angular CLI, the described root cause can apply to apps running on other technologies such as `React`, `Vue`, `dotnet`, etc.
+
+As a workaround to forcing file changes polling, which for `Angular` can be done with the [--poll option](https://angular.io/cli/serve), you can also:
+
+> For some reason nodemon and webpack-dev-server hot reload does not work in WSL2. Downgrading to WSL 1 resolved the issue.
+>
+> In order for this to work in WSL 2, the project needs to be inside the linux file system. [^2]
+
+[^2]: [Nodemon and webpack-dev-server hot reload not working under WSL 2 after Windows 10 resinstall](https://stackoverflow.com/a/62790703)
+
+The last alternative I can provide to this issue is to run the target test app outside of Docker and then use the `-useHostWebServer` option:
+
+> npm run test:ui '--' -useHostWebServer
+
+Since the app is running outside of Docker the file change detection will work as usual and the `-useHostWebServer` will make the tests running on Docker execute against the instance of the app running on the host. For more information on the `-userHostWebServer` see the [Why should I use the `useHostWebServer` input parameter of the Powershell scripts ?](#why-should-i-use-the-usehostwebserver-input-parameter-of-the-powershell-scripts) section.
+
 ### When do you need to install node modules on the docker container
 
 You need to install the NPM packages in the docker container **if** your project depends on NPM packages which install different binaries depending on the OS **and** you are running the tests from a Windows OS.
@@ -212,24 +293,24 @@ Here's an example of the error message:
 
 > [WebServer] An unhandled exception occurred:
 > You installed esbuild for another platform than the one you're currently using.
-> This won't work because esbuild is written with native code and needs to  
+> This won't work because esbuild is written with native code and needs to
 > install a platform-specific binary executable.
 >
-> Specifically the "@esbuild/win32-x64" package is present but this platform  
-> needs the "@esbuild/linux-x64" package instead. People often get into this  
+> Specifically the "@esbuild/win32-x64" package is present but this platform
+> needs the "@esbuild/linux-x64" package instead. People often get into this
 > situation by installing esbuild on Windows or macOS and copying "node_modules"
-> into a Docker image that runs Linux, or by copying "node_modules" between  
+> into a Docker image that runs Linux, or by copying "node_modules" between
 > Windows and WSL environments.
 >
-> If you are installing with npm, you can try not copying the "node_modules"  
-> directory when you copy the files over, and running "npm ci" or "npm install"  
-> on the destination platform after the copy. Or you could consider using yarn  
+> If you are installing with npm, you can try not copying the "node_modules"
+> directory when you copy the files over, and running "npm ci" or "npm install"
+> on the destination platform after the copy. Or you could consider using yarn
 > instead of npm which has built-in support for installing a package on multiple
 > platforms simultaneously.
 >
 > If you are installing with yarn, you can try listing both this platform and the
-> other platform in your ".yarnrc.yml" file using the "supportedArchitectures"  
-> feature: https://yarnpkg.com/configuration/yarnrc/#supportedArchitectures  
+> other platform in your ".yarnrc.yml" file using the "supportedArchitectures"
+> feature: https://yarnpkg.com/configuration/yarnrc/#supportedArchitectures
 > Keep in mind that this means multiple copies of esbuild will be present.
 >
 > Another alternative is to use the "esbuild-wasm" package instead, which works
@@ -283,7 +364,7 @@ This means that you can start the app once with `npm start` and then run the tes
 >
 > For most of the time I suggest using the `npm test:ui` for your dev loop. This command will also only and run the app once and then the UI mode will run the tests against it. When you do changes on the app or the tests everything is hot reloaded and you can keep developing and running the tests as you go.
 
-### Running Playwright in docker is slow
+### Why are my Playwright tests running in Docker slow?
 
 This shouldn't be the case. In my experience, Playwright runs quicker in the `mcr.microsoft.com/playwright` docker image than outside of docker, especially if you're running on Windows.
 
