@@ -248,11 +248,17 @@ Furthermore, we have created:
 
 ### File changes aren't triggering an application rebuild when testing with UI mode
 
-Depending on how what you use to run Docker containers and your Operating System, you might struggle with getting the app to rebuild on file changes.
+> [!NOTE]
+>
+> Almost sure you can ignore this section if you're not using a Windows OS.
+
+> [!IMPORTANT]
+>
+> This demo solves this issue by allowing you to set the `--poll` option of the [Angular CLI ng serve command](https://angular.io/cli/serve) via an extra parameter that can be passed into the `npm run test:ui` npm script. Check the `fileChangesDetectionSupportMode` option on the [Available options for running tests with UI mode](#available-options-for-running-tests-with-ui-mode) section.
 
 When running tests in UI mode you always want the app to rebuild when you change the code so that you can run tests on your latest changes.
 
-However, if for instance, you're running Docker Desktop using WSL2 then you might not get file change support. As an example, for Angular apps, the default watch mode will not work.
+However, there might be cases where the app doesn't rebuild when you change the code. For instance, if you're running Docker Desktop using WSL2 then you might not get file change support. As an example, for Angular apps the default watch mode will not work.
 
 The root cause for this is explained by:
 
