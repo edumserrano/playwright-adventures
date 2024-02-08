@@ -11,11 +11,12 @@
 - [playwright.ps1 Powershell script details](#playwrightps1-powershell-script-details)
 - [Playwright configuration](#playwright-configuration)
 - [Other notes on the docker integration](#other-notes-on-the-docker-integration)
+  - [File changes don't trigger an application rebuild](#file-changes-dont-trigger-an-application-rebuild)
   - [When do you need to install node modules on the docker container](#when-do-you-need-to-install-node-modules-on-the-docker-container)
   - [I want to use more of the Playwright test CLI options](#i-want-to-use-more-of-the-playwright-test-cli-options)
   - [How does the `useHostWebServer` input parameter of the Powershell scripts work ?](#how-does-the-usehostwebserver-input-parameter-of-the-powershell-scripts-work-)
   - [Why should I use the `useHostWebServer` input parameter of the Powershell scripts ?](#why-should-i-use-the-usehostwebserver-input-parameter-of-the-powershell-scripts-)
-  - [Running Playwright in docker is slow](#running-playwright-in-docker-is-slow)
+  - [Why are my Playwright tests running in Docker slow?](#why-are-my-playwright-tests-running-in-docker-slow)
   - [Playwright's test execution stops midway when running on Docker](#playwrights-test-execution-stops-midway-when-running-on-docker)
   - [Do I need Powershell to run Playwright in Docker?](#do-i-need-powershell-to-run-playwright-in-docker)
   - [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
@@ -202,6 +203,17 @@ Furthermore, we have created:
 
 ## Other notes on the docker integration
 
+### File changes don't trigger an application rebuild
+
+If you're running your tests in docker from a Windows OS then you should either be using WSL1 instead of WSL2 for docker or add the --poll flag to the ng serve command below. Otherwise the watch mode on ng serve will NOT work.
+
+https://stackoverflow.com/a/69826916
+https://github.com/angular/angular-cli/pull/1814#issuecomment-241854816
+https://stackoverflow.com/questions/44176922/docker-container-doesnt-reload-angular-app
+https://stackoverflow.com/questions/62780245/nodemon-and-webpack-dev-server-hot-reload-not-working-under-wsl-2-after-windows
+https://stackoverflow.com/questions/51930195/what-is-the-function-of-poll-flag-in-cli
+https://angular.io/cli/serve
+
 ### When do you need to install node modules on the docker container
 
 You need to install the NPM packages in the docker container **if** your project depends on NPM packages which install different binaries depending on the OS **and** you are running the tests from a Windows OS.
@@ -212,24 +224,24 @@ Here's an example of the error message:
 
 > [WebServer] An unhandled exception occurred:
 > You installed esbuild for another platform than the one you're currently using.
-> This won't work because esbuild is written with native code and needs to  
+> This won't work because esbuild is written with native code and needs to
 > install a platform-specific binary executable.
 >
-> Specifically the "@esbuild/win32-x64" package is present but this platform  
-> needs the "@esbuild/linux-x64" package instead. People often get into this  
+> Specifically the "@esbuild/win32-x64" package is present but this platform
+> needs the "@esbuild/linux-x64" package instead. People often get into this
 > situation by installing esbuild on Windows or macOS and copying "node_modules"
-> into a Docker image that runs Linux, or by copying "node_modules" between  
+> into a Docker image that runs Linux, or by copying "node_modules" between
 > Windows and WSL environments.
 >
-> If you are installing with npm, you can try not copying the "node_modules"  
-> directory when you copy the files over, and running "npm ci" or "npm install"  
-> on the destination platform after the copy. Or you could consider using yarn  
+> If you are installing with npm, you can try not copying the "node_modules"
+> directory when you copy the files over, and running "npm ci" or "npm install"
+> on the destination platform after the copy. Or you could consider using yarn
 > instead of npm which has built-in support for installing a package on multiple
 > platforms simultaneously.
 >
 > If you are installing with yarn, you can try listing both this platform and the
-> other platform in your ".yarnrc.yml" file using the "supportedArchitectures"  
-> feature: https://yarnpkg.com/configuration/yarnrc/#supportedArchitectures  
+> other platform in your ".yarnrc.yml" file using the "supportedArchitectures"
+> feature: https://yarnpkg.com/configuration/yarnrc/#supportedArchitectures
 > Keep in mind that this means multiple copies of esbuild will be present.
 >
 > Another alternative is to use the "esbuild-wasm" package instead, which works
@@ -283,7 +295,7 @@ This means that you can start the app once with `npm start` and then run the tes
 >
 > For most of the time I suggest using the `npm test:ui` for your dev loop. This command will also only and run the app once and then the UI mode will run the tests against it. When you do changes on the app or the tests everything is hot reloaded and you can keep developing and running the tests as you go.
 
-### Running Playwright in docker is slow
+### Why are my Playwright tests running in Docker slow?
 
 This shouldn't be the case. In my experience, Playwright runs quicker in the `mcr.microsoft.com/playwright` docker image than outside of docker, especially if you're running on Windows.
 

@@ -143,7 +143,7 @@ function StartPlaywrightUI() {
   }
 
   # For more info on the reason for the FILE_CHANGES_DETECTION_SUPPORTED environment variable
-  # see the section '' of the README at /demos/docker/README.md
+  # see the section 'File changes don't trigger an application rebuild' of the README at /demos/docker/README.md
   if(IsFileChangesDetectionSupported) {
     $fileChangesDetectionSupportedEnv = "--env FILE_CHANGES_DETECTION_SUPPORTED=true"
   } else {
