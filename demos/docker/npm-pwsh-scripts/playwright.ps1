@@ -78,16 +78,9 @@ function IsDockerDesktopOnWindowsUsingWsl2() {
     return $false
   }
 
-  # See https://stackoverflow.com/a/67746496 to understand possible answers to parse
-  # the output from wsl command and understand why the command below does '-replace "`0"'
-  $wslDistributions = (wsl --list --all --verbose) -replace "`0"
-  foreach($wslDistribution in $wslDistributions) {
-    if($wslDistribution.Contains("docker-desktop") -and $wslDistribution.Split(" ")[-1] -eq "2") {
-      return $true
-    }
-  }
-
-  return $false
+  # See https://docs.docker.com/desktop/settings/windows/
+  $dockerDesktopSettings = Get-Content "$env:USERPROFILE\AppData\Roaming\Docker\settings.json" | ConvertFrom-Json
+  return $dockerDesktopSettings.wslEngineEnabled
 }
 
 function StartPlaywrightTests {
@@ -142,7 +135,7 @@ function StartPlaywrightUI() {
   Write-Host "Starting playwright tests with ui in docker container...`n"
   Write-Host "options:" -ForegroundColor DarkYellow
   Write-Host "-useHostWebServer=$useHostWebServer" -ForegroundColor DarkYellow
-  Write-Host "-installNpmPackagesMode=$installNpmPackagesMode`n" -ForegroundColor DarkYellow
+  Write-Host "-installNpmPackagesMode=$installNpmPackagesMode" -ForegroundColor DarkYellow
   Write-Host "-fileChangesDetectionSupportMode=$fileChangesDetectionSupportMode`n" -ForegroundColor DarkYellow
 
   if ($useHostWebServer) {
