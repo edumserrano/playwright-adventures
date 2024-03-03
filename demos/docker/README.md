@@ -78,7 +78,7 @@ The demo at [/demos/docker](/demos/docker/) shows how to run Playwright tests in
    ```
    npm run test:ui
    ```
-   This will start a docker container which will run the app and then start [Playwright's UI mode](https://playwright.dev/docs/test-ui-mode). The UI mode will be served from the container and it'll be acessible at `http://localhost:<random-port>`. The UI mode URL will be displayed as part of the output of the `npm run test:ui` command.
+   This will start a docker container which will run the app and then start [Playwright's UI mode](https://playwright.dev/docs/test-ui-mode). The UI mode will be served from the container and it'll be accessible at `http://localhost:43008`. The UI mode URL will be displayed as part of the output of the `npm run test:ui` command.
 8. If you just want to run the app execute the command:
    ```
    npm start
@@ -174,7 +174,7 @@ Let's analyse the docker command:
 - the `-v '<path-to-cloned-repo>\demos\docker:/app'`: mounts the contents of the folder `<path-to-cloned-repo>\demos\docker` into the docker container at `/app`.
 - the `-v '/app/node_modules'`: is a way to exclude the `node_modules` folder from the mounted folder above. See [How to Mount a Docker Volume While Excluding a Subdirectory](https://www.howtogeek.com/devops/how-to-mount-a-docker-volume-while-excluding-a-subdirectory/).
 - the `mcr.microsoft.com/playwright:v1.40.1-jammy`: is the name and tag of the docker image to run. The tag used needs to match the same version of the `@playwright/test` npm package used by the app.
-- the `/bin/bash -c 'npm ci && npx playwright test --ui-port=<container-port> --ui-host=0.0.0.0'`: is the command that the docker image will execute. This command will run `npm ci` to install all the required packages and then starts the Playwright UI mode. The UI mode will be served from the container and it'll be acessible at `http://localhost:<random-port>`. The UI mode URL will be displayed as part of the output of the `npm run test:ui` command.
+- the `/bin/bash -c 'npm ci && npx playwright test --ui-port=<container-port> --ui-host=0.0.0.0'`: is the command that the docker image will execute. This command will run `npm ci` to install all the required packages and then starts the Playwright UI mode. The UI mode will be served from the container and it'll be accessible at `http://localhost:43008`. The UI mode URL will be displayed as part of the output of the `npm run test:ui` command.
 
 > [!Note]
 >
@@ -188,6 +188,7 @@ Let's analyse the docker command:
 
 The `npm run test:ui` can be customized with the following options:
 
+- `uiPort`: set the port for the UI mode. Example: `-uiPort 40123`. Defaults to `43008`.
 - `useHostWebServer`: setting `-useHostWebServer` enables this option.
 - `installNpmPackagesMode`: one of `auto`, `install` or `mount`. Example: `-installNpmPackagesMode install`.
 - `fileChangesDetectionSupportMode`: one of `auto`, `supported` or `unsupported`. Example: `-fileChangesDetectionSupportMode auto`.
@@ -209,6 +210,7 @@ npm run test:ui '--' -useHostWebServer -installNpmPackagesMode auto
 The [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script has the logic to build the `docker run` command to run the tests/UI mode in docker. This script accepts the following input parameters:
 
 - `ui`: defaults to `$false`. If this switch is set then the tests will run with UI mode.
+- `uiPort`: defaults to `43008`. Sets the port for the UI mode.
 - `updateSnapshots`: defaults to `$false`. If this switch is set then the `--update-snapshots` option is passed to the `npx playwright test` command. The [--update-snapshots](https://playwright.dev/docs/test-cli) determines whether to update snapshots with actual results instead of comparing them. **This parameter is ignored if the `-ui` switch is set.**
 - `useHostWebServer`: defaults to `$false`. If this switch is set it allows the tests running in the container to run against an instance of the app running on your machine instead of in the docker container. To use this option, first start the app with `npm start` and once the app is running run `npm test` and pass this option.
 - `grep`: defaults to an empty string. By default it runs all tests but, if set it adds the `--grep <grep>` option to the `npx playwright test` command. The [`--grep`](https://playwright.dev/docs/test-cli) option only runs tests matching the provided regular expression. **This parameter is ignored if the `-ui` switch is set.**
