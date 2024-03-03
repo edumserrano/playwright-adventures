@@ -5,6 +5,10 @@
       "description": "Linkedin returns 999, can't figure out how to make this work past Linkedin's 'are you a human?' check."
     },
     {
+      "pattern": "^https://stackoverflow.com/",
+      "description": "stackoverflow returns 403. Setting User-Agent on postman seems to be the minimum required but doesn't seem to work with markdown link check."
+    },
+    {
       "pattern": "^http://127.0.0.1*",
       "description": "Ignore references to localhost."
     }
@@ -25,15 +29,6 @@
         "Accept-Encoding": "gzip, deflate, br"
       },
       "description": "Avoids 403s from GitHub docs"
-    },
-    {
-      "urls": [
-        "https://stackoverflow.com"
-      ],
-      "headers": {
-        "User-Agent": "markdown-link-check"
-      },
-      "description": "Avoids 403s from stackoverflow docs"
     }
   ]
 }
