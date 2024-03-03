@@ -5,6 +5,7 @@
 
 param (
   [switch] $ui = $false,
+  [string] $uiPort = "43008",
   [string] $updateSnapshots = "no",
   [string] $useHostWebServer = "no",
   [string] $grep = "",
@@ -23,6 +24,8 @@ function StartPlaywrightTests {
   if ($ui) {
     $command += " -ui";
   }
+
+  $command += " -uiPort $uiPort";
 
   if (ConvertToBool -value $updateSnapshots) {
     $command += " -updateSnapshots";

@@ -61,7 +61,7 @@
       "label": "open tests ui",
       "detail": "Opens Playwright tests UI.",
       "type": "shell",
-      "command": "./npm-pwsh-scripts/playwright-vscode-task.ps1 -ui -useHostWebServer ${input:useHostWebServer} -installNpmPackagesMode ${input:installNpmPackagesMode}",
+      "command": "./npm-pwsh-scripts/playwright-vscode-task.ps1 -ui -uiPort ${input:uiPort} -useHostWebServer ${input:useHostWebServer} -installNpmPackagesMode ${input:installNpmPackagesMode}",
       "presentation": {
         "focus": true,
         "panel": "dedicated"
@@ -130,6 +130,12 @@
       "type": "pickString",
       "options": ["yes", "no"],
       "default": "no"
+    },
+    {
+      "id": "uiPort",
+      "description": "What port do you want to use for UI mode?",
+      "type": "promptString",
+      "default": "43008"
     },
     {
       "id": "useHostWebServer",
