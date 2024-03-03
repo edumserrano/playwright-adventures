@@ -3,6 +3,7 @@
 
 param (
   [switch] $ui = $false,
+  [int] $uiPort = 43008,
   [switch] $updateSnapshots = $false,
   [switch] $useHostWebServer = $false,
   [string] $grep = "",
@@ -134,6 +135,7 @@ function StartPlaywrightTests {
 function StartPlaywrightUI() {
   Write-Host "Starting playwright tests with ui in docker container...`n"
   Write-Host "options:" -ForegroundColor DarkYellow
+  Write-Host "-uiPort=$uiPort" -ForegroundColor DarkYellow
   Write-Host "-useHostWebServer=$useHostWebServer" -ForegroundColor DarkYellow
   Write-Host "-installNpmPackagesMode=$installNpmPackagesMode" -ForegroundColor DarkYellow
   Write-Host "-fileChangesDetectionSupportMode=$fileChangesDetectionSupportMode`n" -ForegroundColor DarkYellow
@@ -150,21 +152,15 @@ function StartPlaywrightUI() {
     $fileChangesDetectionSupportedEnv = "--env FILE_CHANGES_DETECTION_SUPPORTED=false"
   }
 
-  # Must use a random port or else there will be issues with the UI app where sometimes the tests don't load/refresh properly.
-  # I believe it has something to do with some websockets that the UI app uses. When the same port is used and the UI app is
-  # restarted, the tests don't load properly until the websockets timeout and then a new connection is established.
-  # Update: it's better to leave the $playwrightUiPort set to a random port until https://github.com/microsoft/playwright/issues/28680
-  # is fixed. It does seem like a websocket related issue as I suspected.
-  $playwrightUiPort = Get-Random -Minimum 40000 -Maximum 50000
   $playwrightVersion = GetPlaywrightVersion
-  $startCommand = "npx playwright test --ui-port=$playwrightUiPort --ui-host=0.0.0.0"
+  $startCommand = "npx playwright test --ui-port=$uiPort --ui-host=0.0.0.0"
   $installNpmPackages = NeedsToInstallNpmPackages
   if ($installNpmPackages) {
     $nodeModulesMount = "-v '/app/node_modules'" # exclude node_modules from the mounted /app dir. See https://www.howtogeek.com/devops/how-to-mount-a-docker-volume-while-excluding-a-subdirectory/
     $startCommand = "/bin/bash -c 'npm ci && $startCommand'" # see https://stackoverflow.com/questions/28490874/docker-run-image-multiple-commands
   }
 
-  $dockerRunCommand = "docker run -it --rm --ipc=host $useHostWebServerOption $fileChangesDetectionSupportedEnv --workdir=/app -p ${playwrightUiPort}:${playwrightUiPort} -v '${PWD}:/app' $nodeModulesMount mcr.microsoft.com/playwright:v$playwrightVersion-jammy $startCommand"
+  $dockerRunCommand = "docker run -it --rm --ipc=host $useHostWebServerOption $fileChangesDetectionSupportedEnv --workdir=/app -p ${uiPort}:${uiPort} -v '${PWD}:/app' $nodeModulesMount mcr.microsoft.com/playwright:v$playwrightVersion-jammy $startCommand"
   if ($installNpmPackages) {
     Write-Host "NPM packages will be installed in the docker container." -ForegroundColor Cyan
   }
@@ -173,8 +169,8 @@ function StartPlaywrightUI() {
   }
 
   Write-Host "Starting docker container with ui mode..." -ForegroundColor Cyan
-  Write-Host "On success the ui mode will display a message saying: 'Listening on http://0.0.0.0:${playwrightUiPort}'." -ForegroundColor Cyan
-  Write-Host "At that point you'll be able to access the test UI at http://localhost:${playwrightUiPort}`n" -ForegroundColor Green
+  Write-Host "On success the ui mode will display a message saying: 'Listening on http://0.0.0.0:${uiPort}'." -ForegroundColor Cyan
+  Write-Host "At that point you'll be able to access the test UI at http://localhost:${uiPort}`n" -ForegroundColor Green
   Write-Host "$dockerRunCommand`n" -ForegroundColor Cyan
   Invoke-Expression -Command $dockerRunCommand
   Exit $LASTEXITCODE # see https://stackoverflow.com/questions/32348794/how-to-get-status-of-invoke-expression-successful-or-failed
