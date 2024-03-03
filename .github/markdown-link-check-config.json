@@ -25,6 +25,15 @@
         "Accept-Encoding": "gzip, deflate, br"
       },
       "description": "Avoids 403s from GitHub docs"
+    },
+    {
+      "urls": [
+        "https://stackoverflow.com"
+      ],
+      "headers": {
+        "User-Agent": "markdown-link-check"
+      },
+      "description": "Avoids 403s from stackoverflow docs"
     }
   ]
 }
