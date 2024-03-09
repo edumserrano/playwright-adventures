@@ -4,8 +4,9 @@
 - [How to build, run the app, run tests and view the test results](#how-to-build-run-the-app-run-tests-and-view-the-test-results)
 - [Run tests](#run-tests)
   - [What to expect](#what-to-expect)
-  - [The docker command to run Playwright tests](#the-docker-command-to-run-playwright-tests)
+  - [The Docker setup](#the-docker-setup)
   - [Available options for running tests](#available-options-for-running-tests)
+  - [The docker command to run Playwright tests](#the-docker-command-to-run-playwright-tests)
 - [Run tests with UI mode](#run-tests-with-ui-mode)
   - [What to expect](#what-to-expect-1)
   - [The docker command to run Playwright tests with UI mode](#the-docker-command-to-run-playwright-tests-with-ui-mode)
@@ -93,38 +94,33 @@ When you run `npm test` this is what you should expect:
 
 https://github.com/edumserrano/playwright-adventures/assets/15857357/e0de2b19-894f-4e00-8124-f1ddccdd9c35
 
-### The docker command to run Playwright tests
+### The Docker setup
 
-The docker setup to run the Playwright tests is based on the [Playwright Docker docs](https://playwright.dev/docs/docker). When running `npm test`, the [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script is executed and builds the following docker command to run the Playwright tests:
-
-```
-docker run -it --rm --ipc=host --env CI=False --workdir=/app -v '<path-to-cloned-repo>\demos\docker:/app' -v '/app/node_modules' mcr.microsoft.com/playwright:v1.40.1-jammy /bin/bash -c 'npm ci && npx playwright test'
-```
-
-Let's analyse the docker command:
-
-- the `-it`: instructs Docker to allocate a pseudo-TTY connected to the container's stdin; creating an interactive bash shell in the container. The main reason this flag is used is to be able to abort the docker command by using `CTRL+C`.
-- the `--rm`: automatically removes the container when it exits.
-- the `--ipc=host`: is recommended when using Chrome ([Docker docs](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc)). Chrome can run out of memory without this flag.
-- the `--env CI=False`: is setting an environment variable that will then be used by the [playwright.config.ts](/demos/docker/playwright.config.ts) to set the `_isRunningOnCI` variable.
-- the `--workdir=/app`: sets the working directory inside the container. It's set to be the directory where the app code will be mounted.
-- the `-v '<path-to-cloned-repo>\demos\docker:/app'`: mounts the contents of the folder `<path-to-cloned-repo>\demos\docker` into the docker container at `/app`.
-- the `-v '/app/node_modules'`: is a way to exclude the `node_modules` folder from the mounted folder above. See [How to Mount a Docker Volume While Excluding a Subdirectory](https://www.howtogeek.com/devops/how-to-mount-a-docker-volume-while-excluding-a-subdirectory/).
-- the `mcr.microsoft.com/playwright:v1.40.1-jammy`: is the name and tag of the docker image to run. The tag used needs to match the same version of the `@playwright/test` npm package used by the app.
-- the `/bin/bash -c 'npm ci && npx playwright test'`: is the command that the docker image will execute. This command will run `npm ci` to install all the required packages and then runs the Playwright tests with `npx playwright test`.
+The Docker setup to run Playwright tests uses the [docker-compose.yml](/demos/docker/docker-compose.yml) file. When `npm test` is executed, it runs the [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) pwsh script which sets some environment variables before running the `docker compose up` command.
 
 ### Available options for running tests
 
-> [!NOTE]
->
-> For a description of the options see the [playwright.ps1 Powershell script details](#playwrightps1-powershell-script-details) section.
+The `npm test` can be customized with the following parameters:
 
-The `npm test` can be customized with the following options:
+<div style="overflow-x:scroll; background: red" markdown="block">
 
-- `useHostWebServer`: setting `-useHostWebServer` enables this option.
+| pwsh parameter   | Description                                                                                                                                                                                                                                                                                               | Possible values | Default value | Example                                                |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ------------- | ------------------------------------------------------ |
+| `-testOptions`   | Use this to pass any [Playwright CLI supported test options](https://playwright.dev/docs/test-cli) to the `playwright test` command.                                                                                                                                                                      | Free text.      | Empty string. | `-testOptions '--update-snapshots --grep "load page"'` |
+| `-webServerMode` | Determines if the Playwright tests should be executed against the [Playwright Web Server](https://playwright.dev/docs/test-webserver) running on the host or inside Docker. If you have the target test application running outside of Docker you can set this to `from-host`, otherwise it should be `from-docker`. Using `auto` will mean that the pwsh script will attempt to decide if the target test application is running on the host and if so it will use the `from-host` option, if not it will use the `from-docker` option. Setting to `auto` requires setting the `-webServerHost` and `webServerPort` parameters. | `auto` \| `from-host` \| `from-docker`               |               |                                                        |
+| `-webServerHost` | Content Cell                                                                                                                                                                                                                                                                                              |                 |               |                                                        |
+| `-webServerPort` | Content Cell                                                                                                                                                                                                                                                                                              |                 |               |                                                        |
+
+</div>
+
+- `-testOptions`: free text, defaults to an empty string. Use this to pass any [Playwright CLI supported test options](https://playwright.dev/docs/test-cli) to the `playwright test` command. Example:
+- `-webServerMode`: one of `auto`, `from-docker` or `from-host`. Example: `-webServerMode from-docker`.
+- `-webServerHost`: setting `-useHostWebServer` enables this option.
+- `-webServerPort`: setting `-useHostWebServer` enables this option.
 - `-updateSnapshots`: setting `-updateSnapshots` enables this option.
 - `-grep`: free text. Example: `-grep 'checkout tests'`.
 - `installNpmPackagesMode`: one of `auto`, `install` or `mount`. Example: `-installNpmPackagesMode install`.
+
 
 You can combine any of the options. Examples:
 
@@ -139,6 +135,60 @@ npm test '--' -installNpmPackagesMode auto -grep 'login'
 > [!NOTE]
 >
 > On the example `npm` commands above you only need the single quotes around the double dash if you're running the `npm` command from Powershell. For more info see [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
+>
+
+The [docker-compose.yml](/demos/docker/docker-compose.yml) file requires the following environment variables:
+
+| Environment variable name | Description                                                                                                                                                                                                                                                                                               | Default value | Required |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| CI                        | Should be set to `true` if running on a CI environment, `false` otherwise.                                                                                                                                                                                                                                | false         | no       |
+| PLAYWRIGHT_VERSION        | Determines the [Playwright's Docker image version](https://hub.docker.com/_/microsoft-playwright). It must match the version of [@playwright/test NPM package](https://www.npmjs.com/package/@playwright/test) that is on the [package.json](/demos//docker/package.json) file.                           | ---           | yes      |
+| PLAYWRIGHT_TEST_OPTIONS   | [Playwright CLI test options](https://playwright.dev/docs/test-cli).                                                                                                                                                                                                                                      | ---           | no       |
+| NPM_INSTALL_COMMAND       | NPM command to install packages. Usually `npm i` if NOT running in a CI environment and `npm ci` when running on a CI environment.                                                                                                                                                                        | npm i         | no       |
+| USE_DOCKER_HOST_WEBSERVER | Determines if the Playwright tests should be executed against the [Playwright Web Server](https://playwright.dev/docs/test-webserver) running on the host or inside Docker. If you have the target test application running outside of Docker you can set this to `true`, otherwise it should be `false`. | false         | no       |
+
+
+If you want to run the `docker compose up` command without the pwsh script then you can do so by:
+
+1) Go to /demos/docker.
+2) Set the required environment variables (see example below).
+3) Run `docker compose up`.
+
+To set environment variables for the `docker compose up` command you can either create a `.env` file at `/demos/docker` and populate it like so:
+
+```
+CI=false
+PLAYWRIGHT_VERSION=1.42.1
+PLAYWRIGHT_TEST_OPTIONS=
+NPM_INSTALL_COMMAND=npm i
+USE_DOCKER_HOST_WEBSERVER=false
+```
+
+Or you can set them in your shell prior to running the `docker compose up` command. For instance, if you're using Powerhsell you can do:
+
+```
+$env:CI=false
+$env:PLAYWRIGHT_VERSION=1.42.1
+$env:PLAYWRIGHT_TEST_OPTIONS=
+$env:NPM_INSTALL_COMMAND=npm i
+$env:USE_DOCKER_HOST_WEBSERVER=false
+```
+
+### The docker command to run Playwright tests
+
+The docker setup to run the Playwright tests is based on the [Playwright Docker docs](https://playwright.dev/docs/docker). When running `npm test`, the [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script is executed and runs a `docker compose` command that is equivalent to the following `docker run` command:
+
+```
+docker run -it --rm --ipc=host `
+--env CI=<true|false> `
+--env USE_DOCKER_HOST_WEBSERVER=<true|false> `
+--workdir=/app `
+-v '<path-to-cloned-repo>\demos\docker:/app' `
+-v 'npm-cache:/root/.npm' `
+-v 'node-modules:/app/node_modules' `
+mcr.microsoft.com/playwright:<@playwright/test-npm-package=-version>-jammy `
+/bin/bash -c '<npm i | npm ci> && npx playwright test <test-options>'
+```
 
 ## Run tests with UI mode
 
