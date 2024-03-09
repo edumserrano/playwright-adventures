@@ -4,11 +4,11 @@
 param (
   [switch] $ui = $false,
   [int] $uiPort = 43008,
-  [switch] $updateSnapshots = $false,
-  [switch] $useHostWebServer = $false,
-  [string] $grep = "",
-  [ValidateSet("auto", "install", "mount")]
-  [string] $installNpmPackagesMode = "auto",
+  [string] $testOptions = "",
+  [ValidateSet("auto", "from-docker", "from-host")]
+  [string] $webServerMode = "auto",
+  [string] $webServerHost = "127.0.0.1",
+  [string] $webServerPort = "4200",
   [ValidateSet("auto", "supported", "unsupported")]
   [string] $fileChangesDetectionSupportMode = "auto"
 )
@@ -27,41 +27,12 @@ function GetPlaywrightVersion() {
   return $playwrightVersion -replace '[~^]', ''
 }
 
-function NeedsToInstallNpmPackages() {
-  if ($useHostWebServer) {
-    # Don't need to install NPM packages if we're not even going
-    # to build and serve the app. With $useHostWebServer, the tests
-    # will connect to an already running instance of the app.
-    $needsToInstallNpmPackages = $false
-  }
-  elseif ($installNpmPackagesMode -eq "install") {
-    # Force install of NPM packages in the docker container and
-    # override the mounted NPM packages dir
-    $needsToInstallNpmPackages = $true
-  }
-  elseif ($installNpmPackagesMode -eq "mount") {
-    # Force use of the mounted NPM packages
-    $needsToInstallNpmPackages = $false
-  }
-  else { # $installNpmPackagesMode -eq "auto"
-    # Since the docker container is a UNIX OS then we should
-    # install the NPM packages if the host OS is a Windows OS.
-    # This should only be required if the app has dependencies
-    # which install OS specific binaries. If you know your app
-    # doesn't have NPM packages with OS specific binaries then
-    # you can use the $mountNpmPackages switch to always disable
-    # the NPM install step.
-    $needsToInstallNpmPackages = $IsWindows
-  }
-
-  return $needsToInstallNpmPackages;
-}
-
 function IsFileChangesDetectionSupported() {
   if ($fileChangesDetectionSupportMode -eq "auto") {
     $isDockerDesktopOnWindowsUsingWsl2 = IsDockerDesktopOnWindowsUsingWsl2
     if($isDockerDesktopOnWindowsUsingWsl2) {
-      Write-Host "Detected Docker Desktop running on WSL2. FILE_CHANGES_DETECTION_SUPPORTED=false environment variable will be added to the docker run command." -ForegroundColor Cyan
+      Write-Host "Detected Docker Desktop running on WSL2. FILE_CHANGES_DETECTION_SUPPORTED=false environment variable will be added to the docker command." -ForegroundColor Cyan
+      Write-Host "`n" -NoNewline
     }
 
     return !$isDockerDesktopOnWindowsUsingWsl2;
@@ -84,99 +55,107 @@ function IsDockerDesktopOnWindowsUsingWsl2() {
   return $dockerDesktopSettings.wslEngineEnabled
 }
 
-function StartPlaywrightTests {
-  Write-Host "Starting playwright tests run in docker container...`n" -ForegroundColor Cyan
-  Write-Host "options:" -ForegroundColor DarkYellow
-  Write-Host "-updateSnapshots=$updateSnapshots" -ForegroundColor DarkYellow
-  Write-Host "-useHostWebServer=$useHostWebServer" -ForegroundColor DarkYellow
-  Write-Host "-grep=$grep"  -ForegroundColor DarkYellow
-  Write-Host "-installNpmPackagesMode=$installNpmPackagesMode`n" -ForegroundColor DarkYellow
-
-  docker compose config
-
-  if ($updateSnapshots) {
-    $updateSnapshotsOption = "--update-snapshots"
-  }
-
-  if ($useHostWebServer) {
-    $useHostWebServerOption = "--add-host=host.docker.internal:host-gateway --env USE_DOCKER_HOST_WEBSERVER=true"
-  }
-
-  if (![string]::IsNullOrEmpty($grep)) {
-    $grepOption = "--grep ""$grep"""
-  }
-
+function UseHostWebServer() {
   $isCI = [System.Convert]::ToBoolean($env:CI)
-  $ciEnv = "--env CI=$isCI"
-  if (!$isCi) {
-    $interactive = "-it"
+  if($isCI) {
+    return $false;
   }
 
-  $startCommand = "npx playwright test $updateSnapshotsOption $grepOption"
-  $installNpmPackages = NeedsToInstallNpmPackages
-  if ($installNpmPackages) {
-    $nodeModulesMount = "-v '/app/node_modules'" # exclude node_modules from the mounted /app dir. See https://www.howtogeek.com/devops/how-to-mount-a-docker-volume-while-excluding-a-subdirectory/
-    $startCommand = "/bin/bash -c 'npm ci && $startCommand'" # see https://stackoverflow.com/questions/28490874/docker-run-image-multiple-commands
+  if ($webServerMode -eq "auto") {
+    $isWebServerUrlAlive = [System.Net.Sockets.TcpClient]::new().ConnectAsync($webServerHost, $webServerPort).Wait(500)
+    if($isWebServerUrlAlive) {
+      Write-Host "Playwright's target WebServer is running at ${webServerHost}:$webServerPort. USE_DOCKER_HOST_WEBSERVER=true environment variable will be added to the docker command." -ForegroundColor Cyan
+      Write-Host "`n" -NoNewline
+    }
+
+    return $isWebServerUrlAlive;
+  } elseif ($webServerMode -eq "from-docker") {
+    return $false
+  } elseif ($webServerMode -eq "from-host") {
+    return $true
   }
+
+  throw "Unknown '-webServerMode' option. Received: $webServerMode. Available options are: 'auto | from-docker | from-host'"
+}
+
+function StartPlaywrightTests {
+  Write-Host "Starting playwright tests run in docker container..." -ForegroundColor Cyan
+  Write-Host "`n" -NoNewline
+  Write-Host "options:" -ForegroundColor DarkYellow
+  Write-Host "-testOptions=$testOptions" -ForegroundColor DarkYellow
+  Write-Host "-webServerMode=$webServerMode" -ForegroundColor DarkYellow
+  Write-Host "-webServerHost=$webServerHost" -ForegroundColor DarkYellow
+  Write-Host "-webServerPort=$webServerPort" -ForegroundColor DarkYellow
+  Write-Host "`n" -NoNewline
 
   $playwrightVersion = GetPlaywrightVersion
-  $dockerRunCommand = "docker run $interactive --rm --ipc=host $useHostWebServerOption $ciEnv --workdir=/app -v '${PWD}:/app' $nodeModulesMount mcr.microsoft.com/playwright:v$playwrightVersion-jammy $startCommand"
-  if ($installNpmPackages) {
-    Write-Host "NPM packages will be installed in the docker container." -ForegroundColor Cyan
-  }
-  else {
-    Write-Host "NPM packages will be mounted from the host into the docker container." -ForegroundColor Cyan
-  }
+  $isCI = [System.Convert]::ToBoolean($env:CI)
+  $npmInstallCommand = $isCI ? 'npm ci' : 'npm i'
+  $useHostWebServer = UseHostWebServer
+
+  $env:CI="$isCI"
+  $env:PLAYWRIGHT_VERSION="$playwrightVersion"
+  $env:PLAYWRIGHT_TEST_OPTIONS="$testOptions"
+  $env:NPM_INSTALL_COMMAND="$npmInstallCommand"
+  $env:USE_DOCKER_HOST_WEBSERVER="$useHostWebServer"
+
+  Write-Host "Docker env variables:" -ForegroundColor DarkYellow
+  Write-Host "CI=$env:CI" -ForegroundColor DarkYellow
+  Write-Host "PLAYWRIGHT_VERSION=$env:PLAYWRIGHT_VERSION" -ForegroundColor DarkYellow
+  Write-Host "PLAYWRIGHT_TEST_OPTIONS=$env:PLAYWRIGHT_TEST_OPTIONS" -ForegroundColor DarkYellow
+  Write-Host "NPM_INSTALL_COMMAND=$env:NPM_INSTALL_COMMAND" -ForegroundColor DarkYellow
+  Write-Host "USE_DOCKER_HOST_WEBSERVER=$env:USE_DOCKER_HOST_WEBSERVER" -ForegroundColor DarkYellow
+  Write-Host "`n" -NoNewline
 
   Write-Host "Starting docker container...`n" -ForegroundColor Cyan
-  Write-Host "$dockerRunCommand`n" -ForegroundColor Cyan
-  Invoke-Expression -Command $dockerRunCommand
-  Exit $LASTEXITCODE # see https://stackoverflow.com/questions/32348794/how-to-get-status-of-invoke-expression-successful-or-failed
+  docker compose up --exit-code-from playwright-tests
+  Exit $LASTEXITCODE # this in combination with --exit-code-from on the docker compose command above means that the exit code will match the exit code from running the playwright tests. In other words, it allows for failing a CI pipeline if the tests fail.
 }
 
 function StartPlaywrightUI() {
-  Write-Host "Starting playwright tests with ui in docker container...`n"
+  Write-Host "Starting playwright tests with ui in docker container..."
+  Write-Host "`n" -NoNewline
   Write-Host "options:" -ForegroundColor DarkYellow
   Write-Host "-uiPort=$uiPort" -ForegroundColor DarkYellow
-  Write-Host "-useHostWebServer=$useHostWebServer" -ForegroundColor DarkYellow
-  Write-Host "-installNpmPackagesMode=$installNpmPackagesMode" -ForegroundColor DarkYellow
-  Write-Host "-fileChangesDetectionSupportMode=$fileChangesDetectionSupportMode`n" -ForegroundColor DarkYellow
-
-  if ($useHostWebServer) {
-    $useHostWebServerOption = "--add-host=host.docker.internal:host-gateway --env USE_DOCKER_HOST_WEBSERVER=true"
-  }
-
-  # For more info on the reason for the FILE_CHANGES_DETECTION_SUPPORTED environment variable
-  # see the section 'File changes aren't triggering an application rebuild when testing with UI mode' of the README at /demos/docker/README.md
-  if(IsFileChangesDetectionSupported) {
-    $fileChangesDetectionSupportedEnv = "--env FILE_CHANGES_DETECTION_SUPPORTED=true"
-  } else {
-    $fileChangesDetectionSupportedEnv = "--env FILE_CHANGES_DETECTION_SUPPORTED=false"
-  }
+  Write-Host "-testOptions=$testOptions" -ForegroundColor DarkYellow
+  Write-Host "-webServerMode=$webServerMode" -ForegroundColor DarkYellow
+  Write-Host "-webServerHost=$webServerHost" -ForegroundColor DarkYellow
+  Write-Host "-webServerPort=$webServerPort" -ForegroundColor DarkYellow
+  Write-Host "-fileChangesDetectionSupportMode=$fileChangesDetectionSupportMode" -ForegroundColor DarkYellow
+  Write-Host "`n" -NoNewline
 
   $playwrightVersion = GetPlaywrightVersion
-  $startCommand = "npx playwright test --ui-port=$uiPort --ui-host=0.0.0.0"
-  $installNpmPackages = NeedsToInstallNpmPackages
-  if ($installNpmPackages) {
-    $nodeModulesMount = "-v '/app/node_modules'" # exclude node_modules from the mounted /app dir. See https://www.howtogeek.com/devops/how-to-mount-a-docker-volume-while-excluding-a-subdirectory/
-    $startCommand = "/bin/bash -c 'npm ci && $startCommand'" # see https://stackoverflow.com/questions/28490874/docker-run-image-multiple-commands
-  }
+  $isCI = [System.Convert]::ToBoolean($env:CI)
+  $npmInstallCommand = $isCI ? 'npm ci' : 'npm i'
+  $useHostWebServer = UseHostWebServer
+  $isFileChangesDetectionSupported = IsFileChangesDetectionSupported
 
-  # Setting CHOKIDAR_USEPOLLING env variable is required to get the Playwright UI to automatically refresh when tests are updated/added/removed. For more info see https://github.com/microsoft/playwright/issues/29785
-  $dockerRunCommand = "docker run -it --rm --ipc=host --env CHOKIDAR_USEPOLLING=1 $useHostWebServerOption $fileChangesDetectionSupportedEnv --workdir=/app -p ${uiPort}:${uiPort} -v '${PWD}:/app' $nodeModulesMount mcr.microsoft.com/playwright:v$playwrightVersion-jammy $startCommand"
-  if ($installNpmPackages) {
-    Write-Host "NPM packages will be installed in the docker container." -ForegroundColor Cyan
-  }
-  else {
-    Write-Host "NPM packages will be mounted from the host into the docker container." -ForegroundColor Cyan
-  }
+  $env:CI="$isCI"
+  $env:PLAYWRIGHT_VERSION="$playwrightVersion"
+  $env:PLAYWRIGHT_TEST_OPTIONS="$testOptions"
+  $env:NPM_INSTALL_COMMAND="$npmInstallCommand"
+  $env:USE_DOCKER_HOST_WEBSERVER="$useHostWebServer"
+  $env:UI_PORT="$uiPort"
+  $env:FILE_CHANGES_DETECTION_SUPPORTED="$isFileChangesDetectionSupported"
+  $env:CHOKIDAR_USEPOLLING="$(!$isFileChangesDetectionSupported)"
+
+  Write-Host "Docker env variables:" -ForegroundColor DarkYellow
+  Write-Host "CI=$env:CI" -ForegroundColor DarkYellow
+  Write-Host "PLAYWRIGHT_VERSION=$env:PLAYWRIGHT_VERSION" -ForegroundColor DarkYellow
+  Write-Host "PLAYWRIGHT_TEST_OPTIONS=$env:PLAYWRIGHT_TEST_OPTIONS" -ForegroundColor DarkYellow
+  Write-Host "NPM_INSTALL_COMMAND=$env:NPM_INSTALL_COMMAND" -ForegroundColor DarkYellow
+  Write-Host "USE_DOCKER_HOST_WEBSERVER=$env:USE_DOCKER_HOST_WEBSERVER" -ForegroundColor DarkYellow
+  Write-Host "UI_PORT=$env:UI_PORT" -ForegroundColor DarkYellow
+  Write-Host "FILE_CHANGES_DETECTION_SUPPORTED=$env:FILE_CHANGES_DETECTION_SUPPORTED" -ForegroundColor DarkYellow
+  Write-Host "CHOKIDAR_USEPOLLING=$env:CHOKIDAR_USEPOLLING" -ForegroundColor DarkYellow
+  Write-Host "`n" -NoNewline
 
   Write-Host "Starting docker container with ui mode..." -ForegroundColor Cyan
   Write-Host "On success the ui mode will display a message saying: 'Listening on http://0.0.0.0:${uiPort}'." -ForegroundColor Cyan
-  Write-Host "At that point you'll be able to access the test UI at http://localhost:${uiPort}`n" -ForegroundColor Green
-  Write-Host "$dockerRunCommand`n" -ForegroundColor Cyan
-  Invoke-Expression -Command $dockerRunCommand
-  Exit $LASTEXITCODE # see https://stackoverflow.com/questions/32348794/how-to-get-status-of-invoke-expression-successful-or-failed
+  Write-Host "At that point you'll be able to access the test UI at http://localhost:${uiPort}" -ForegroundColor Green
+  Write-Host "`n" -NoNewline
+
+  docker compose -f ./docker-compose.ui.yml up
 }
 
 function Main() {
