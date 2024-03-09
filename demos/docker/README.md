@@ -102,19 +102,22 @@ The Docker setup to run Playwright tests uses the [docker-compose.yml](/demos/do
 
 The `npm test` can be customized with the following parameters:
 
-<div style="overflow-x:scroll; background: red" markdown="block">
 
-| pwsh parameter   | Description                                                                                                                                                                                                                                                                                               | Possible values | Default value | Example                                                |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ------------- | ------------------------------------------------------ |
-| `-testOptions`   | Use this to pass any [Playwright CLI supported test options](https://playwright.dev/docs/test-cli) to the `playwright test` command.                                                                                                                                                                      | Free text.      | Empty string. | `-testOptions '--update-snapshots --grep "load page"'` |
-| `-webServerMode` | Determines if the Playwright tests should be executed against the [Playwright Web Server](https://playwright.dev/docs/test-webserver) running on the host or inside Docker. If you have the target test application running outside of Docker you can set this to `from-host`, otherwise it should be `from-docker`. Using `auto` will mean that the pwsh script will attempt to decide if the target test application is running on the host and if so it will use the `from-host` option, if not it will use the `from-docker` option. Setting to `auto` requires setting the `-webServerHost` and `webServerPort` parameters. | `auto` \| `from-host` \| `from-docker`               |               |                                                        |
-| `-webServerHost` | Content Cell                                                                                                                                                                                                                                                                                              |                 |               |                                                        |
-| `-webServerPort` | Content Cell                                                                                                                                                                                                                                                                                              |                 |               |                                                        |
+| pwsh parameter   | Description  | Possible values                        | Default value | Example |
+| ---------------- | ------------ | -------------------------------------- | ------------- | ------- |
+| `-webServerMode` |              | `auto` \| `from-host` \| `from-docker` |               |         |
+| `-webServerHost` | Content Cell |                                        |               |         |
+| `-webServerPort` | Content Cell |                                        |               |         |
 
-</div>
 
-- `-testOptions`: free text, defaults to an empty string. Use this to pass any [Playwright CLI supported test options](https://playwright.dev/docs/test-cli) to the `playwright test` command. Example:
-- `-webServerMode`: one of `auto`, `from-docker` or `from-host`. Example: `-webServerMode from-docker`.
+- `-testOptions`: Use this to pass any [Playwright CLI supported test options](https://playwright.dev/docs/test-cli) to the `playwright test` command. It's a free text parameter and defaults to an empty string.
+
+  **Example:** `-testOptions '--update-snapshots --grep "load page"'`
+
+- `-webServerMode`: Determines if the Playwright tests should be executed against the [Playwright Web Server](https://playwright.dev/docs/test-webserver) running on the host or inside Docker. If you have the target test application running outside of Docker you can set this to `from-host`, otherwise it should be `from-docker`. Using `auto` will mean that the pwsh script will attempt to decide if the target test application is running on the host and if so it will use the `from-host` option, if not it will use the `from-docker` option. Setting to `auto` requires setting the `-webServerHost` and `webServerPort` parameters. one of `auto`, `from-docker` or `from-host`.
+
+  **Example**: `-webServerMode from-docker`.
+
 - `-webServerHost`: setting `-useHostWebServer` enables this option.
 - `-webServerPort`: setting `-useHostWebServer` enables this option.
 - `-updateSnapshots`: setting `-updateSnapshots` enables this option.
