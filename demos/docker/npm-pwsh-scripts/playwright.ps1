@@ -32,7 +32,7 @@ function IsFileChangesDetectionSupported() {
     $isDockerDesktopOnWindowsUsingWsl2 = IsDockerDesktopOnWindowsUsingWsl2
     if($isDockerDesktopOnWindowsUsingWsl2) {
       Write-Host "Detected Docker Desktop running on WSL2. FILE_CHANGES_DETECTION_SUPPORTED=false environment variable will be added to the docker command." -ForegroundColor Cyan
-      Write-Host "`n" -NoNewline
+      Write-Host ""
     }
 
     return !$isDockerDesktopOnWindowsUsingWsl2;
@@ -65,7 +65,7 @@ function UseHostWebServer() {
     $isWebServerUrlAlive = [System.Net.Sockets.TcpClient]::new().ConnectAsync($webServerHost, $webServerPort).Wait(500)
     if($isWebServerUrlAlive) {
       Write-Host "Playwright's target WebServer is running at ${webServerHost}:$webServerPort. USE_DOCKER_HOST_WEBSERVER=true environment variable will be added to the docker command." -ForegroundColor Cyan
-      Write-Host "`n" -NoNewline
+      Write-Host ""
     }
 
     return $isWebServerUrlAlive;
@@ -80,13 +80,13 @@ function UseHostWebServer() {
 
 function StartPlaywrightTests {
   Write-Host "Starting playwright tests run in docker container..." -ForegroundColor Cyan
-  Write-Host "`n" -NoNewline
+  Write-Host ""
   Write-Host "options:" -ForegroundColor DarkYellow
   Write-Host "-testOptions=$testOptions" -ForegroundColor DarkYellow
   Write-Host "-webServerMode=$webServerMode" -ForegroundColor DarkYellow
   Write-Host "-webServerHost=$webServerHost" -ForegroundColor DarkYellow
   Write-Host "-webServerPort=$webServerPort" -ForegroundColor DarkYellow
-  Write-Host "`n" -NoNewline
+  Write-Host ""
 
   $playwrightVersion = GetPlaywrightVersion
   $isCI = [System.Convert]::ToBoolean($env:CI)
@@ -105,16 +105,18 @@ function StartPlaywrightTests {
   Write-Host "PLAYWRIGHT_TEST_OPTIONS=$env:PLAYWRIGHT_TEST_OPTIONS" -ForegroundColor DarkYellow
   Write-Host "NPM_INSTALL_COMMAND=$env:NPM_INSTALL_COMMAND" -ForegroundColor DarkYellow
   Write-Host "USE_DOCKER_HOST_WEBSERVER=$env:USE_DOCKER_HOST_WEBSERVER" -ForegroundColor DarkYellow
-  Write-Host "`n" -NoNewline
+  Write-Host ""
 
-  Write-Host "Starting docker container...`n" -ForegroundColor Cyan
+  Write-Host "Starting docker container..." -ForegroundColor Cyan
+  Write-Host ""
+
   docker compose up --exit-code-from playwright-tests
   Exit $LASTEXITCODE # this in combination with --exit-code-from on the docker compose command above means that the exit code will match the exit code from running the playwright tests. In other words, it allows for failing a CI pipeline if the tests fail.
 }
 
 function StartPlaywrightUI() {
   Write-Host "Starting playwright tests with ui in docker container..."
-  Write-Host "`n" -NoNewline
+  Write-Host ""
   Write-Host "options:" -ForegroundColor DarkYellow
   Write-Host "-uiPort=$uiPort" -ForegroundColor DarkYellow
   Write-Host "-testOptions=$testOptions" -ForegroundColor DarkYellow
@@ -122,7 +124,7 @@ function StartPlaywrightUI() {
   Write-Host "-webServerHost=$webServerHost" -ForegroundColor DarkYellow
   Write-Host "-webServerPort=$webServerPort" -ForegroundColor DarkYellow
   Write-Host "-fileChangesDetectionSupportMode=$fileChangesDetectionSupportMode" -ForegroundColor DarkYellow
-  Write-Host "`n" -NoNewline
+  Write-Host ""
 
   $playwrightVersion = GetPlaywrightVersion
   $isCI = [System.Convert]::ToBoolean($env:CI)
@@ -148,12 +150,12 @@ function StartPlaywrightUI() {
   Write-Host "UI_PORT=$env:UI_PORT" -ForegroundColor DarkYellow
   Write-Host "FILE_CHANGES_DETECTION_SUPPORTED=$env:FILE_CHANGES_DETECTION_SUPPORTED" -ForegroundColor DarkYellow
   Write-Host "CHOKIDAR_USEPOLLING=$env:CHOKIDAR_USEPOLLING" -ForegroundColor DarkYellow
-  Write-Host "`n" -NoNewline
+  Write-Host ""
 
   Write-Host "Starting docker container with ui mode..." -ForegroundColor Cyan
   Write-Host "On success the ui mode will display a message saying: 'Listening on http://0.0.0.0:${uiPort}'." -ForegroundColor Cyan
   Write-Host "At that point you'll be able to access the test UI at http://localhost:${uiPort}" -ForegroundColor Green
-  Write-Host "`n" -NoNewline
+  Write-Host ""
 
   docker compose -f ./docker-compose.ui.yml up
 }
