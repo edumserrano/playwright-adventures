@@ -160,7 +160,8 @@ function StartPlaywrightUI() {
     $startCommand = "/bin/bash -c 'npm ci && $startCommand'" # see https://stackoverflow.com/questions/28490874/docker-run-image-multiple-commands
   }
 
-  $dockerRunCommand = "docker run -it --rm --ipc=host $useHostWebServerOption $fileChangesDetectionSupportedEnv --workdir=/app -p ${uiPort}:${uiPort} -v '${PWD}:/app' $nodeModulesMount mcr.microsoft.com/playwright:v$playwrightVersion-jammy $startCommand"
+  # Setting CHOKIDAR_USEPOLLING env variable is required to get the Playwright UI to automatically refresh when tests are updated/added/removed. For more info see https://github.com/microsoft/playwright/issues/29785
+  $dockerRunCommand = "docker run -it --rm --ipc=host --env CHOKIDAR_USEPOLLING=1 $useHostWebServerOption $fileChangesDetectionSupportedEnv --workdir=/app -p ${uiPort}:${uiPort} -v '${PWD}:/app' $nodeModulesMount mcr.microsoft.com/playwright:v$playwrightVersion-jammy $startCommand"
   if ($installNpmPackages) {
     Write-Host "NPM packages will be installed in the docker container." -ForegroundColor Cyan
   }
