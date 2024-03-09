@@ -92,6 +92,8 @@ function StartPlaywrightTests {
   Write-Host "-grep=$grep"  -ForegroundColor DarkYellow
   Write-Host "-installNpmPackagesMode=$installNpmPackagesMode`n" -ForegroundColor DarkYellow
 
+  docker compose config
+
   if ($updateSnapshots) {
     $updateSnapshotsOption = "--update-snapshots"
   }
