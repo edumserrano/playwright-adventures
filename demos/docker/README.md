@@ -26,8 +26,8 @@
   - [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
 - [Bonus: Visual Studio Code integration](#bonus-visual-studio-code-integration)
   - [Example running the tests using the Visual Studio Code task](#example-running-the-tests-using-the-visual-studio-code-task)
-  - [Example running the tests using the Visual Studio task and setting `useHostWebServer` to `yes`](#example-running-the-tests-using-the-visual-studio-task-and-setting-usehostwebserver-to-yes)
   - [Example running the tests in UI mode using the Visual Studio Code task](#example-running-the-tests-in-ui-mode-using-the-visual-studio-code-task)
+  - [Example running the app and then the tests using the Visual Studio tasks](#example-running-the-app-and-then-the-tests-using-the-visual-studio-tasks)
   - [Example debugging the app using Visual Studio Code](#example-debugging-the-app-using-visual-studio-code)
 
 ## Description
@@ -337,7 +337,7 @@ The main changes are:
 2. Updated the `reporter` array. In addition to using the [default html reporter](https://playwright.dev/docs/test-reporters#html-reporter), we've added the [built-in list reporter](https://playwright.dev/docs/test-reporters#list-reporter).
 3. Defined a [baseURL](https://playwright.dev/docs/test-webserver#adding-a-baseurl) so that we can use relative URLs when doing page navigations on the tests.
 4. Configured the `webServer` block to run the Angular app locally so that the tests can be executed against it. If you're not testing an Angular app that's fine, you just need to adjust the `webServer.command` so that it launches your app and set the `webServer.url` to the url your app will be running at. For more information see the [webServer docs](https://playwright.dev/docs/test-webserver).
-5. Defined the `snapshotPathTemplate` option to group snapshots by Operating System. This is a choice for this demo, it's not mandatory. This options is configured so that all snapshots generated on Unix will be stored at `/tests/__screenshots__/linux` and all snapshots generated on Windows will be storted at `/tests/__screenshots__/win32`. One of the reasons this is done is so that we can add the windows directory to the [.gitignore](/demos/docker/.gitignore) to avoid committing windows snapshots in case someone runs the tests outside of Docker for any reason. Remember that the whole point of running in Docker is to generate Unix like snapshots to get consistent behavior between running locally and on CI, so you should never want to commit windows generated snapshots.
+5. Defined the `snapshotPathTemplate` option to group snapshots by Operating System. This is a choice for this demo, it's not mandatory. This options is configured so that all snapshots generated on Unix will be stored at `/tests/__screenshots__/linux` and all snapshots generated on Windows will be stored at `/tests/__screenshots__/win32`. One of the reasons this is done is so that we can add the windows directory to the [.gitignore](/demos/docker/.gitignore) to avoid committing windows snapshots in case someone runs the tests outside of Docker for any reason. Remember that the whole point of running in Docker is to generate Unix like snapshots to get consistent behavior between running locally and on CI, so you should never want to commit windows generated snapshots.
 
 > [!NOTE]
 >
@@ -524,7 +524,7 @@ The available tasks are:
 - `install packages`: installs npm packages.
 - `run app`: builds and runs the app.
 - `run tests`: runs the Playwright tests in a docker container.
-- `open tests ui`: runs the Playwright tests in a docker container using UI mode.
+- `run tests ui`: runs the Playwright tests in a docker container using UI mode.
 - `show tests report`: opens the test results report.
 
 **To get access to these tasks make sure you open the `/demos/docker/` folder in Visual Studio Code.**
@@ -535,23 +535,21 @@ The available tasks are:
 
 ### Example running the tests using the Visual Studio Code task
 
-When you run the `run tests` task you will be prompted for some input which is then passed on to the [playwright.ps1](#playwrightps1-powershell-script-details) Powershell script.
+When you run the `run tests` task you will be prompted for some input which is then passed on to the [playwright-vscode-task.ps1](/npm-pwsh-scripts/playwright-vscode-task.ps1) Powershell script.
 
 https://github.com/edumserrano/playwright-adventures/assets/15857357/204e5a7e-c098-4823-bf0e-36f240620f22
 
-### Example running the tests using the Visual Studio task and setting `useHostWebServer` to `yes`
-
-When you run the `run tests` task and choose `yes` to the `Do you want to use the host's web server?` prompt, notice that the docker container won't have to install packages nor build and run the app. It immediatly starts to run the tests against the version of the app that is running on the host.
-
-You have to run the app locally outside of docker before you choose this option.
-
-https://github.com/edumserrano/playwright-adventures/assets/15857357/f4c6bbad-ce61-4400-a1a8-3a94a32ba107
-
 ### Example running the tests in UI mode using the Visual Studio Code task
 
-When you run the `open tests ui` task you will be prompted for some input which is then passed on to the [playwright.ps1](#playwrightps1-powershell-script-details) Powershell script.
+When you run the `run tests ui` task you will be prompted for some input which is then passed on to the [playwright-vscode-task.ps1](/npm-pwsh-scripts/playwright-vscode-task.ps1) Powershell script.
 
 https://github.com/edumserrano/playwright-adventures/assets/15857357/923f30a0-27ad-4197-bb12-557c8746e688
+
+### Example running the app and then the tests using the Visual Studio tasks
+
+If you have the target test app running before you run the `run tests` task or `run tests ui` task and choose `auto` or `from-host` to the `Which Playwright Web Server to use?` prompt, notice that the docker container won't have to install packages nor build and run the app. It immediately starts to run the tests against the the target test app that is running on the host.
+
+https://github.com/edumserrano/playwright-adventures/assets/15857357/f4c6bbad-ce61-4400-a1a8-3a94a32ba107
 
 ### Example debugging the app using Visual Studio Code
 

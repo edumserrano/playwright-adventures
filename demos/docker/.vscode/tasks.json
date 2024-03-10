@@ -80,8 +80,8 @@
       "problemMatcher": []
     },
     {
-      "label": "open tests ui",
-      "detail": "Opens Playwright tests UI.",
+      "label": "run tests ui",
+      "detail": "Run Playwright tests in UI mode.",
       "type": "process",
       "command": "pwsh",
       "args": [
