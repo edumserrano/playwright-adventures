@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 name: playwright-docker-demo
 
 include:
@@ -25,4 +25,3 @@ services:
     environment:
       CI: ${CI:-false}
       USE_DOCKER_HOST_WEBSERVER: ${USE_DOCKER_HOST_WEBSERVER:-false}
-

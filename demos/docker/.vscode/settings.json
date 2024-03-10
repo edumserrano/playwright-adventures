@@ -11,7 +11,7 @@
     "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
     ".prettierrc": ".prettierrc, .prettierignore",
     "environment.ts": "environment.*.ts",
-    "docker-compose.yml": "docker-compose.*.yml",
+    "docker-compose.yml": "docker-compose.*.yml"
   },
   "typescript.preferences.importModuleSpecifier": "non-relative"
 }

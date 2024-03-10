@@ -134,7 +134,6 @@ npm test '--' -testOptions '--update-snapshots --grep "load page"' -webServerMod
 > [!NOTE]
 >
 > On the example `npm` command above you only need the single quotes around the double dash if you're running the `npm` command from Powershell. For more info see [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
->
 
 ### Docker compose file
 
@@ -148,12 +147,11 @@ The [docker-compose.yml](/demos/docker/docker-compose.yml) file requires the fol
 | NPM_INSTALL_COMMAND       | NPM command to install packages. Usually `npm i` if NOT running in a CI environment and `npm ci` when running on a CI environment.                                                                                                                                                                        | npm i         | no       |
 | USE_DOCKER_HOST_WEBSERVER | Determines if the Playwright tests should be executed against the [Playwright Web Server](https://playwright.dev/docs/test-webserver) running on the host or inside Docker. If you have the target test application running outside of Docker you can set this to `true`, otherwise it should be `false`. | false         | no       |
 
-
 If you want to run the `docker compose up` command without the pwsh script then you can do so by:
 
-1) Go to /demos/docker.
-2) Set the required environment variables (see example below).
-3) Run `docker compose up`.
+1. Go to /demos/docker.
+2. Set the required environment variables (see example below).
+3. Run `docker compose up`.
 
 To set environment variables for the `docker compose up` command you can either create a `.env` file at `/demos/docker` and populate it. For instance:
 
@@ -260,7 +258,6 @@ npm run test:ui '--' -testOptions '--grep "load page"' -webServerMode from-docke
 > [!NOTE]
 >
 > On the example `npm` command above you only need the single quotes around the double dash if you're running the `npm` command from Powershell. For more info see [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
->
 
 ### Docker compose file
 
@@ -279,9 +276,9 @@ The [docker-compose.ui.yml](/demos/docker/docker-compose.ui.yml) file requires t
 
 If you want to run the `docker compose up` command without the pwsh script then you can do so by:
 
-1) Go to /demos/docker.
-2) Set the required environment variables (see example below).
-3) Run `docker compose -f ./docker-compose.ui.yml up`.
+1. Go to /demos/docker.
+2. Set the required environment variables (see example below).
+3. Run `docker compose -f ./docker-compose.ui.yml up`.
 
 To set environment variables for the `docker compose up` command you can either create a `.env` file at `/demos/docker` and populate it. For instance:
 

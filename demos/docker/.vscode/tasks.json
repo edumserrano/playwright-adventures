@@ -48,26 +48,26 @@
       "type": "process",
       "command": "pwsh",
       "args": [
-          // Instead of using a task with 'type' set to 'shell' and the 'command' set to the powershell script I want to invoke,
-          // here I'm using a task with 'type' set to 'process' to be able to invoke the PowerShell CLI directly, with the PowerShell
-          // code passed in these "args".
-          //
-          // This is because I need to be able to pass double quotes and not have powershell remove them and I also don't want to have
-          // to escape them. For example, if I used a task with type 'shell', when executing this task with a user input of:  --grep "load page"
-          // for the ${input:testOptions}, then the double quotes would get stripped out when invoking the playwright-vscode-task.ps1 script
-          // and what gets to the playwright-vscode-task.ps1 script is just: --grep load page
-          // which then causes it to not work as expected.
-          //
-          // One alternative is to have the user escape the double quotes when providing the value for ${input:testOptions}. The user
-          // would have to provide this value as:
-          // --grep \"load page\" or --grep """load page""" (triple quotes because this value is then passed onto another pwsh
-          // script which will also strip a set of double quotes).
-          //
-          // To avoid passing the responsability of escaping to the user I'm using a task with 'type' command.
-          // For more information see: https://stackoverflow.com/questions/77540370/how-to-keep-double-quote-in-here-string-for-powershell-in-vscode-task
-          //
-          "-Command",
-          "./npm-pwsh-scripts/playwright-vscode-task.ps1 -testOptions '${input:testOptions}' -webServerMode ${input:webServerMode} -webServerHost ${input:webServerHost} -webServerPort ${input:webServerPort}",
+        // Instead of using a task with 'type' set to 'shell' and the 'command' set to the powershell script I want to invoke,
+        // here I'm using a task with 'type' set to 'process' to be able to invoke the PowerShell CLI directly, with the PowerShell
+        // code passed in these "args".
+        //
+        // This is because I need to be able to pass double quotes and not have powershell remove them and I also don't want to have
+        // to escape them. For example, if I used a task with type 'shell', when executing this task with a user input of:  --grep "load page"
+        // for the ${input:testOptions}, then the double quotes would get stripped out when invoking the playwright-vscode-task.ps1 script
+        // and what gets to the playwright-vscode-task.ps1 script is just: --grep load page
+        // which then causes it to not work as expected.
+        //
+        // One alternative is to have the user escape the double quotes when providing the value for ${input:testOptions}. The user
+        // would have to provide this value as:
+        // --grep \"load page\" or --grep """load page""" (triple quotes because this value is then passed onto another pwsh
+        // script which will also strip a set of double quotes).
+        //
+        // To avoid passing the responsability of escaping to the user I'm using a task with 'type' command.
+        // For more information see: https://stackoverflow.com/questions/77540370/how-to-keep-double-quote-in-here-string-for-powershell-in-vscode-task
+        //
+        "-Command",
+        "./npm-pwsh-scripts/playwright-vscode-task.ps1 -testOptions '${input:testOptions}' -webServerMode ${input:webServerMode} -webServerHost ${input:webServerHost} -webServerPort ${input:webServerPort}"
       ],
       "presentation": {
         "focus": true,
@@ -85,26 +85,26 @@
       "type": "process",
       "command": "pwsh",
       "args": [
-          // Instead of using a task with 'type' set to 'shell' and the 'command' set to the powershell script I want to invoke,
-          // here I'm using a task with 'type' set to 'process' to be able to invoke the PowerShell CLI directly, with the PowerShell
-          // code passed in these "args".
-          //
-          // This is because I need to be able to pass double quotes and not have powershell remove them and I also don't want to have
-          // to escape them. For example, if I used a task with type 'shell', when executing this task with a user input of:  --grep "load page"
-          // for the ${input:testOptions}, then the double quotes would get stripped out when invoking the playwright-vscode-task.ps1 script
-          // and what gets to the playwright-vscode-task.ps1 script is just: --grep load page
-          // which then causes it to not work as expected.
-          //
-          // One alternative is to have the user escape the double quotes when providing the value for ${input:testOptions}. The user
-          // would have to provide this value as:
-          // --grep \"load page\" or --grep """load page""" (triple quotes because this value is then passed onto another pwsh
-          // script which will also strip a set of double quotes).
-          //
-          // To avoid passing the responsability of escaping to the user I'm using a task with 'type' command.
-          // For more information see: https://stackoverflow.com/questions/77540370/how-to-keep-double-quote-in-here-string-for-powershell-in-vscode-task
-          //
-          "-Command",
-          "./npm-pwsh-scripts/playwright-vscode-task.ps1 -ui -uiPort ${input:uiPort} -testOptions '${input:testOptions}' -webServerMode ${input:webServerMode} -webServerHost ${input:webServerHost} -webServerPort ${input:webServerPort} -fileChangesDetectionSupportMode ${input:fileChangesDetectionSupportMode}",
+        // Instead of using a task with 'type' set to 'shell' and the 'command' set to the powershell script I want to invoke,
+        // here I'm using a task with 'type' set to 'process' to be able to invoke the PowerShell CLI directly, with the PowerShell
+        // code passed in these "args".
+        //
+        // This is because I need to be able to pass double quotes and not have powershell remove them and I also don't want to have
+        // to escape them. For example, if I used a task with type 'shell', when executing this task with a user input of:  --grep "load page"
+        // for the ${input:testOptions}, then the double quotes would get stripped out when invoking the playwright-vscode-task.ps1 script
+        // and what gets to the playwright-vscode-task.ps1 script is just: --grep load page
+        // which then causes it to not work as expected.
+        //
+        // One alternative is to have the user escape the double quotes when providing the value for ${input:testOptions}. The user
+        // would have to provide this value as:
+        // --grep \"load page\" or --grep """load page""" (triple quotes because this value is then passed onto another pwsh
+        // script which will also strip a set of double quotes).
+        //
+        // To avoid passing the responsability of escaping to the user I'm using a task with 'type' command.
+        // For more information see: https://stackoverflow.com/questions/77540370/how-to-keep-double-quote-in-here-string-for-powershell-in-vscode-task
+        //
+        "-Command",
+        "./npm-pwsh-scripts/playwright-vscode-task.ps1 -ui -uiPort ${input:uiPort} -testOptions '${input:testOptions}' -webServerMode ${input:webServerMode} -webServerHost ${input:webServerHost} -webServerPort ${input:webServerPort} -fileChangesDetectionSupportMode ${input:fileChangesDetectionSupportMode}"
       ],
       "presentation": {
         "focus": true,
@@ -191,6 +191,6 @@
       "type": "pickString",
       "options": ["auto", "supported", "unsupported"],
       "default": "auto"
-    },
+    }
   ]
 }
