@@ -157,7 +157,7 @@ The `nyc` configuration file [nyc.config.js](/demos/code-coverage-with-istanbul-
 
 - an **html report** with the [istanbul](https://github.com/istanbuljs/nyc) `html-spa` style. This is a human readable code coverage report.
 - an **lcov report**: which is useful to upload to some tools like [SonarQube](https://www.sonarsource.com/products/sonarqube/), etc.
-- a **covertura report**: which is useful to upload to some tools like [Azure DevOps](https://azure.microsoft.com/en-us/products/devops), [CodeCov](https://about.codecov.io/), etc.
+- a **cobertura report**: which is useful to upload to some tools like [Azure DevOps](https://azure.microsoft.com/en-us/products/devops), [CodeCov](https://about.codecov.io/), etc.
 - a **text-summary report**: which is useful summary output that you get on the console after running the command to generate code coverage.
 
 The produced folder structure after running command to generate code coverage looks like this:

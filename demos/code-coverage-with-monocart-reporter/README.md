@@ -112,7 +112,7 @@ The `monocart-reporter` configuration is done at [playwright.monocart-reporter.t
 - an **html report** with monocart style: this is my prefered html report.
 - a **console summary** report.
 - a **lcov report**: which is useful to upload to some tools like [SonarQube](https://www.sonarsource.com/products/sonarqube/), etc.
-- a **covertura report**: which is useful to upload to some tools like [Azure DevOps](https://azure.microsoft.com/en-us/products/devops), [CodeCov](https://about.codecov.io/), etc.
+- a **cobertura report**: which is useful to upload to some tools like [Azure DevOps](https://azure.microsoft.com/en-us/products/devops), [CodeCov](https://about.codecov.io/), etc.
 - an **html report** with the [istanbul](https://github.com/istanbuljs/nyc) `html-spa` style: this is not really necessary. We already have the monocart html report but it's here just to demo that you can have multiple html reports if you want.
 
 The produced folder structure after running the tests looks like this:
