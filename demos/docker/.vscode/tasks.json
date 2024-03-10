@@ -54,8 +54,8 @@
         //
         // This is because I need to be able to pass double quotes and not have powershell remove them and I also don't want to have
         // to escape them. For example, if I used a task with type 'shell', when executing this task with a user input of:  --grep "load page"
-        // for the ${input:testOptions}, then the double quotes would get stripped out when invoking the playwright-vscode-task.ps1 script
-        // and what gets to the playwright-vscode-task.ps1 script is just: --grep load page
+        // for the ${input:testOptions}, then the double quotes would get stripped out when invoking the playwright.ps1 script
+        // and what gets to the playwright.ps1 script is just: --grep load page
         // which then causes it to not work as expected.
         //
         // One alternative is to have the user escape the double quotes when providing the value for ${input:testOptions}. The user
@@ -67,7 +67,7 @@
         // For more information see: https://stackoverflow.com/questions/77540370/how-to-keep-double-quote-in-here-string-for-powershell-in-vscode-task
         //
         "-Command",
-        "./npm-pwsh-scripts/playwright-vscode-task.ps1 -testOptions '${input:testOptions}' -webServerMode ${input:webServerMode} -webServerHost ${input:webServerHost} -webServerPort ${input:webServerPort}"
+        "./npm-pwsh-scripts/playwright.ps1 -testOptions '${input:testOptions}' -webServerMode ${input:webServerMode} -webServerHost ${input:webServerHost} -webServerPort ${input:webServerPort}"
       ],
       "presentation": {
         "focus": true,
@@ -91,8 +91,8 @@
         //
         // This is because I need to be able to pass double quotes and not have powershell remove them and I also don't want to have
         // to escape them. For example, if I used a task with type 'shell', when executing this task with a user input of:  --grep "load page"
-        // for the ${input:testOptions}, then the double quotes would get stripped out when invoking the playwright-vscode-task.ps1 script
-        // and what gets to the playwright-vscode-task.ps1 script is just: --grep load page
+        // for the ${input:testOptions}, then the double quotes would get stripped out when invoking the playwright.ps1 script
+        // and what gets to the playwright.ps1 script is just: --grep load page
         // which then causes it to not work as expected.
         //
         // One alternative is to have the user escape the double quotes when providing the value for ${input:testOptions}. The user
@@ -104,7 +104,7 @@
         // For more information see: https://stackoverflow.com/questions/77540370/how-to-keep-double-quote-in-here-string-for-powershell-in-vscode-task
         //
         "-Command",
-        "./npm-pwsh-scripts/playwright-vscode-task.ps1 -ui -uiPort ${input:uiPort} -testOptions '${input:testOptions}' -webServerMode ${input:webServerMode} -webServerHost ${input:webServerHost} -webServerPort ${input:webServerPort} -fileChangesDetectionSupportMode ${input:fileChangesDetectionSupportMode}"
+        "./npm-pwsh-scripts/playwright.ps1 -ui -uiPort ${input:uiPort} -testOptions '${input:testOptions}' -webServerMode ${input:webServerMode} -webServerHost ${input:webServerHost} -webServerPort ${input:webServerPort} -fileChangesDetectionSupportMode ${input:fileChangesDetectionSupportMode}"
       ],
       "presentation": {
         "focus": true,
