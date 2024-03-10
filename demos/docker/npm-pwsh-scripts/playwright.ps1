@@ -29,6 +29,10 @@ function GetPlaywrightVersion() {
 
 function IsFileChangesDetectionSupported() {
   if ($fileChangesDetectionSupportMode -eq "auto") {
+    if(!$IsWindows) {
+      return $true
+    }
+
     $isDockerDesktopOnWindowsUsingWsl2 = IsDockerDesktopOnWindowsUsingWsl2
     if($isDockerDesktopOnWindowsUsingWsl2) {
       Write-Host "Detected Docker Desktop running on WSL2. FILE_CHANGES_DETECTION_SUPPORTED=false environment variable will be added to the docker command." -ForegroundColor Cyan
