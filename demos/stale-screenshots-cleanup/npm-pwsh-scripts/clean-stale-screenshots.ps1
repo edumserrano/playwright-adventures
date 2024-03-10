@@ -10,7 +10,7 @@ param(
   [switch]$dryRun = $false
 )
 
-function CreateTempSscreenshots([int] $maxAttempts) {
+function CreateTempScreenshots([int] $maxAttempts) {
   # Run Playwright to generate the expected snapshots
   $attemptsCount = 0;
   do {
@@ -111,7 +111,7 @@ function StartStaleScreenshotsCleanup {
   $env:SNAPSHOT_DIR = $tempSnapshotDir; # This environment variable is picked up by the playwright.config.ts so that the screenshots are generated on a temp dir.
 
   Remove-TempSnapshotsDirectory -tempSnapshotDir $tempSnapshotDir;
-  CreateTempSscreenshots -maxAttempts $maxAttempts;
+  CreateTempScreenshots -maxAttempts $maxAttempts;
   $staleScreenshots = GetStaleScreenshots -snapshotDir $snapshotDir -tempSnapshotDir $tempSnapshotDir;
   $hasStaleScreenshots = $staleScreenshots.StaleScreenshotsCount -ne 0;
   if (!$hasStaleScreenshots) {
