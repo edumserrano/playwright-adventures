@@ -17,7 +17,7 @@
 - [Playwright configuration](#playwright-configuration)
 - [Other notes on the docker integration](#other-notes-on-the-docker-integration)
   - [File changes aren't triggering an application rebuild when testing with UI mode](#file-changes-arent-triggering-an-application-rebuild-when-testing-with-ui-mode)
-  - [When do you need to install node modules on the docker container](#when-do-you-need-to-install-node-modules-on-the-docker-container)
+  - [Careful when installing node modules on the docker container](#careful-when-installing-node-modules-on-the-docker-container)
   - [How does the `webServerMode` input parameter of the Powershell scripts work ?](#how-does-the-webservermode-input-parameter-of-the-powershell-scripts-work-)
   - [Why should I use the `webServerMode` input parameter of the Powershell scripts ?](#why-should-i-use-the-webservermode-input-parameter-of-the-powershell-scripts-)
   - [Why are my Playwright tests running in Docker slow?](#why-are-my-playwright-tests-running-in-docker-slow)
@@ -397,11 +397,13 @@ npm run test:ui '--' -webServerMode from-host -webServerHost 127.0.0.1 -webServe
 
 Since the app is running outside of Docker the file change detection will work as usual and the `-webServerMode from-host` will make the tests running on Docker execute against the instance of the app running on the host. For more information on the `-webServerMode from-host` see the [Why should I use the `webServerMode` input parameter of the Powershell scripts ?](#why-should-i-use-the-webservermode-input-parameter-of-the-powershell-scripts-) section.
 
-### When do you need to install node modules on the docker container
+### Careful when installing node modules on the docker container
 
-You need to install the NPM packages in the docker container **if** your project depends on NPM packages which install different binaries depending on the OS **and** you are running the tests from a Windows OS.
+This demo creates a named Docker volume for the `node_modules` folder and always does an install when starting the Docker containers to make sure the `node_modules` are up to date with the [package.json](/demos/docker/package.json).
 
-**Otherwise**, you will get an error when the Playwright's WebServer tries to start the app inside the docker container. The error will tell you that your app failed to start using the node modules that you mounted into the container, because at least one of the NPM packages contains a binary that was built for another platform.
+However, if you don't want to create a volume for the `node_modules` and you want to mount them from the host into the Docker container then you should be careful **if** you use a Windows OS and your project depends on NPM packages which install different binaries depending on the OS.
+
+**Otherwise**, you will get an error when the Playwright's WebServer tries to start the app inside the docker container. The error will tell you that your app failed to start using the `node_modules` that you mounted into the container because at least one of the NPM packages contains a binary that was built for another platform.
 
 Here's an example of the error message:
 
@@ -432,15 +434,9 @@ Here's an example of the error message:
 > can sometimes be 10x slower than the "esbuild" package, so you may also not
 > want to do that.
 
-To avoid this error, the [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script provides the `-installNpmPackagesMode` input parameter. If set to `auto` it will override the `node_modules` folder that is mounted into the docker container and install the NPM packages if the host Operating System is Windows, otherwise it will use what was mounted from the host. If set to `install` it will always install the NPM packages and if set to `mount` it will always use the mounted NPM packages. Example:
-
-```
-npm test '--' -installNpmPackagesMode mount
-```
-
 > [!NOTE]
 >
-> The Angular app used for this demo depends on the [esbuild npm package](https://www.npmjs.com/package/esbuild) which installs Operating System specific binaries.
+> The Angular app used for this demo depends on the [esbuild npm package](https://www.npmjs.com/package/esbuild) which installs Operating System specific binaries. If you tried to mount the `node_modules` for this demo from a Windows host into the Docker container you'd get an error like the one above.
 
 > [!WARNING]
 >
