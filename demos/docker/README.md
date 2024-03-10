@@ -543,7 +543,7 @@ https://github.com/edumserrano/playwright-adventures/assets/15857357/923f30a0-27
 
 ### Example running the app and then the tests using the Visual Studio tasks
 
-If you have the target test app running before you run the `run tests` task or `run tests ui` task and choose `auto` or `from-host` to the `Which Playwright Web Server to use?` prompt, notice that the docker container won't have to install packages nor build and run the app. It immediately starts to run the tests against the the target test app that is running on the host.
+If you have the target test app running before you run the `run tests` task or `run tests ui` task and choose `auto` or `from-host` to the `Which Playwright Web Server to use?` prompt, notice that the docker container won't have to build and run the app. Instead, it immediately starts to run the tests against the the target test app that is running on the host.
 
 https://github.com/edumserrano/playwright-adventures/assets/15857357/f4c6bbad-ce61-4400-a1a8-3a94a32ba107
 
