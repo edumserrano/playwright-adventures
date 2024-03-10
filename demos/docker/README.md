@@ -528,13 +528,13 @@ The available tasks are:
 
 ### Example running the tests using the Visual Studio Code task
 
-When you run the `run tests` task you will be prompted for some input which is then passed on to the [playwright-vscode-task.ps1](/demos/docker/npm-pwsh-scripts/playwright-vscode-task.ps1) Powershell script.
+When you run the `run tests` task you will be prompted for some input which is then passed on to the [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script.
 
 https://github.com/edumserrano/playwright-adventures/assets/15857357/ff5e1e53-8b54-49eb-88af-8b81efb8f458
 
 ### Example running the tests in UI mode using the Visual Studio Code task
 
-When you run the `run tests ui` task you will be prompted for some input which is then passed on to the [playwright-vscode-task.ps1](/demos/docker/npm-pwsh-scripts/playwright-vscode-task.ps1) Powershell script.
+When you run the `run tests ui` task you will be prompted for some input which is then passed on to the [playwright.ps1](/demos/docker/npm-pwsh-scripts/playwright.ps1) Powershell script.
 
 https://github.com/edumserrano/playwright-adventures/assets/15857357/83907b0a-13c7-4359-8621-84c70af0b8e0
 
