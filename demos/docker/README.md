@@ -93,7 +93,7 @@ The demo at [/demos/docker](/demos/docker/) shows how to run Playwright tests in
 
 When you run `npm test` this is what you should expect:
 
-https://github.com/edumserrano/playwright-adventures/assets/15857357/e0de2b19-894f-4e00-8124-f1ddccdd9c35
+https://github.com/edumserrano/playwright-adventures/assets/15857357/e71c2c76-a9d9-4009-a9b1-b906d6a8e38d
 
 ### The Docker setup
 
@@ -203,7 +203,7 @@ Once you see this message you can access the Playwright UI by going to `http://l
 
 When you run `npm run test:ui` this is what you should expect:
 
-https://github.com/edumserrano/playwright-adventures/assets/15857357/cedd5115-f066-49a5-ac61-f4c187a4e27c
+https://github.com/edumserrano/playwright-adventures/assets/15857357/64ae0c68-8fea-4a31-b89a-86a933a91359
 
 ### The Docker setup
 
@@ -530,19 +530,19 @@ The available tasks are:
 
 When you run the `run tests` task you will be prompted for some input which is then passed on to the [playwright-vscode-task.ps1](/demos/docker/npm-pwsh-scripts/playwright-vscode-task.ps1) Powershell script.
 
-https://github.com/edumserrano/playwright-adventures/assets/15857357/204e5a7e-c098-4823-bf0e-36f240620f22
+https://github.com/edumserrano/playwright-adventures/assets/15857357/ff5e1e53-8b54-49eb-88af-8b81efb8f458
 
 ### Example running the tests in UI mode using the Visual Studio Code task
 
 When you run the `run tests ui` task you will be prompted for some input which is then passed on to the [playwright-vscode-task.ps1](/demos/docker/npm-pwsh-scripts/playwright-vscode-task.ps1) Powershell script.
 
-https://github.com/edumserrano/playwright-adventures/assets/15857357/923f30a0-27ad-4197-bb12-557c8746e688
+https://github.com/edumserrano/playwright-adventures/assets/15857357/83907b0a-13c7-4359-8621-84c70af0b8e0
 
 ### Example running the app and then the tests using the Visual Studio tasks
 
 If you have the target test app running before you run the `run tests` task or `run tests ui` task and choose `auto` or `from-host` to the `Which Playwright Web Server to use?` prompt, notice that the docker container won't have to build and run the app. Instead, it immediately starts to run the tests against the the target test app that is running on the host.
 
-https://github.com/edumserrano/playwright-adventures/assets/15857357/f4c6bbad-ce61-4400-a1a8-3a94a32ba107
+https://github.com/edumserrano/playwright-adventures/assets/15857357/009774eb-4eb1-486f-b431-7b15b9ac1019
 
 ### Example debugging the app using Visual Studio Code
 
