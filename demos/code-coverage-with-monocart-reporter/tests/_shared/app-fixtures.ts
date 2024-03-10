@@ -1,7 +1,7 @@
 import { test as baseTest } from "@playwright/test";
 import {
   collectV8CodeCoverageAsync,
-  collectV8CodeCoverageOptions,
+  CollectV8CodeCoverageOptions,
 } from "tests/_shared/fixtures/v8-code-coverage";
 
 // re-exporting the default expect as well so that on the tests we can have
@@ -18,7 +18,7 @@ interface AppFixtures {
 export const test = baseTest.extend<AppFixtures>({
   codeCoverageAutoTestFixture: [
     async ({ browser, page }, use): Promise<void> => {
-      const options: collectV8CodeCoverageOptions = {
+      const options: CollectV8CodeCoverageOptions = {
         browserType: browser.browserType(),
         page: page,
         use: use,
