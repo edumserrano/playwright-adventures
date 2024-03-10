@@ -45,8 +45,30 @@
     {
       "label": "run tests",
       "detail": "Runs the tests.",
-      "type": "shell",
-      "command": "./npm-pwsh-scripts/playwright-vscode-task.ps1 -updateSnapshots ${input:updateSnapshots} -useHostWebServer ${input:useHostWebServer} -grep '${input:grep}' -installNpmPackagesMode ${input:installNpmPackagesMode}",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        // Instead of using a task with 'type' set to 'shell' and the 'command' set to the powershell script I want to invoke,
+        // here I'm using a task with 'type' set to 'process' to be able to invoke the PowerShell CLI directly, with the PowerShell
+        // code passed in these "args".
+        //
+        // This is because I need to be able to pass double quotes and not have powershell remove them and I also don't want to have
+        // to escape them. For example, if I used a task with type 'shell', when executing this task with a user input of:  --grep "load page"
+        // for the ${input:testOptions}, then the double quotes would get stripped out when invoking the playwright-vscode-task.ps1 script
+        // and what gets to the playwright-vscode-task.ps1 script is just: --grep load page
+        // which then causes it to not work as expected.
+        //
+        // One alternative is to have the user escape the double quotes when providing the value for ${input:testOptions}. The user
+        // would have to provide this value as:
+        // --grep \"load page\" or --grep """load page""" (triple quotes because this value is then passed onto another pwsh
+        // script which will also strip a set of double quotes).
+        //
+        // To avoid passing the responsability of escaping to the user I'm using a task with 'type' command.
+        // For more information see: https://stackoverflow.com/questions/77540370/how-to-keep-double-quote-in-here-string-for-powershell-in-vscode-task
+        //
+        "-Command",
+        "./npm-pwsh-scripts/playwright-vscode-task.ps1 -testOptions '${input:testOptions}' -webServerMode ${input:webServerMode} -webServerHost ${input:webServerHost} -webServerPort ${input:webServerPort}"
+      ],
       "presentation": {
         "focus": true,
         "panel": "dedicated"
@@ -58,10 +80,32 @@
       "problemMatcher": []
     },
     {
-      "label": "open tests ui",
-      "detail": "Opens Playwright tests UI.",
-      "type": "shell",
-      "command": "./npm-pwsh-scripts/playwright-vscode-task.ps1 -ui -uiPort ${input:uiPort} -useHostWebServer ${input:useHostWebServer} -installNpmPackagesMode ${input:installNpmPackagesMode}",
+      "label": "run tests ui",
+      "detail": "Run Playwright tests in UI mode.",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        // Instead of using a task with 'type' set to 'shell' and the 'command' set to the powershell script I want to invoke,
+        // here I'm using a task with 'type' set to 'process' to be able to invoke the PowerShell CLI directly, with the PowerShell
+        // code passed in these "args".
+        //
+        // This is because I need to be able to pass double quotes and not have powershell remove them and I also don't want to have
+        // to escape them. For example, if I used a task with type 'shell', when executing this task with a user input of:  --grep "load page"
+        // for the ${input:testOptions}, then the double quotes would get stripped out when invoking the playwright-vscode-task.ps1 script
+        // and what gets to the playwright-vscode-task.ps1 script is just: --grep load page
+        // which then causes it to not work as expected.
+        //
+        // One alternative is to have the user escape the double quotes when providing the value for ${input:testOptions}. The user
+        // would have to provide this value as:
+        // --grep \"load page\" or --grep """load page""" (triple quotes because this value is then passed onto another pwsh
+        // script which will also strip a set of double quotes).
+        //
+        // To avoid passing the responsability of escaping to the user I'm using a task with 'type' command.
+        // For more information see: https://stackoverflow.com/questions/77540370/how-to-keep-double-quote-in-here-string-for-powershell-in-vscode-task
+        //
+        "-Command",
+        "./npm-pwsh-scripts/playwright-vscode-task.ps1 -ui -uiPort ${input:uiPort} -testOptions '${input:testOptions}' -webServerMode ${input:webServerMode} -webServerHost ${input:webServerHost} -webServerPort ${input:webServerPort} -fileChangesDetectionSupportMode ${input:fileChangesDetectionSupportMode}"
+      ],
       "presentation": {
         "focus": true,
         "panel": "dedicated"
@@ -111,72 +155,42 @@
   ],
   "inputs": [
     {
-      "id": "buildConfiguration",
-      "description": "Which Angular configuration to use?",
-      "type": "pickString",
-      "options": ["dev", "prod"],
-      "default": "dev"
-    },
-    {
-      "id": "dryRun",
-      "description": "Dry run? If true, it will only report on obsolete snapshots, nothing will be deleted.",
-      "type": "pickString",
-      "options": ["yes", "no"],
-      "default": "no"
-    },
-    {
-      "id": "updateSnapshots",
-      "description": "Do you want to update Playwright snapshots?",
-      "type": "pickString",
-      "options": ["yes", "no"],
-      "default": "no"
-    },
-    {
       "id": "uiPort",
       "description": "What port do you want to use for UI mode?",
       "type": "promptString",
       "default": "43008"
     },
     {
-      "id": "useHostWebServer",
-      "description": "Do you want to use the host's web server?",
-      "type": "pickString",
-      "options": ["yes", "no"],
-      "default": "no"
-    },
-    {
-      "id": "grep",
-      "description": "Only run tests matching this regular expression. By default all tests are executed.",
+      "id": "testOptions",
+      "description": "Extra Playwright test CLI options",
       "type": "promptString",
-      "default": "*"
+      "default": ""
     },
     {
-      "id": "installNpmPackagesMode",
-      "description": "Install NPM packages in docker container or mount the from host.",
+      "id": "webServerMode",
+      "description": "Which Playwright Web Server to use?",
       "type": "pickString",
-      "options": ["auto", "install", "mount"],
+      "options": ["auto", "from-host", "from-docker"],
       "default": "auto"
     },
     {
-      "id": "lintMode",
-      "description": "Check only or try to auto-fix ESLint errors.",
-      "type": "pickString",
-      "options": ["check", "fix"],
-      "default": "no"
+      "id": "webServerHost",
+      "description": "Host for the Playwright Web Server. Only required if 'webServerMode' was set to 'auto'.",
+      "type": "promptString",
+      "default": "127.0.0.1"
     },
     {
-      "id": "packagesMode",
-      "description": "Check only or update npm packages.",
-      "type": "pickString",
-      "options": ["check", "update"],
-      "default": "check"
+      "id": "webServerPort",
+      "description": "Port for the Playwright Web Server. Only required if 'webServerMode' was set to 'auto'.",
+      "type": "promptString",
+      "default": "4200"
     },
     {
-      "id": "prettierMode",
-      "description": "Check only or update code formatting violations.",
+      "id": "fileChangesDetectionSupportMode",
+      "description": "Whether the Docker container supports file changes detection automatically or not.",
       "type": "pickString",
-      "options": ["check", "update"],
-      "default": "check"
+      "options": ["auto", "supported", "unsupported"],
+      "default": "auto"
     }
   ]
 }

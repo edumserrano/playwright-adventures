@@ -1,0 +1,38 @@
+version: "3.8"
+name: playwright-ui-docker-demo
+
+include:
+  - ./docker-compose.volumes.yml
+
+services:
+  playwright-tests-ui:
+    image: mcr.microsoft.com/playwright:v${PLAYWRIGHT_VERSION}-jammy
+    ipc: host
+    extra_hosts:
+      - host.docker.internal:host-gateway # allows network calls between docker container and the host. See https://forums.docker.com/t/how-to-reach-localhost-on-host-from-docker-container/113321
+    working_dir: /app
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        ${NPM_INSTALL_COMMAND:-npm i}
+        npx playwright test --ui-port=${UI_PORT:-43008} --ui-host=0.0.0.0 ${PLAYWRIGHT_TEST_OPTIONS:-}
+    volumes:
+      - .:/app
+      - npm-cache:/root/.npm
+      - node-modules:/app/node_modules # exclude node_modules from the mounted /app dir. See https://www.howtogeek.com/devops/how-to-mount-a-docker-volume-while-excluding-a-subdirectory/
+    ports:
+      - ${UI_PORT:-43008}:${UI_PORT:-43008}
+    stop_grace_period: 0s
+    environment:
+      CI: ${CI:-false}
+      USE_DOCKER_HOST_WEBSERVER: ${USE_DOCKER_HOST_WEBSERVER:-false}
+      FILE_CHANGES_DETECTION_SUPPORTED: ${FILE_CHANGES_DETECTION_SUPPORTED:-false}
+      CHOKIDAR_USEPOLLING: ${CHOKIDAR_USEPOLLING:-true} # setting CHOKIDAR_USEPOLLING env variable might be required to get the Playwright UI to automatically refresh when tests are updated/added/removed. For more info see https://github.com/microsoft/playwright/issues/29785
+    healthcheck:
+      test: wget --no-cache --spider http://localhost:${UI_PORT:-43008}
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 1m
+      start_interval: 5s

@@ -4,8 +4,8 @@
   "scripts": {
     "start": "npx ng serve -o",
     "start:vscode": "npx ng serve",
-    "test": "pwsh -NoProfile -File ./npm-pwsh-scripts/playwright.ps1",
-    "test:ui": "pwsh -NoProfile -File ./npm-pwsh-scripts/playwright.ps1 -ui",
+    "test": "pwsh -NoProfile -File ./npm-pwsh-scripts/playwright.ps1 -webServerHost 127.0.0.1 -webServerPort 4200",
+    "test:ui": "pwsh -NoProfile -File ./npm-pwsh-scripts/playwright.ps1 -ui -webServerHost 127.0.0.1 -webServerPort 4200",
     "test:show-report": "npx playwright show-report ./playwright-html-report",
     "prettier:check": "npx prettier --check .",
     "prettier:write": "npx prettier --write ."

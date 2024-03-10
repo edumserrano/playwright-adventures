@@ -11,6 +11,10 @@
     {
       "pattern": "^http://127.0.0.1*",
       "description": "Ignore references to localhost."
+    },
+    {
+      "pattern": "^http://localhost*",
+      "description": "Ignore references to localhost."
     }
   ],
   "replacementPatterns": [

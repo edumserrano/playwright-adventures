@@ -1,0 +1,27 @@
+version: "3.8"
+name: playwright-docker-demo
+
+include:
+  - ./docker-compose.volumes.yml
+
+services:
+  playwright-tests:
+    image: mcr.microsoft.com/playwright:v${PLAYWRIGHT_VERSION}-jammy
+    ipc: host
+    extra_hosts:
+      - host.docker.internal:host-gateway # allows network calls between docker container and the host. See https://forums.docker.com/t/how-to-reach-localhost-on-host-from-docker-container/113321
+    working_dir: /app
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        ${NPM_INSTALL_COMMAND:-npm i}
+        npx playwright test ${PLAYWRIGHT_TEST_OPTIONS:-}
+    volumes:
+      - .:/app
+      - npm-cache:/root/.npm
+      - node-modules:/app/node_modules # exclude node_modules from the mounted /app dir. See https://www.howtogeek.com/devops/how-to-mount-a-docker-volume-while-excluding-a-subdirectory/
+    stop_grace_period: 0s
+    environment:
+      CI: ${CI:-false}
+      USE_DOCKER_HOST_WEBSERVER: ${USE_DOCKER_HOST_WEBSERVER:-false}

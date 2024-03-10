@@ -6,40 +6,31 @@
 param (
   [switch] $ui = $false,
   [string] $uiPort = "43008",
-  [string] $updateSnapshots = "no",
-  [string] $useHostWebServer = "no",
-  [string] $grep = "",
-  [ValidateSet("auto", "install", "mount")]
-  [string] $installNpmPackagesMode = "auto"
+  [string] $testOptions = "",
+  [ValidateSet("auto", "from-docker", "from-host")]
+  [string] $webServerMode = "auto",
+  [string] $webServerHost = "127.0.0.1",
+  [string] $webServerPort = "4200",
+  [ValidateSet("auto", "supported", "unsupported")]
+  [string] $fileChangesDetectionSupportMode = "auto"
 )
-
-function ConvertToBool($value) {
-  return ($("False", "0", "", "N", "No", '$False', "Off") -notcontains [string]$value)
-}
 
 function StartPlaywrightTests {
   $ErrorActionPreference = 'Stop';
-  $command = "./npm-pwsh-scripts/playwright.ps1";
-
+  $command = "pwsh -NoProfile ./npm-pwsh-scripts/playwright.ps1";
   if ($ui) {
     $command += " -ui";
   }
 
   $command += " -uiPort $uiPort";
-
-  if (ConvertToBool -value $updateSnapshots) {
-    $command += " -updateSnapshots";
+  if (![string]::IsNullOrEmpty($testOptions)) {
+    $command += " -testOptions '$testOptions'"
   }
 
-  if (ConvertToBool -value $useHostWebServer) {
-    $command += " -useHostWebServer";
-  }
-
-  if (![string]::IsNullOrEmpty($grep) -and $grep -ne "*") {
-    $command += " -grep ""$grep"""
-  }
-
-  $command += " -installNpmPackagesMode $installNpmPackagesMode";
+  $command += " -webServerMode $webServerMode";
+  $command += " -webServerHost $webServerHost";
+  $command += " -webServerPort $webServerPort";
+  $command += " -fileChangesDetectionSupportMode $fileChangesDetectionSupportMode";
 
   Invoke-Expression -Command $command
   Exit $LASTEXITCODE # see https://stackoverflow.com/questions/32348794/how-to-get-status-of-invoke-expression-successful-or-failed
