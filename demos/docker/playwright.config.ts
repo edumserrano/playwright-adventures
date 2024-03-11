@@ -1,4 +1,4 @@
-import { defineConfig, devices } from "@playwright/test";
+import { ReporterDescription, defineConfig, devices } from "@playwright/test";
 import path from "path";
 import { playwrightCliOptions } from "playwright.cli-options";
 import { playwrightEnv } from "playwright.env-vars";
@@ -13,7 +13,9 @@ const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
 // For more info on the reason for the env.USE_POLL_ON_NG_SERVE see the section
 // 'File changes aren't triggering an application rebuild when testing with UI mode' of the
 // README at /demos/docker/README.md
-const pollOption = playwrightEnv.FILE_CHANGES_DETECTION_SUPPORTED ? "" : "--poll 1500";
+const pollOption = playwrightEnv.FILE_CHANGES_DETECTION_SUPPORTED
+  ? ""
+  : "--poll 1500";
 const _webServerCommand = playwrightCliOptions.UIMode
   ? `npx ng serve --host ${_webServerHost} --port ${_webServerPort} ${pollOption}`
   : `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`;
@@ -21,6 +23,26 @@ const _webServerCommand = playwrightCliOptions.UIMode
 const _testsDir = path.resolve("./tests");
 const _testResultsDir = path.resolve("./test-results");
 const _htmlReportDir = path.resolve("playwright-html-report");
+
+let _reporters: ReporterDescription[];
+if (playwrightCliOptions.UIMode) {
+  // Limit the reporters when running in UI mode.
+  // This speeds up UI mode since each reporter takes time creating their report after a test run.
+  // For maximum efficiency you could leave the reporters empty when running in UI mode.
+  _reporters = [["list"]];
+} else {
+  _reporters = [
+    ["list"],
+    [
+      /* See https://playwright.dev/docs/test-reporters#html-reporter */
+      "html",
+      {
+        open: "never",
+        outputFolder: _htmlReportDir,
+      },
+    ],
+  ];
+}
 
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
@@ -35,17 +57,7 @@ export default defineConfig({
   /* See https://playwright.dev/docs/ci#workers */
   workers: undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [
-    ["list"],
-    [
-      /* See https://playwright.dev/docs/test-reporters#html-reporter */
-      "html",
-      {
-        open: "never",
-        outputFolder: _htmlReportDir,
-      },
-    ],
-  ],
+  reporter: _reporters,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
