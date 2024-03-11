@@ -45,6 +45,8 @@ export default defineConfig({
   retries: _isRunningOnCI ? 2 : 0,
   /* See https://playwright.dev/docs/ci#workers */
   workers: undefined,
+  /* See https://playwright.dev/docs/test-global-setup-teardown#option-2-configure-globalsetup-and-globalteardown */
+  globalSetup: require.resolve("./playwright.global-setup.ts"),
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: _reporters,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

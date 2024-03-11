@@ -26,12 +26,10 @@ if (playwrightCliOptions.UIMode) {
     [
       /* See https://github.com/cenfun/monocart-reporter */
       "monocart-reporter",
-      [
-        {
-          name: "accessibility demo with lighthouse",
-          outputFile: path.resolve(_testResultsDir, "monocart-report.html"),
-        },
-      ],
+      {
+        name: "accessibility demo with lighthouse",
+        outputFile: path.resolve(_testResultsDir, "monocart-report.html"),
+      },
     ],
   ];
 }
@@ -48,6 +46,8 @@ export default defineConfig({
   retries: _isRunningOnCI ? 2 : 0,
   /* See https://playwright.dev/docs/ci#workers */
   workers: undefined,
+  /* See https://playwright.dev/docs/test-global-setup-teardown#option-2-configure-globalsetup-and-globalteardown */
+  globalSetup: require.resolve("./playwright.global-setup.ts"),
   /*
    * Timeout for each test, includes test, hooks and fixtures.
    * See https://playwright.dev/docs/test-timeouts

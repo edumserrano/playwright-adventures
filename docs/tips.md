@@ -6,6 +6,7 @@
 - [The `webServer.reuseExistingServer` configuration option](#the-webserverreuseexistingserver-configuration-option)
 - [Which reporters should I use?](#which-reporters-should-i-use)
 - [Limit reporters when running in UI mode](#limit-reporters-when-running-in-ui-mode)
+- [Add start up logs](#add-start-up-logs)
 - [You might not need to run all your tests against all your projects](#you-might-not-need-to-run-all-your-tests-against-all-your-projects)
 - [Avoid using watch mode on the target test apps](#avoid-using-watch-mode-on-the-target-test-apps)
 - [What are the available devices for test projects configuration?](#what-are-the-available-devices-for-test-projects-configuration)
@@ -136,6 +137,17 @@ The `playwright.config.ts` in any of the [demos](/demos/) shows how you can limi
 >
 > Of course, if you don't notice any delay or you need the information from the reporters even in UI mode then you don't have to limit the reporters in UI mode.
 >
+
+## Add start up logs
+
+Does your `playwright.config.ts` have some dynamic configuration? Perhaps you'd like to know what configuration is going to be executed by a test run?
+
+If so you might be tempted to add some `console.log` instructions to the start of the `playwright.config.ts`. However, if you do that you will notice that your logs will be executed multiple times during a test run.
+
+If you want to add some start up logs consider using Playwright's [Global setup and teardown](https://playwright.dev/docs/test-global-setup-teardown). If you use the global setup and teardown functionality you can add logs that will only execute once before or after the test run.
+
+All of the demos in this repo show how to use the [globalSetup option](https://playwright.dev/docs/test-global-setup-teardown#option-2-configure-globalsetup-and-globalteardown) to add start up logs. Just look for a file named `playwright.global-setup` in any of the demos.
+
 
 ## You might not need to run all your tests against all your projects
 
