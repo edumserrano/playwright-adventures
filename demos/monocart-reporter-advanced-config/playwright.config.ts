@@ -20,9 +20,7 @@ if (playwrightCliOptions.UIMode) {
   // Limit the reporters when running in UI mode.
   // This speeds up UI mode since each reporter takes time creating their report after a test run.
   // For maximum efficiency you could leave the reporters empty when running in UI mode.
-  _reporters = [
-    ["list"],
-  ];
+  _reporters = [["list"]];
 } else {
   _reporters = [
     ["list"],

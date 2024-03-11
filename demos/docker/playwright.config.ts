@@ -13,7 +13,9 @@ const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
 // For more info on the reason for the env.USE_POLL_ON_NG_SERVE see the section
 // 'File changes aren't triggering an application rebuild when testing with UI mode' of the
 // README at /demos/docker/README.md
-const pollOption = playwrightEnv.FILE_CHANGES_DETECTION_SUPPORTED ? "" : "--poll 1500";
+const pollOption = playwrightEnv.FILE_CHANGES_DETECTION_SUPPORTED
+  ? ""
+  : "--poll 1500";
 const _webServerCommand = playwrightCliOptions.UIMode
   ? `npx ng serve --host ${_webServerHost} --port ${_webServerPort} ${pollOption}`
   : `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`;
@@ -27,9 +29,7 @@ if (playwrightCliOptions.UIMode) {
   // Limit the reporters when running in UI mode.
   // This speeds up UI mode since each reporter takes time creating their report after a test run.
   // For maximum efficiency you could leave the reporters empty when running in UI mode.
-  _reporters = [
-    ["list"],
-  ];
+  _reporters = [["list"]];
 } else {
   _reporters = [
     ["list"],
