@@ -24,6 +24,7 @@
   - [Playwright's test execution stops midway when running on Docker](#playwrights-test-execution-stops-midway-when-running-on-docker)
   - [Do I need Powershell to run Playwright in Docker?](#do-i-need-powershell-to-run-playwright-in-docker)
   - [Powershell and passing command line arguments to npm commands](#powershell-and-passing-command-line-arguments-to-npm-commands)
+- [Bonus: Cleanup Playwright stale screenshots](#bonus-cleanup-playwright-stale-screenshots)
 - [Bonus: Visual Studio Code integration](#bonus-visual-studio-code-integration)
   - [Example running the tests using the Visual Studio Code task](#example-running-the-tests-using-the-visual-studio-code-task)
   - [Example running the tests in UI mode using the Visual Studio Code task](#example-running-the-tests-in-ui-mode-using-the-visual-studio-code-task)
@@ -507,6 +508,26 @@ Fore more info see:
 
 - [PowerShell, NPM Scripts, and Silently Dropped Arguments](https://www.lloydatkinson.net/posts/2022/powershell-npm-scripts-and-silently-dropped-arguments/).
 - [[BUG] Arguments are not correctly passed from CLI to npm script (npm 7, Windows, Powershell) #3136](https://github.com/npm/cli/issues/3136#issuecomment-948544220)
+
+## Bonus: Cleanup Playwright stale screenshots
+
+The [Cleanup Playwright stale screenshots](/demos/stale-screenshots-cleanup/README.md) demo shows how you can detect and remove stale Playwright screenshots. For a better understanding of why you'd want to do this or details on the implementation of the cleanup process checkout the README for that demo.
+
+[This PR](https://github.com/edumserrano/playwright-adventures/pull/263) shows the changes required to integrate the solution from the `Cleanup Playwright stale screenshots` demo to a Playwright setup running in Docker.
+
+You can end up with stale screenshots in many ways, such as by changing a test name or deleting a test. As the number of tests grows and you update your tests it could become problematic to have many stale screenshots hanging around. The video below shows how the `npm run test:clean-screenshots` added to this demo detects and deletes stale screenshots. The video will:
+
+1. Create stale snapshots by commenting out a test to simulate a test deletion.
+2. Run the `npm run test:clean-screenshots` npm command with the `dryRun` flag to identify stale screenshots but NOT delete them. This is useful if you want a chance to review what was identified as a stale screenshot before deleting.
+3. Run the `npm run test:clean-screenshots` npm command without the `dryRun` flag which will identify and delete the stale screenshots.
+4. Run the `npm run test:clean-screenshots` npm command again to show that now there aren't any stale screenshots.
+
+> [!NOTE]
+>
+> The [clean-stale-screenshots.ps1](/demos/docker/npm-pwsh-scripts/clean-stale-screenshots.ps1) pwsh script added to this demo is almost an exact copy of the one used in the `Cleanup Playwright stale screenshots` demo. The main difference is that the instruction to run the Playwright tests was changed to use the `npm test` command from this demo which will run the tests in Docker.
+>
+> You can diff the [/demos/docker/npm-pwsh-scripts/clean-stale-screenshots.ps1](/demos/docker/npm-pwsh-scripts/clean-stale-screenshots.ps1) with [/demos/stale-screenshots-cleanup/npm-pwsh-scripts/clean-stale-screenshots.ps1](/demos/stale-screenshots-cleanup/npm-pwsh-scripts/clean-stale-screenshots.ps1) to easily identify the small difference.
+>
 
 ## Bonus: Visual Studio Code integration
 
