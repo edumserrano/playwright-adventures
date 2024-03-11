@@ -5,6 +5,7 @@
 - [Should you use Git LFS when you use screenshots?](#should-you-use-git-lfs-when-you-use-screenshots)
 - [The `webServer.reuseExistingServer` configuration option](#the-webserverreuseexistingserver-configuration-option)
 - [Which reporters should I use?](#which-reporters-should-i-use)
+- [Limit reporters when running in UI mode](#limit-reporters-when-running-in-ui-mode)
 - [You might not need to run all your tests against all your projects](#you-might-not-need-to-run-all-your-tests-against-all-your-projects)
 - [Avoid using watch mode on the target test apps](#avoid-using-watch-mode-on-the-target-test-apps)
 - [What are the available devices for test projects configuration?](#what-are-the-available-devices-for-test-projects-configuration)
@@ -111,6 +112,28 @@ For some usage examples see the following demos:
 - [accessibility-lighthouse](/demos/accessibility-lighthouse/)
 
 **Also, take a look at the [table of contents for the monocart-reporter's documentation](https://github.com/cenfun/monocart-reporter?tab=readme-ov-file#monocart-reporter) to understand the breadth of options this HTML reporter gives you.**
+
+## Limit reporters when running in UI mode
+
+After you execute a test in [Playwright's UI mode](https://playwright.dev/docs/test-ui-mode) the configured reporters in your [playwright.config.ts](https://playwright.dev/docs/test-reporters) are still executed and depending on the size of your app and which reporters you are using this might mean that there's a noticeable delay between a test completes, meaning it shows as passed/failed, and the UI mode being available to execute another test run.
+
+The delay comes from the time it takes for all the reporters generate their reports. When a test finishes the UI mode updates its status to pass/fail immediately, then runs all the reporters and the UI mode won't complete the test execution until the reporters complete.
+
+The video below demonstrates the issue. Notice how the test run finishes, the test is marked as a pass but the `stop` test run button is still available for as long as it takes for the test reporters to complete.
+
+> [!NOTE]
+>
+> This video is taken on an application running the [UI mode via Docker](/demos//docker/README.md), which is also configured to [generate code coverage](/demos/code-coverage-with-monocart-reporter/README.md) and uses the `list` and [monocart-reporter](/demos/monocart-reporter-advanced-config/README.md) reporters.
+>
+> All this adds up and makes it easier to demonstrate the delay issue.
+>
+
+The `playwright.config.ts` in any of the [demos](/demos/) shows how you can limit the `reporters` that run in UI mode.
+
+> [!NOTE]
+>
+> Of course, if you don't notice any delay or you need the information from the reporters even in UI mode then you don't have to limit the reporters in UI mode.
+>
 
 ## You might not need to run all your tests against all your projects
 
