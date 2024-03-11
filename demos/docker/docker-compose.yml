@@ -25,3 +25,4 @@ services:
     environment:
       CI: ${CI:-false}
       USE_DOCKER_HOST_WEBSERVER: ${USE_DOCKER_HOST_WEBSERVER:-false}
+      SNAPSHOT_DIR: ${SNAPSHOT_DIR}

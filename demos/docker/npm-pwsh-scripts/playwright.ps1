@@ -10,7 +10,8 @@ param (
   [string] $webServerHost = "127.0.0.1",
   [string] $webServerPort = "4200",
   [ValidateSet("auto", "supported", "unsupported")]
-  [string] $fileChangesDetectionSupportMode = "auto"
+  [string] $fileChangesDetectionSupportMode = "auto",
+  [string] $snapshotDir = ""
 )
 
 function GetPlaywrightVersion() {
@@ -90,6 +91,7 @@ function StartPlaywrightTests {
   Write-Host "-webServerMode=$webServerMode" -ForegroundColor DarkYellow
   Write-Host "-webServerHost=$webServerHost" -ForegroundColor DarkYellow
   Write-Host "-webServerPort=$webServerPort" -ForegroundColor DarkYellow
+  Write-Host "-snapshotDir=$snapshotDir" -ForegroundColor DarkYellow
   Write-Host "`n" -NoNewline
 
   $playwrightVersion = GetPlaywrightVersion
@@ -109,6 +111,7 @@ function StartPlaywrightTests {
   Write-Host "PLAYWRIGHT_TEST_OPTIONS=$env:PLAYWRIGHT_TEST_OPTIONS" -ForegroundColor DarkYellow
   Write-Host "NPM_INSTALL_COMMAND=$env:NPM_INSTALL_COMMAND" -ForegroundColor DarkYellow
   Write-Host "USE_DOCKER_HOST_WEBSERVER=$env:USE_DOCKER_HOST_WEBSERVER" -ForegroundColor DarkYellow
+  Write-Host "SNAPSHOT_DIR=$env:SNAPSHOT_DIR" -ForegroundColor DarkYellow
   Write-Host "`n" -NoNewline
 
   Write-Host "Starting docker container...`n" -ForegroundColor Cyan

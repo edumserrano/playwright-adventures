@@ -71,7 +71,9 @@ export default defineConfig({
    * The default snapshotPathTemplate is defined at https://github.com/microsoft/playwright/blob/7bffff5790e28243a815c985135e908247b563db/packages/playwright/src/common/config.ts#L167C5-L167C138
    */
   // prettier-ignore
-  snapshotPathTemplate: "{snapshotDir}/__screenshots__/{platform}/{projectName}/{testFilePath}/{arg}{ext}",
+  snapshotPathTemplate: "{snapshotDir}/{platform}/{projectName}/{testFilePath}/{arg}{ext}",
+  /* the path.resolve with "." below is to avoid any issues when passing relative paths for the SNAPSHOT_DIR into the Docker container */
+  snapshotDir: path.resolve(".", playwrightEnv.SNAPSHOT_DIR),
   /* Configure projects for major browsers */
   projects: [
     {
