@@ -48,3 +48,4 @@ Thumbs.db
 /blob-report/
 /playwright/.cache/
 /tests/__screenshots__/win32
+/tests/__temp-screenshots__/
