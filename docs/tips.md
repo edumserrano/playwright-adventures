@@ -128,6 +128,8 @@ The video below demonstrates the issue. Notice how the test run finishes, the te
 > All this adds up and makes it easier to demonstrate the delay issue.
 >
 
+https://github.com/edumserrano/playwright-adventures/assets/15857357/05b3b03c-07af-4758-9008-2986019e99b8
+
 The `playwright.config.ts` in any of the [demos](/demos/) shows how you can limit the `reporters` that run in UI mode.
 
 > [!NOTE]
