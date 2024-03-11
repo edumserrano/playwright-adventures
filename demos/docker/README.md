@@ -529,7 +529,6 @@ https://github.com/edumserrano/playwright-adventures/assets/15857357/621c15f3-23
 > The [clean-stale-screenshots.ps1](/demos/docker/npm-pwsh-scripts/clean-stale-screenshots.ps1) pwsh script added to this demo is almost an exact copy of the one used in the `Cleanup Playwright stale screenshots` demo. The main difference is that the instruction to run the Playwright tests was changed to use the `npm test` command from this demo which will run the tests in Docker.
 >
 > You can diff the [/demos/docker/npm-pwsh-scripts/clean-stale-screenshots.ps1](/demos/docker/npm-pwsh-scripts/clean-stale-screenshots.ps1) with [/demos/stale-screenshots-cleanup/npm-pwsh-scripts/clean-stale-screenshots.ps1](/demos/stale-screenshots-cleanup/npm-pwsh-scripts/clean-stale-screenshots.ps1) to easily identify the small difference.
->
 
 ## Bonus: Visual Studio Code integration
 
