@@ -515,12 +515,14 @@ The [Cleanup Playwright stale screenshots](/demos/stale-screenshots-cleanup/READ
 
 [This PR](https://github.com/edumserrano/playwright-adventures/pull/263) shows the changes required to integrate the solution from the `Cleanup Playwright stale screenshots` demo to a Playwright setup running in Docker.
 
-You can end up with stale screenshots in many ways, such as by changing a test name or deleting a test. As the number of tests grows and you update your tests it could become problematic to have many stale screenshots hanging around. The video below shows how the `npm run test:clean-screenshots` added to this demo detects and deletes stale screenshots. The video will:
+You can end up with stale screenshots in many ways, such as by changing a test name or deleting a test. As the number of tests grows and you update your tests it could become problematic to have many stale screenshots hanging around. The video below shows how the `npm run test:clean-screenshots` added to this demo detects and deletes stale screenshots. The video shows the following:
 
 1. Create stale snapshots by commenting out a test to simulate a test deletion.
 2. Run the `npm run test:clean-screenshots` npm command with the `dryRun` flag to identify stale screenshots but NOT delete them. This is useful if you want a chance to review what was identified as a stale screenshot before deleting.
 3. Run the `npm run test:clean-screenshots` npm command without the `dryRun` flag which will identify and delete the stale screenshots.
 4. Run the `npm run test:clean-screenshots` npm command again to show that now there aren't any stale screenshots.
+
+https://github.com/edumserrano/playwright-adventures/assets/15857357/621c15f3-23f2-4804-b424-bbb961960483
 
 > [!NOTE]
 >
