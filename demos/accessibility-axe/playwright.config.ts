@@ -1,9 +1,9 @@
 import { defineConfig, devices } from "@playwright/test";
 import path from "path";
 import { playwrightCliOptions } from "playwright.cli-options";
-import { env } from "playwright.env-vars";
+import { playwrightEnv } from "playwright.env-vars";
 
-const _isRunningOnCI = env.CI;
+const _isRunningOnCI = playwrightEnv.CI;
 const _webServerPort = 4200;
 const _webServerHost = "127.0.0.1";
 const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;

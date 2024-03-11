@@ -1,11 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
 import path from "path";
 import { playwrightCliOptions } from "playwright.cli-options";
-import { env } from "playwright.env-vars";
+import { playwrightEnv } from "playwright.env-vars";
 
-const _isRunningOnCI = env.CI;
+const _isRunningOnCI = playwrightEnv.CI;
 const _webServerPort = 4200;
-const _webServerHost = env.USE_DOCKER_HOST_WEBSERVER
+const _webServerHost = playwrightEnv.USE_DOCKER_HOST_WEBSERVER
   ? `host.docker.internal`
   : `127.0.0.1`;
 const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
@@ -13,7 +13,7 @@ const _webServerUrl = `http://${_webServerHost}:${_webServerPort}`;
 // For more info on the reason for the env.USE_POLL_ON_NG_SERVE see the section
 // 'File changes aren't triggering an application rebuild when testing with UI mode' of the
 // README at /demos/docker/README.md
-const pollOption = env.FILE_CHANGES_DETECTION_SUPPORTED ? "" : "--poll 1500";
+const pollOption = playwrightEnv.FILE_CHANGES_DETECTION_SUPPORTED ? "" : "--poll 1500";
 const _webServerCommand = playwrightCliOptions.UIMode
   ? `npx ng serve --host ${_webServerHost} --port ${_webServerPort} ${pollOption}`
   : `npx ng serve --host ${_webServerHost} --port ${_webServerPort} --watch false`;

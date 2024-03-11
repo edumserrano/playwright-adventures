@@ -16,4 +16,4 @@ const _envSchema = z.object({
     .catch("false")
     .transform(value => value === "true" || value === "1" || value === "True"),
 });
-export const env = _envSchema.parse(process.env);
+export const playwrightEnv = _envSchema.parse(process.env);

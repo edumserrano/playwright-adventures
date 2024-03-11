@@ -1,5 +1,5 @@
 import { FullConfig } from "@playwright/test";
-import { env } from "playwright.env-vars";
+import { playwrightEnv } from "playwright.env-vars";
 import { simpleGit } from "simple-git";
 
 // See https://playwright.dev/docs/test-global-setup-teardown#option-2-configure-globalsetup-and-globalteardown
@@ -83,7 +83,7 @@ class CodeMetadataProvider {
 async function globalSetup(config: FullConfig): Promise<void> {
   const codeProvider = new CodeMetadataProvider();
   const metadata = config.metadata;
-  metadata["ci"] = env.CI ? "yes" : "no";
+  metadata["ci"] = playwrightEnv.CI ? "yes" : "no";
   metadata["worker-count"] = config.workers;
   metadata["max-failures"] = config.maxFailures;
   metadata["retries"] = config.projects[0].retries;
