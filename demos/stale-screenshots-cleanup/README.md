@@ -8,6 +8,7 @@
   - [The clean-stale-screenshots.ps1 script](#the-clean-stale-screenshotsps1-script)
   - [How to control the directory where screenshots are created](#how-to-control-the-directory-where-screenshots-are-created)
   - [clean-stale-screenshots.ps1 script parameters](#clean-stale-screenshotsps1-script-parameters)
+  - [Docker integration](#docker-integration)
   - [Last notes on the clean-stale-screenshots.ps1 script](#last-notes-on-the-clean-stale-screenshotsps1-script)
 
 ## Description
@@ -188,6 +189,10 @@ The parameters in the `clean-stale-screenshots.ps1` are:
 - `tempSnapshotDir`: the temp directory where screenshots will be generated and then used to do the comparison for stale screenshots.
 - `dryRun`: switch that if set will only report on stale snapshots, it won't delete them. Defaults to `$false`.
 - `maxAttempts`: we need to run `npx playwright test` to generate the snapshots in a temp directory. Usually all will go well at the first run but sometimes it doesn't and this parameters let's you set a number of attempts to generate the screenhots. Defaults to 5.
+
+### Docker integration
+
+If you are running Playwright tests in Docker check out the [Bonus: Cleanup Playwright stale screenshots](/demos/docker/README.md#bonus-cleanup-playwright-stale-screenshots) section of the [Docker demo](/demos/docker/README.md) to see how to apply the solution from this demo in a Docker environment.
 
 ### Last notes on the clean-stale-screenshots.ps1 script
 
