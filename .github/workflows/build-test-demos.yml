@@ -439,7 +439,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Delete repo artifact
-      uses: geekyeggo/delete-artifact@v4
+      uses: geekyeggo/delete-artifact@v5
       with:
           token: ${{ github.token }}
           name: ${{ env.REPO_ARTIFACT_NAME }}
