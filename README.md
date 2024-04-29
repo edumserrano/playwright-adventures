@@ -59,6 +59,7 @@ My experiences with Playwright focused on using it as the test tool whilst devel
 - [Playwright docs](https://playwright.dev/docs/intro): official documentation.
 - [Playwright API reference](https://playwright.dev/docs/api/class-playwright): official API reference.
 - [Playwright's YoutTube channel](https://www.youtube.com/@Playwrightdev): small sized videos about what's new with each Playwright release. Great way to keep up to date.
+- [Using Playwright Test to run Unit Tests](https://pkerschbaum.com/blog/using-playwright-to-run-unit-tests): good explanation of why you should use Playwright even for unit tests.
 - [Learn Playwright - Resources for learning end-to-end testing using Playwright automation framework](https://ray.run/): great curated collection of Playwright resources. From blogs, to FAQS, to videos, etc.
 - [CommitQuality Playwright's YouTube Playlist](https://www.youtube.com/playlist?list=PLXgRgGX8-5UVm9yioRY329rfcfy3MusiY): small sized tutorials that will help you master Playwright.
 - [Playwright's Discord channel](https://discord.com/servers/playwright-807756831384403968): great for interacting with community members and asking questions.
