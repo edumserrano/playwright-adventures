@@ -111,7 +111,7 @@ The `npm test` can be customized with the following parameters:
 
 - `-webServerMode`: one of `auto`, `from-docker` or `from-host`. Determines if the Playwright tests should be executed against the [Playwright Web Server](https://playwright.dev/docs/test-webserver) running on the host or inside Docker. If you have the target test application running outside of Docker you can set this to `from-host`, otherwise it should be `from-docker`.
 
-  Using `auto` will mean that the pwsh script will attempt to decide if the target test application is running on the host and if so it will use the `from-host` option, if not it will use the `from-docker` option. Setting to `auto` requires setting the `-webServerHost` and `webServerPort` parameters. one of `auto`, `from-docker` or `from-host`.
+  Using `auto` will mean that the pwsh script will attempt to decide if the target test application is running on the host and if so it will use the `from-host` option, if not it will use the `from-docker` option. Setting to `auto` requires setting the `-webServerHost` and `webServerPort` parameters.
 
   **Default value**: `auto`</br>
   **Example**: `-webServerMode from-docker`.
