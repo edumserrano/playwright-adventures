@@ -121,7 +121,7 @@ The `npm test` can be customized with the following parameters:
   **Default value**: `127.0.0.1` </br>
   **Example:** `-webServerHost 127.0.0.1`
 
-- `-webServerPort`: the port where the Playwright's test target should be running.
+- `-webServerPort`: the port where the Playwright's test target should be running. Required if `-webServerMode auto` is used.
 
   **Default value**: `4200` </br>
   **Example:** `-webServerPort 4200`
