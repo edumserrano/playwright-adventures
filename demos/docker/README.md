@@ -451,10 +451,11 @@ If you set `webServerMode` to `from-host` with `npm test '--' -webServerMode fro
 
 This is due to the `webServer.reuseExistingServer` option of the [playwright.config.ts](/demos/docker/playwright.config.ts). When this is set to `true` then Playwright will check if the app is running on the `webServer.url` address and if it is then it just uses that as the target of the tests.
 
-The trick to make this work though is that the `webServer.url` must be set to an address that is reachable from the docker container. And since what we want to do is to reach the app that is running on the host then what the `playwright.config.ts` does is set the host of the `webServer.url` to `host.docker.internal`. Furthermore, the docker container must run with the following extra host `host.docker.internal:host-gateway`. For more info see [How to reach localhost on host from docker container?](https://forums.docker.com/t/how-to-reach-localhost-on-host-from-docker-container/113321).
+The trick to make this work though is that the `webServer.url` must be set to an address that is reachable from the docker container. And since what we want to do is to reach the app that is running on the host then what the `playwright.config.ts` does is set the host of the `webServer.url` to `host.docker.internal`. Furthermore, the docker container must run with the following extra host `host.docker.internal:host-gateway`.
 
 For more info see:
 
+- [How to reach localhost on host from docker container?](https://forums.docker.com/t/how-to-reach-localhost-on-host-from-docker-container/113321).
 - [I want to connect from a container to a service on the host](https://docs.docker.com/desktop/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host)
 - [How to connect to the Docker host from inside a Docker container?](https://medium.com/@TimvanBaarsen/how-to-connect-to-the-docker-host-from-inside-a-docker-container-112b4c71bc66)
 
