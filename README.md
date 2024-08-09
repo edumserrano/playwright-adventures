@@ -62,6 +62,7 @@ My experiences with Playwright focused on using it as the test tool whilst devel
 - [Playwright's GitHub issues](https://github.com/microsoft/playwright/issues): always worth searching through when you're trying to learn new concepts or in case others have faced some problem you might be facing.
 - [Playwright's YoutTube channel](https://www.youtube.com/@Playwrightdev): small sized videos about what's new with each Playwright release. Great way to keep up to date.
 - [Learn Playwright - Resources for learning end-to-end testing using Playwright automation framework](https://ray.run/): great curated collection of Playwright resources. From blogs, to FAQS, to videos, etc.
+- [Adrian Maciuc's blog](https://blog.martioli.com/): blog with lots of Playwright related posts.
 - [CommitQuality Playwright's YouTube Playlist](https://www.youtube.com/playlist?list=PLXgRgGX8-5UVm9yioRY329rfcfy3MusiY): small sized tutorials that will help you master Playwright.
 - [Playwright Solutions](https://playwrightsolutions.com/): Curated Selection of Playwright Automated Test Problems and Solutions.
 - [Awesome Playwright](https://github.com/mxschmitt/awesome-playwright): A curated list of awesome tools, utils and projects using Playwright.
