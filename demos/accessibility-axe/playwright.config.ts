@@ -38,7 +38,7 @@ export default defineConfig({
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !_isRunningOnCI,
+  forbidOnly: _isRunningOnCI,
   /* Retry on CI only */
   retries: _isRunningOnCI ? 2 : 0,
   /* See https://playwright.dev/docs/ci#workers */
